@@ -1,0 +1,1026 @@
+/* Royal Blue Theme (Default) */
+:root {
+  --primary-bg: #0a2463;
+  --secondary-bg: #1e3d8b;
+  --text-color: #ffffff;
+  --footer-color: #a7c4ff;
+  --border-color: #3a5fcd;
+  --button-bg-main: #3e78b2;
+  --button-bg-hover-main: #2a5a8a;
+  --button-bg-blue: #4da1ff;
+  --button-bg-blue-hover: #3a8be6;
+  --button-bg-share: #00bcd4;
+  --button-bg-prev: #ffc107;
+  --button-bg-skip: #ff6b6b;
+  --button-bg-reset: #607d8b;
+  --button-bg-install: #8bc34a;
+  --custom-azkar-bg: #1a3a8f;
+  --custom-azkar-border: #3a5fcd;
+  --custom-azkar-list-item-border: #2a4a9d;
+  --tab-active-bg: #3e78b2;
+  --tab-inactive-bg: #1a3a8f;
+  --tab-text-color: #ffffff;
+  --azkar-text-color: #ffffff;
+  --progress-bg: #1a3a8f;
+  --progress-fill: #4da1ff;
+  --font-family: 'Amiri', serif;
+  --info-button-bg: #6a4c93;
+  --info-button-hover: #5a3c83;
+  --modal-bg: #1e3d8b;
+  --modal-text: #ffffff;
+  --modal-border: #3a5fcd;
+  --sidebar-bg: #1a3a8f;
+  --sidebar-border: #3a5fcd;
+  --sidebar-text: #ffffff;
+  --sidebar-active-item: #3e78b2;
+  --prayer-time-bg: #1e3d8b;
+  --prayer-time-active: #4da1ff;
+  --quran-player-bg: #1e3d8b;
+  --current-time-color: #ffc107;
+  --next-prayer-color: #4da1ff;
+
+  /* Font Size Variables */
+  --base-font-size: 1.1em;
+  --azkar-font-size: 1.3em;
+}
+
+/* Dark Mode Theme */
+body.dark {
+  --primary-bg: #0a0e1a;
+  --secondary-bg: #121a2e;
+  --text-color: #e0e0e0;
+  --footer-color: #a7c4ff;
+  --border-color: #2a3a5a;
+  --button-bg-main: #3e78b2;
+  --button-bg-hover-main: #2a5a8a;
+  --button-bg-blue: #4da1ff;
+  --button-bg-blue-hover: #3a8be6;
+  --button-bg-share: #00897b;
+  --button-bg-prev: #ffc107;
+  --button-bg-skip: #ef5350;
+  --button-bg-reset: #78909c;
+  --button-bg-install: #aed581;
+  --custom-azkar-bg: #121a2e;
+  --custom-azkar-border: #2a3a5a;
+  --custom-azkar-list-item-border: #2a3a5a;
+  --tab-active-bg: #3e78b2;
+  --tab-inactive-bg: #1a2238;
+  --tab-text-color: #ffffff;
+  --azkar-text-color: #e0e0e0;
+  --progress-bg: #121a2e;
+  --progress-fill: #4da1ff;
+  --info-button-bg: #7b5d9e;
+  --info-button-hover: #6a4c93;
+  --modal-bg: #121a2e;
+  --modal-text: #e0e0e0;
+  --modal-border: #2a3a5a;
+  --sidebar-bg: #121a2e;
+  --sidebar-border: #2a3a5a;
+  --sidebar-text: #e0e0e0;
+  --sidebar-active-item: #1e2a4a;
+  --prayer-time-bg: #121a2e;
+  --prayer-time-active: #4da1ff;
+  --quran-player-bg: #121a2e;
+  --current-time-color: #ffc107;
+  --next-prayer-color: #4da1ff;
+}
+
+/* Green Theme */
+body.theme-green {
+    --primary-bg: #4caf50;
+    --secondary-bg: #388e3c;
+    --text-color: #ffffff;
+    --footer-color: #c8e6c9;
+    --border-color: #81c784;
+    --button-bg-main: #388e3c;
+    --button-bg-hover-main: #2e7d32;
+    --button-bg-blue: #2196f3;
+    --button-bg-blue-hover: #1976d2;
+    --button-bg-share: #00bcd4;
+    --button-bg-prev: #ff9800;
+    --button-bg-skip: #f44336;
+    --button-bg-reset: #607d8b;
+    --button-bg-install: #8bc34a;
+    --custom-azkar-bg: #388e3c;
+    --custom-azkar-border: #81c784;
+    --custom-azkar-list-item-border: #66bb6a;
+    --tab-active-bg: #388e3c;
+    --tab-inactive-bg: #81c784;
+    --tab-text-color: #ffffff;
+    --azkar-text-color: #ffffff;
+    --progress-bg: #81c784;
+    --progress-fill: #388e3c;
+    --info-button-bg: #9c27b0;
+    --info-button-hover: #7b1fa2;
+    --modal-bg: #388e3c;
+    --modal-text: #ffffff;
+    --modal-border: #81c784;
+    --sidebar-bg: #388e3c;
+    --sidebar-border: #81c784;
+    --sidebar-text: #ffffff;
+    --sidebar-active-item: #2e7d32;
+    --prayer-time-bg: #388e3c;
+    --prayer-time-active: #2196f3;
+    --quran-player-bg: #388e3c;
+    --current-time-color: #ffc107;
+    --next-prayer-color: #2196f3;
+}
+
+/* Blue Theme */
+body.theme-blue {
+    --primary-bg: #2196f3;
+    --secondary-bg: #1976d2;
+    --text-color: #ffffff;
+    --footer-color: #bbdefb;
+    --border-color: #64b5f6;
+    --button-bg-main: #1976d2;
+    --button-bg-hover-main: #1565c0;
+    --button-bg-blue: #42a5f5;
+    --button-bg-blue-hover: #1e88e5;
+    --button-bg-share: #00bcd4;
+    --button-bg-prev: #ff9800;
+    --button-bg-skip: #f44336;
+    --button-bg-reset: #607d8b;
+    --button-bg-install: #8bc34a;
+    --custom-azkar-bg: #1976d2;
+    --custom-azkar-border: #64b5f6;
+    --custom-azkar-list-item-border: #42a5f5;
+    --tab-active-bg: #1976d2;
+    --tab-inactive-bg: #64b5f6;
+    --tab-text-color: #ffffff;
+    --azkar-text-color: #ffffff;
+    --progress-bg: #64b5f6;
+    --progress-fill: #1976d2;
+    --info-button-bg: #673ab7;
+    --info-button-hover: #5e35b1;
+    --modal-bg: #1976d2;
+    --modal-text: #ffffff;
+    --modal-border: #64b5f6;
+    --sidebar-bg: #1976d2;
+    --sidebar-border: #64b5f6;
+    --sidebar-text: #ffffff;
+    --sidebar-active-item: #1565c0;
+    --prayer-time-bg: #1976d2;
+    --prayer-time-active: #42a5f5;
+    --quran-player-bg: #1976d2;
+    --current-time-color: #ffc107;
+    --next-prayer-color: #42a5f5;
+}
+
+/* Brown Theme */
+body.theme-brown {
+    --primary-bg: #795548;
+    --secondary-bg: #5d4037;
+    --text-color: #ffffff;
+    --footer-color: #d7ccc8;
+    --border-color: #8d6e63;
+    --button-bg-main: #5d4037;
+    --button-bg-hover-main: #4e342e;
+    --button-bg-blue: #2196f3;
+    --button-bg-blue-hover: #1976d2;
+    --button-bg-share: #00bcd4;
+    --button-bg-prev: #ff9800;
+    --button-bg-skip: #f44336;
+    --button-bg-reset: #607d8b;
+    --button-bg-install: #8bc34a;
+    --custom-azkar-bg: #5d4037;
+    --custom-azkar-border: #8d6e63;
+    --custom-azkar-list-item-border: #6d4c41;
+    --tab-active-bg: #5d4037;
+    --tab-inactive-bg: #8d6e63;
+    --tab-text-color: #ffffff;
+    --azkar-text-color: #ffffff;
+    --progress-bg: #8d6e63;
+    --progress-fill: #5d4037;
+    --info-button-bg: #5d4037;
+    --info-button-hover: #4e342e;
+    --modal-bg: #5d4037;
+    --modal-text: #ffffff;
+    --modal-border: #8d6e63;
+    --sidebar-bg: #5d4037;
+    --sidebar-border: #8d6e63;
+    --sidebar-text: #ffffff;
+    --sidebar-active-item: #4e342e;
+    --prayer-time-bg: #5d4037;
+    --prayer-time-active: #8d6e63;
+    --quran-player-bg: #5d4037;
+    --current-time-color: #ffc107;
+    --next-prayer-color: #8d6e63;
+}
+
+/* Base Styles */
+body {
+    font-family: var(--font-family, 'Amiri', serif);
+    background: var(--primary-bg);
+    color: var(--text-color);
+    text-align: center;
+    margin:0;
+    transition: background 0.3s, color 0.3s, font-family 0.3s;
+    font-size: var(--base-font-size);
+}
+
+.container {
+    margin: 40px auto;
+    max-width: 480px;
+    background: var(--secondary-bg);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    padding: 30px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.button {
+    background: var(--button-bg-main);
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    margin: 10px 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.button:active { 
+    background: var(--button-bg-hover-main); 
+    transform: translateY(1px); 
+}
+
+.azkar {
+    font-size: var(--azkar-font-size);
+    margin: 30px 0 10px 0;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    color: var(--azkar-text-color);
+}
+
+.azkar-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.info-button, .focus-button {
+    background: var(--info-button-bg);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1em;
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background 0.2s, transform 0.1s;
+    z-index: 5;
+}
+
+.focus-button {
+    left: 0px;
+    right: auto;
+    background: var(--button-bg-blue);
+}
+
+.info-button:active, .focus-button:active {
+    background: var(--info-button-hover);
+    transform: scale(0.95);
+}
+
+.count { 
+    font-size: 1.1em; 
+    margin-bottom: 20px; 
+}
+
+.counter-btn {
+    background: var(--button-bg-blue);
+    color: #fff;
+    border: none;
+    padding: 20px 50px;
+    border-radius: 12px;
+    font-size: 1.3em;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.counter-btn:active, .counter-btn.flash {
+    background: var(--button-bg-blue-hover);
+    transform: scale(1.07);
+}
+
+/* Animations */
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+.fade-in-element {
+    animation: fade-in 0.7s forwards;
+}
+
+@keyframes fade-out {
+    from { opacity: 1; transform: translateY(0);}
+    to { opacity: 0; transform: translateY(-20px);}
+}
+
+.fade-out-element {
+    animation: fade-out 0.3s forwards;
+}
+
+.footer {
+    margin-top: 40px;
+    font-size: 1em;
+    color: var(--footer-color);
+    line-height: 1.7;
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+}
+
+/* Custom Azkar Area Styles */
+.custom-azkar-area {
+    background: var(--custom-azkar-bg);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.custom-azkar-area input[type="text"], 
+.custom-azkar-area input[type="number"], 
+.custom-azkar-area select,
+.settings-section input[type="color"], 
+.settings-section select, 
+.settings-section input[type="range"] {
+    padding: 8px;
+    margin-left: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 1em;
+    background: var(--secondary-bg);
+    color: var(--text-color);
+    width: calc(100% - 10px);
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.custom-azkar-area .input-group, 
+.custom-azkar-area .button-group {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.custom-azkar-area .input-group input, 
+.custom-azkar-area .input-group button,
+.custom-azkar-area .button-group button {
+    flex-grow: 1;
+    width: auto;
+}
+
+.custom-azkar-area .button-group button {
+    padding: 10px 15px;
+    font-size: 0.9em;
+}
+
+.custom-azkar-list {
+    margin: 10px 0 0 0;
+    padding: 10px;
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--custom-azkar-border);
+    border-radius: 8px;
+}
+
+.custom-azkar-list li {
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    border-bottom: 1px dotted var(--custom-azkar-list-item-border);
+    font-size: 0.95em;
+}
+
+.custom-azkar-list li:last-child {
+    border-bottom: none;
+}
+
+.custom-azkar-list li .custom-azkar-actions button {
+    background: var(--button-bg-skip);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.custom-azkar-list li .custom-azkar-actions button.edit-btn { 
+    background: var(--button-bg-blue); 
+}
+
+.custom-azkar-list li .custom-azkar-actions button.move-btn { 
+    background: var(--button-bg-prev); 
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: var(--modal-bg);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    max-width: 90%;
+    width: 450px;
+    text-align: right;
+    color: var(--modal-text);
+    transform: translateY(-30px);
+    transition: transform 0.3s ease-out;
+    border: 1px solid var(--modal-border);
+}
+
+.modal-overlay.show .modal-content {
+    transform: translateY(0);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-content p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    white-space: pre-wrap;
+}
+
+.modal-content textarea {
+    width: calc(100% - 20px);
+    height: 100px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 1em;
+    resize: vertical;
+    direction: rtl;
+    background: var(--primary-bg);
+    color: var(--text-color);
+}
+
+.modal-content .close-button {
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    color: var(--footer-color);
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+}
+
+.modal-content .close-button:hover {
+    color: var(--button-bg-skip);
+}
+
+/* Tab Styles */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    background: var(--secondary-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.tab-button {
+    flex-grow: 1;
+    padding: 15px 20px;
+    border: none;
+    background: var(--tab-inactive-bg);
+    color: var(--text-color);
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.tab-button.active {
+    background: var(--tab-active-bg);
+    color: var(--tab-text-color);
+}
+
+.tab-content {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.tab-content.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Settings Section */
+.settings-section {
+    text-align: right;
+    padding: 10px 0;
+}
+
+.settings-option {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.settings-option:last-child {
+    border-bottom: none;
+}
+
+.settings-option label {
+    font-size: 1.1em;
+    margin-left: 10px;
+    flex-basis: 40%;
+    text-align: right;
+}
+
+.settings-option div {
+    flex-basis: 55%;
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.settings-option input[type="color"] {
+    width: 50px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.theme-buttons button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    margin: 0 3px;
+}
+
+.theme-buttons .button.active-theme {
+    box-shadow: 0 0 0 3px var(--button-bg-blue-hover);
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    background-color: var(--progress-bg);
+    border-radius: 10px;
+    margin: 20px 0;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background-color: var(--progress-fill);
+    border-radius: 10px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    transition: width 0.5s ease-in-out;
+}
+
+.progress-text {
+    position: absolute;
+    color: #fff;
+    font-weight: bold;
+    z-index: 1;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Side Navigation */
+.sidenav-toggle-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--button-bg-blue);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.sidenav-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+.container.sidenav-open {
+    margin-right: 260px;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    background-color: var(--sidebar-bg);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    border-left: 1px solid var(--sidebar-border);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    text-align: right;
+}
+
+.sidenav.open {
+    width: 250px;
+}
+
+.sidenav a {
+    padding: 15px 15px 15px 32px;
+    text-decoration: none;
+    font-size: 1em;
+    color: var(--sidebar-text);
+    display: block;
+    transition: 0.3s;
+    border-bottom: 1px dotted var(--sidebar-border);
+}
+
+.sidenav a:hover {
+    background-color: var(--sidebar-active-item);
+    color: var(--text-color);
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    left: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: var(--footer-color);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+/* Focus Mode */
+body.focus-mode .container {
+    margin: 0 auto;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+body.focus-mode .container > :not(.azkar-container):not(.counter-btn):not(.top-fixed-buttons) {
+    display: none !important;
+}
+
+body.focus-mode .azkar-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+body.focus-mode .azkar {
+    font-size: 2em;
+}
+
+body.focus-mode .counter-btn {
+    margin-top: 20px;
+    padding: 30px 60px;
+    font-size: 1.6em;
+}
+
+body.focus-mode .top-fixed-buttons {
+    position: static;
+    box-shadow: none;
+    background: none;
+    padding: 0;
+}
+
+body.focus-mode .top-fixed-buttons .button {
+    background: var(--button-bg-reset);
+    padding: 10px 20px;
+    font-size: 0.9em;
+    width: auto;
+}
+
+body.focus-mode .azkar-navigation {
+    display: none !important;
+}
+
+body.focus-mode .info-button, body.focus-mode .focus-button {
+    position: fixed;
+    top: 20px;
+    z-index: 1002;
+}
+
+body.focus-mode .focus-button {
+    background: var(--button-bg-prev);
+}
+
+body.focus-mode .progress-container {
+    width: 90%;
+    margin-bottom: 0;
+}
+
+body.focus-mode .main-content-padding {
+    padding-bottom: 0;
+}
+
+/* Prayer Times Styles */
+.prayer-times-container {
+    background: var(--secondary-bg);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.location-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.prayer-select {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--primary-bg);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 1em;
+}
+
+.prayer-times-display {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.prayer-time-card {
+    background: var(--prayer-time-bg);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.prayer-time-card.active {
+    background: var(--prayer-time-active);
+    transform: scale(1.05);
+}
+
+.prayer-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.prayer-time {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.prayer-next {
+    font-size: 0.9em;
+    color: var(--footer-color);
+}
+
+.prayer-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed var(--border-color);
+}
+
+.hijri-date {
+    font-size: 0.9em;
+}
+
+.current-time {
+    font-size: 1.1em;
+    color: var(--current-time-color);
+    font-weight: bold;
+}
+
+.next-prayer {
+    font-size: 1em;
+    color: var(--next-prayer-color);
+    font-weight: bold;
+}
+
+/* Quran Recitation Styles */
+.quran-recitation-container {
+    background: var(--secondary-bg);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.reciter-selector, .surah-selector {
+    margin-bottom: 15px;
+}
+
+.quran-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--primary-bg);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 1em;
+}
+
+.player-controls {
+    margin-top: 20px;
+}
+
+audio {
+    width: 100%;
+    margin-bottom: 15px;
+    background: var(--quran-player-bg);
+    border-radius: 8px;
+}
+
+.player-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.ayah-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    font-size: 0.9em;
+    color: var(--footer-color);
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .container { 
+        padding: 10px; 
+        margin: 10px; 
+    }
+    
+    .azkar { 
+        font-size: var(--azkar-font-size);
+    }
+    
+    .counter-btn { 
+        padding: 13px 20px; 
+        font-size: 1.1em;
+    }
+    
+    .footer { 
+        font-size: 0.9em; 
+    }
+    
+    .custom-azkar-area input[type="text"], 
+    .custom-azkar-area input[type="number"], 
+    .custom-azkar-area select {
+        width: calc(100% - 10px);
+        margin: 5px 0;
+    }
+    
+    .custom-azkar-area button {
+        width: 100%;
+        margin: 5px 0;
+    }
+    
+    .top-fixed-buttons {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: var(--secondary-bg);
+        padding: 10px 0;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        display: flex;
+        justify-content: space-around;
+        z-index: 100;
+        flex-wrap: wrap;
+    }
+    
+    .top-fixed-buttons .button {
+        position: static !important;
+        width: 45%;
+        margin: 5px;
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+    
+    .main-content-padding {
+        padding-bottom: 80px;
+    }
+    
+    .settings-option label, 
+    .settings-option div {
+        flex-basis: 100%;
+        text-align: right;
+        margin-bottom: 5px;
+    }
+    
+    .settings-option div {
+        justify-content: flex-start;
+    }
+    
+    .info-button {
+        top: -15px;
+        right: 5px;
+    }
+    
+    .focus-button {
+        top: -15px;
+        left: 5px;
+        right: auto;
+    }
+    
+    .sidenav-toggle-btn {
+        top: 10px;
+        right: 10px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.3em;
+    }
+    
+    body.focus-mode .azkar {
+        font-size: 1.5em;
+    }
+    
+    .prayer-times-display {
+        grid-template-columns: 1fr;
+    }
+    
+    .prayer-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

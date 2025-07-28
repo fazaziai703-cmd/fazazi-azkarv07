@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a2463">
+  <meta name="description" content="تطبيق أذكار متكامل مع أوقات الصلاة وتلاوة القرآن">
+  <title>Fazazi Azkar</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Noto+Naskh+Arabic&family=Lateefah&family=Scheherazade+New&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/assets/styles/styles.css">
+</head>
+<body>
+  <!-- Side Navigation -->
+  <div id="mySidenav" class="sidenav">
+    <button class="closebtn" onclick="closeNav()">&times;</button>
+    <h3><i class="fas fa-list"></i> قائمة الأذكار</h3>
+    <div id="sidenavAzkarList"></div>
+  </div>
+
+  <button class="sidenav-toggle-btn" onclick="toggleNav()">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <div class="container main-content-padding">
+    <div class="tabs">
+      <button class="tab-button active" onclick="openTab('mainTab', this)"><i class="fas fa-list"></i> الأذكار</button>
+      <button class="tab-button" onclick="openTab('prayerTab', this)"><i class="fas fa-clock"></i> أوقات الصلاة</button>
+      <button class="tab-button" onclick="openTab('quranTab', this)"><i class="fas fa-quran"></i> القرآن الكريم</button>
+      <button class="tab-button" onclick="openTab('settingsTab', this)"><i class="fas fa-cog"></i> الإعدادات</button>
+      <button class="tab-button" onclick="openTab('statsTab', this)"><i class="fas fa-chart-bar"></i> إحصائياتي</button>
+    </div>
+
+    <div id="mainTab" class="tab-content active"></div>
+
+    <div id="prayerTab" class="tab-content">
+      <div class="settings-section">
+        <h2>أوقات الصلاة</h2>
+        <div class="prayer-times-container">
+          <div class="location-selector">
+            <select id="citySelect" class="prayer-select">
+              <option value="auto">تحديد الموقع تلقائياً</option>
+              <option value="Riyadh">الرياض</option>
+              <option value="Jeddah">جدة</option>
+              <option value="Mecca">مكة المكرمة</option>
+              <option value="Medina">المدينة المنورة</option>
+              <option value="Dammam">الدمام</option>
+              <option value="Cairo">القاهرة</option>
+              <option value="Dubai">دبي</option>
+              <option value="Amman">عمان</option>
+            </select>
+            <button id="refreshPrayerTimes" class="button" style="background:var(--button-bg-blue);">
+              <i class="fas fa-sync-alt"></i> تحديث
+            </button>
+          </div>
+          <div class="prayer-times-display">
+            <div class="prayer-time-card">
+              <div class="prayer-name">الفجر</div>
+              <div class="prayer-time" id="fajrTime">--:--</div>
+              <div class="prayer-next" id="fajrNext"></div>
+            </div>
+            <div class="prayer-time-card">
+              <div class="prayer-name">الشروق</div>
+              <div class="prayer-time" id="sunriseTime">--:--</div>
+              <div class="prayer-next" id="sunriseNext"></div>
+            </div>
+            <div class="prayer-time-card">
+              <div class="prayer-name">الظهر</div>
+              <div class="prayer-time" id="dhuhrTime">--:--</div>
+              <div class="prayer-next" id="dhuhrNext"></div>
+            </div>
+            <div class="prayer-time-card">
+              <div class="prayer-name">العصر</div>
+              <div class="prayer-time" id="asrTime">--:--</div>
+              <div class="prayer-next" id="asrNext"></div>
+            </div>
+            <div class="prayer-time-card">
+              <div class="prayer-name">المغرب</div>
+              <div class="prayer-time" id="maghribTime">--:--</div>
+              <div class="prayer-next" id="maghribNext"></div>
+            </div>
+            <div class="prayer-time-card">
+              <div class="prayer-name">العشاء</div>
+              <div class="prayer-time" id="ishaTime">--:--</div>
+              <div class="prayer-next" id="ishaNext"></div>
+            </div>
+          </div>
+          <div class="prayer-meta">
+            <div id="currentDate" class="hijri-date">-- -- ----</div>
+            <div id="currentTime" class="current-time">--:--:--</div>
+            <div id="nextPrayer" class="next-prayer">جاري تحديد الصلاة القادمة...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="quranTab" class="tab-content">
+      <div class="settings-section">
+        <h2>تلاوة القرآن الكريم</h2>
+        <div class="quran-recitation-container">
+          <div class="reciter-selector">
+            <select id="reciterSelect" class="quran-select">
+              <option value="mishary_rashid_alafasy">مشاري راشد العفاسي</option>
+              <option value="saad_al_ghamdi">سعد الغامدي</option>
+              <option value="abdul_basit_abdus_samad">عبد الباسط عبد الصمد</option>
+              <option value="maher_al_muaiqly">ماهر المعيقلي</option>
+            </select>
+          </div>
+          <div class="surah-selector">
+            <select id="surahSelect" class="quran-select">
+              <!-- Surahs will be populated by JavaScript -->
+              <option value="1">الفاتحة</option>
+              <option value="2">البقرة</option>
+              <!-- More surahs will be added dynamically -->
+            </select>
+          </div>
+          <div class="player-controls">
+            <audio id="quranPlayer" controls></audio>
+            <div class="player-buttons">
+              <button id="playPauseBtn" class="button" style="background:var(--button-bg-blue);">
+                <i class="fas fa-play"></i> تشغيل
+              </button>
+              <button id="stopBtn" class="button" style="background:var(--button-bg-reset);">
+                <i class="fas fa-stop"></i> إيقاف
+              </button>
+            </div>
+          </div>
+          <div class="ayah-info">
+            <div id="currentSurah">السورة: --</div>
+            <div id="currentAyah">الآية: --</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="settingsTab" class="tab-content">
+      <div class="settings-section">
+        <h2>إعدادات التطبيق</h2>
+
+        <div class="settings-option">
+          <label for="darkModeToggle">الوضع الليلي:</label>
+          <div>
+            <button id="darkModeToggle" class="button" onclick="toggleDarkMode()" style="background: var(--button-bg-reset);"><i class="fas fa-moon"></i> <span id="darkModeText"></span></button>
+          </div>
+        </div>
+
+        <div class="settings-option">
+          <label for="notificationToggle">تفعيل إذن الإشعارات:</label>
+          <div>
+            <button id="notificationToggle" class="button" onclick="toggleAzkarNotification()" style="background: var(--button-bg-reset);"><i class="fas fa-bell"></i> <span id="notificationText"></span></button>
+          </div>
+        </div>
+
+        <div class="settings-option">
+          <label for="fontSelect">نوع الخط:</label>
+          <div>
+            <select id="fontSelect" onchange="changeFont()">
+              <option value="'Amiri', serif">خط الأميري (افتراضي)</option>
+              <option value="'Noto Naskh Arabic', serif">Noto Naskh Arabic</option>
+              <option value="'Lateefah', serif">Lateefah</option>
+              <option value="'Scheherazade New', serif">Scheherazade New</option>
+              <option value="sans-serif">خط النظام (Sans-serif)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-option">
+            <label for="fontSizeRange">حجم الخط:</label>
+            <div>
+                <input type="range" id="fontSizeRange" min="0.8" max="1.5" step="0.1" value="1.1" oninput="changeFontSize(this.value)">
+                <span id="fontSizeValue">1.1em</span>
+            </div>
+        </div>
+
+        <div class="settings-option">
+          <label for="fontColorPicker">لون الخط:</label>
+          <div>
+            <input type="color" id="fontColorPicker" onchange="changeColors()">
+          </div>
+        </div>
+
+        <div class="settings-option">
+          <label for="bgColorPicker">لون الخلفية الرئيسية:</label>
+          <div>
+            <input type="color" id="bgColorPicker" onchange="changeColors()">
+          </div>
+        </div>
+
+        <div class="settings-option">
+            <label>الثيمات الجاهزة:</label>
+            <div class="theme-buttons">
+                <button class="button active-theme" style="background:#0a2463;" onclick="applyTheme('royal-blue')">أزرق ملكي</button>
+                <button class="button" style="background:#4CAF50;" onclick="applyTheme('green')">أخضر</button>
+                <button class="button" style="background:#2196F3;" onclick="applyTheme('blue')">أزرق</button>
+                <button class="button" style="background:#795548;" onclick="applyTheme('brown')">بني</button>
+            </div>
+        </div>
+
+        <div class="settings-option">
+            <label for="resetSettingsBtn">إعادة ضبط الإعدادات:</label>
+            <div>
+                <button id="resetSettingsBtn" class="button" onclick="resetSettings()"><i class="fas fa-undo"></i> إعادة ضبط</button>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="statsTab" class="tab-content">
+        <div class="settings-section">
+            <h2>إحصائيات الأذكار</h2>
+            <p>هنا يمكنك رؤية ملخص لنشاطك في تكرار الأذكار.</p>
+            <div id="dailyStats" style="border: 1px dashed var(--border-color); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;">
+                <p>عدد الأذكار المكتملة اليوم: <strong id="completedAzkarToday">0</strong></p>
+                <p>إجمالي الأذكار المكتملة: <strong id="totalCompletedAzkar">0</strong></p>
+                <p>آخر جلسة مكتملة: <strong id="lastSessionDate">لا توجد</strong></p>
+            </div>
+            <button class="button" style="background:var(--button-bg-reset); margin-top:20px;" onclick="resetStats()"><i class="fas fa-eraser"></i> مسح الإحصائيات</button>
+        </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    بِفَضلِ اللهِ وَعَوْنِه، تَمَّ تَصميمُ هَذَا العَمَلِ الْمُبَارَكِ لِيَكُونَ مَعِينَاً لَكُمْ فِي ذِكرِ اللهِ، جَعَلَهُ اللهُ خَالِصاً لِوَجْهِهِ الكَرِيمِ.
+    نَسْأَلُكُمْ دَعْوَةً بِالرَّحمَةِ وَالمَغْفِرَةِ لِكُلِّ مَن سَاهَمَ فِيهِ، وَأَن يُرْزَقَنَا اللهُ الفِردَوْسَ الأَعلَى مِن غَيْرِ حِسَابٍ وَلَا سَابِقَةِ عَذَابٍ.إهداء الى ابني عمران (عبقرينو)، مع دعواتي له بدوام التفوق والتوفيق. والدكم المحب/ أبو عمران الفزازي
+  </div>
+  <div class="top-fixed-buttons">
+    <button class="button" style="background:#607d8b;" onclick="resetApp()"><i class="fas fa-home"></i> العودة للقائمة الرئيسية</button>
+    <button id="installAppBtn" class="button" style="background:#8bc34a; display:none;"><i class="fas fa-plus"></i> تثبيت التطبيق</button>
+  </div>
+
+  <div id="infoShareModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3 id="modalTitle">
+        <button class="close-button" onclick="closeModal()"><i class="fas fa-times-circle"></i></button>
+        <span id="modalHeaderText"></span>
+      </h3>
+      <p id="modalBodyText"></p>
+      <div id="modalButtons"></div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/prayer-times.js"></script>
+  <script src="/js/quran-recitation.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
