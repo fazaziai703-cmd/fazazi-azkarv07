@@ -6,14 +6,13 @@
   <meta name="theme-color" content="#0a2463">
   <meta name="description" content="تطبيق أذكار متكامل مع أوقات الصلاة وتلاوة القرآن">
   <title>Fazazi Azkar</title>
-  <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
   <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Noto+Naskh+Arabic&family=Lateefah&family=Scheherazade+New&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="/assets/styles/styles.css">
+  <link rel="stylesheet" href="assets/styles/styles.css">
 </head>
 <body>
-  <!-- Side Navigation -->
   <div id="mySidenav" class="sidenav">
     <button class="closebtn" onclick="closeNav()">&times;</button>
     <h3><i class="fas fa-list"></i> قائمة الأذكار</h3>
@@ -110,11 +109,9 @@
           </div>
           <div class="surah-selector">
             <select id="surahSelect" class="quran-select">
-              <!-- Surahs will be populated by JavaScript -->
               <option value="1">الفاتحة</option>
               <option value="2">البقرة</option>
-              <!-- More surahs will be added dynamically -->
-            </select>
+              </select>
           </div>
           <div class="player-controls">
             <audio id="quranPlayer" controls></audio>
@@ -241,13 +238,14 @@
     </div>
   </div>
 
-  <script src="/js/app.js"></script>
-  <script src="/js/prayer-times.js"></script>
-  <script src="/js/quran-recitation.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/prayer-times.js"></script>
+  <script src="js/quran-recitation.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
+        // CORRECTED: Relative path for service-worker.js
+        navigator.serviceWorker.register('service-worker.js')
           .then(registration => {
             console.log('ServiceWorker registration successful');
           })
