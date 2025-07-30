@@ -300,14 +300,19 @@ async function fetchReciters() {
             const reciterSelect = document.getElementById('reciterSelect');
             reciterSelect.innerHTML = ''; // Clear existing options
 
+            // UPDATED FILTERING LOGIC
             const filteredReciters = data.reciters.filter(reciter =>
-                reciter.moshaf.some(m => m.name.includes('Hafs A\'n Assem'))
+                reciter.moshaf.some(m =>
+                    m.name.toLowerCase().includes('hafs') && m.name.toLowerCase().includes('assem')
+                )
             );
             console.log('Filtered Reciters (Hafs A\'n Assem):', filteredReciters); // ADDED LOG
 
             // Populate quranRecitersMap and reciterSelect
             filteredReciters.forEach(reciter => {
-                const hafsMoshaf = reciter.moshaf.find(m => m.name.includes('Hafs A\'n Assem'));
+                const hafsMoshaf = reciter.moshaf.find(m =>
+                    m.name.toLowerCase().includes('hafs') && m.name.toLowerCase().includes('assem')
+                );
                 if (hafsMoshaf) {
                     quranRecitersMap[reciter.id] = { // Use reciter.id as the key
                         name: reciter.name,
