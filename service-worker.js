@@ -1,4 +1,4 @@
-    const CACHE_NAME = 'fazazi-azkar-v1.0.0'; // Increment version on new deployments
+    const CACHE_NAME = 'fazazi-azkar-v1.0.1'; // Increment version on new deployments
     const APP_SHELL_URLS = [
         './', // The root of your app
         './index.html',
@@ -26,9 +26,9 @@
         'https://unpkg.com/leaflet/dist/leaflet.css',
         'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js',
         'https://unpkg.com/leaflet/dist/leaflet.js',
-        // Google Fonts (if you want to cache them, though usually handled by browser cache)
-        'https://fonts.googleapis.com/css2?family=Amiri&family=Noto+Naskh+Arabic&family=Lateefah&family=Scheherazade+New&display=swap',
-        'https://fonts.gstatic.com/s/amiri/v26/J7afnp5VBLh3_jY-wJ7d_g.woff2', // Example woff2 for Amiri
+        // Google Fonts (The CSS link is sufficient, direct font files can be problematic for addAll)
+        'https://fonts.googleapis.com/css2?family=Amiri&family=Noto+Naskh+Arabic&family=Lateefah&family=Scheherazade+New&display=swap'
+        // Removed: 'https://fonts.gstatic.com/s/amiri/v26/J7afnp5VBLh3_jY-wJ7d_g.woff2', 
         // ... add other font formats if needed
     ];
 
@@ -110,4 +110,3 @@
             })
         );
     });
-    
