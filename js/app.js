@@ -410,140 +410,148 @@ let currentCount = 0;
 let customAzkar = [];
 let deferredPrompt;
 let notificationPermission = 'default';
-let stats = {
-    completedAzkarToday: 0,
-    totalCompletedAzkar: 0,
-    lastSessionDate: null
-};
+let stats = { completedAzkarToday: 0, totalCompletedAzkar: 0, lastSessionDate: null };
 
 // Utility Functions
 function saveSettings() {
-  localStorage.setItem('darkMode', document.body.classList.contains('dark'));
-  localStorage.setItem('fontFamily', document.documentElement.style.getPropertyValue('--font-family'));
-  localStorage.setItem('baseFontSize', document.documentElement.style.getPropertyValue('--base-font-size'));
-  localStorage.setItem('azkarFontSize', document.documentElement.style.getPropertyValue('--azkar-font-size'));
-  localStorage.setItem('fontColor', document.documentElement.style.getPropertyValue('--azkar-text-color'));
-  localStorage.setItem('bgColor', document.documentElement.style.getPropertyValue('--primary-bg'));
-  localStorage.setItem('currentTheme', document.body.dataset.theme || 'royal-blue');
-  localStorage.setItem('customAzkar', JSON.stringify(customAzkar));
-  localStorage.setItem('notificationPermission', notificationPermission);
-  localStorage.setItem('azkarStats', JSON.stringify(stats));
+    localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+    localStorage.setItem('fontFamily', document.documentElement.style.getPropertyValue('--font-family'));
+    localStorage.setItem('baseFontSize', document.documentElement.style.getPropertyValue('--base-font-size'));
+    localStorage.setItem('azkarFontSize', document.documentElement.style.getPropertyValue('--azkar-font-size'));
+    localStorage.setItem('fontColor', document.documentElement.style.getPropertyValue('--azkar-text-color'));
+    localStorage.setItem('bgColor', document.documentElement.style.getPropertyValue('--primary-bg'));
+    localStorage.setItem('currentTheme', document.body.dataset.theme || 'royal-blue');
+    localStorage.setItem('customAzkar', JSON.stringify(customAzkar));
+    localStorage.setItem('notificationPermission', notificationPermission);
+    localStorage.setItem('azkarStats', JSON.stringify(stats));
 }
 
 function loadSettings() {
-  if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark');
-    document.getElementById('darkModeText').textContent = 'إيقاف';
-  } else {
-    document.getElementById('darkModeText').textContent = 'تفعيل';
-  }
-
-  const savedFont = localStorage.getItem('fontFamily');
-  if (savedFont) {
-    document.documentElement.style.setProperty('--font-family', savedFont);
-    const fontSelect = document.getElementById('fontSelect');
-    if (fontSelect) fontSelect.value = savedFont;
-  }
-
-  const savedBaseFontSize = localStorage.getItem('baseFontSize');
-  const savedAzkarFontSize = localStorage.getItem('azkarFontSize');
-  if (savedBaseFontSize && savedAzkarFontSize) {
-      document.documentElement.style.setProperty('--base-font-size', savedBaseFontSize);
-      document.documentElement.style.setProperty('--azkar-font-size', savedAzkarFontSize);
-      const fontSizeRange = document.getElementById('fontSizeRange');
-      if (fontSizeRange) {
-          fontSizeRange.value = parseFloat(savedBaseFontSize);
-          document.getElementById('fontSizeValue').textContent = `${fontSizeRange.value}em`;
-      }
-  }
-
-  const savedFontColor = localStorage.getItem('fontColor');
-  if (savedFontColor) {
-    document.documentElement.style.setProperty('--azkar-text-color', savedFontColor);
-    const fontColorPicker = document.getElementById('fontColorPicker');
-    if (fontColorPicker) fontColorPicker.value = savedFontColor;
-  }
-  
-  const savedBgColor = localStorage.getItem('bgColor');
-  if (savedBgColor) {
-    document.documentElement.style.setProperty('--primary-bg', savedBgColor);
-    const bgColorPicker = document.getElementById('bgColorPicker');
-    if (bgColorPicker) bgColorPicker.value = savedBgColor;
-  }
-  
-  const savedTheme = localStorage.getItem('currentTheme');
-  if (savedTheme) {
-    applyTheme(savedTheme, false);
-  } else {
-    applyTheme('royal-blue', false);
-  }
-
-  const savedCustomAzkar = localStorage.getItem('customAzkar');
-  if (savedCustomAzkar) {
-    try {
-      customAzkar = JSON.parse(savedCustomAzkar);
-    } catch (e) {
-      console.error("Error parsing custom azkar from localStorage:", e);
-      customAzkar = [];
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark');
+        document.getElementById('darkModeText').textContent = 'إيقاف';
+    } else {
+        document.getElementById('darkModeText').textContent = 'تفعيل';
     }
-  }
 
-  const savedStats = localStorage.getItem('azkarStats');
-  if (savedStats) {
-      try {
-          stats = JSON.parse(savedStats);
-          const today = new Date().toDateString();
-          if (stats.lastSessionDate !== today) {
-              stats.completedAzkarToday = 0;
-              stats.lastSessionDate = today;
-              saveSettings();
-          }
-      } catch (e) {
-          console.error("Error parsing stats from localStorage:", e);
-          stats = { completedAzkarToday: 0, totalCompletedAzkar: 0, lastSessionDate: null };
-      }
-  } else {
-      stats.lastSessionDate = new Date().toDateString();
-      saveSettings();
-  }
+    const savedFont = localStorage.getItem('fontFamily');
+    if (savedFont) {
+        document.documentElement.style.setProperty('--font-family', savedFont);
+        const fontSelect = document.getElementById('fontSelect');
+        if (fontSelect) fontSelect.value = savedFont;
+    }
 
-  notificationPermission = localStorage.getItem('notificationPermission') || 'default';
-  updateNotificationToggleButton();
+    const savedBaseFontSize = localStorage.getItem('baseFontSize');
+    const savedAzkarFontSize = localStorage.getItem('azkarFontSize');
+    if (savedBaseFontSize && savedAzkarFontSize) {
+        document.documentElement.style.setProperty('--base-font-size', savedBaseFontSize);
+        document.documentElement.style.setProperty('--azkar-font-size', savedAzkarFontSize);
+        const fontSizeRange = document.getElementById('fontSizeRange');
+        if (fontSizeRange) {
+            fontSizeRange.value = parseFloat(savedBaseFontSize);
+            document.getElementById('fontSizeValue').textContent = `${fontSizeRange.value}em`;
+        }
+    }
+
+    const savedFontColor = localStorage.getItem('fontColor');
+    if (savedFontColor) {
+        document.documentElement.style.setProperty('--azkar-text-color', savedFontColor);
+        const fontColorPicker = document.getElementById('fontColorPicker');
+        if (fontColorPicker) fontColorPicker.value = savedFontColor;
+    }
+
+    const savedBgColor = localStorage.getItem('bgColor');
+    if (savedBgColor) {
+        document.documentElement.style.setProperty('--primary-bg', savedBgColor);
+        const bgColorPicker = document.getElementById('bgColorPicker');
+        if (bgColorPicker) bgColorPicker.value = savedBgColor;
+    }
+
+    const savedTheme = localStorage.getItem('currentTheme');
+    if (savedTheme) {
+        applyTheme(savedTheme, false);
+    } else {
+        applyTheme('royal-blue', false);
+    }
+
+    const savedCustomAzkar = localStorage.getItem('customAzkar');
+    if (savedCustomAzkar) {
+        try {
+            customAzkar = JSON.parse(savedCustomAzkar);
+        } catch (e) {
+            console.error("Error parsing custom azkar from localStorage:", e);
+            customAzkar = [];
+        }
+    }
+
+    const savedStats = localStorage.getItem('azkarStats');
+    if (savedStats) {
+        try {
+            stats = JSON.parse(savedStats);
+            const today = new Date().toDateString();
+            if (stats.lastSessionDate !== today) {
+                stats.completedAzkarToday = 0;
+                stats.lastSessionDate = today;
+                saveSettings();
+            }
+        } catch (e) {
+            console.error("Error parsing stats from localStorage:", e);
+            stats = { completedAzkarToday: 0, totalCompletedAzkar: 0, lastSessionDate: null };
+        }
+    } else {
+        stats.lastSessionDate = new Date().toDateString();
+        saveSettings();
+    }
+
+    notificationPermission = localStorage.getItem('notificationPermission') || 'default';
+    updateNotificationToggleButton();
 }
 
 function resetSettings() {
-    if (confirm('هل أنت متأكد من إعادة تعيين جميع الإعدادات إلى الافتراضيات؟')) {
-        localStorage.clear();
-        location.reload();
-    }
+    openModal(
+        'إعادة ضبط الإعدادات',
+        'هل أنت متأكد من إعادة تعيين جميع الإعدادات إلى الافتراضيات؟',
+        `<button class="button btn btn-warning" onclick="confirmResetSettings()">نعم، أعد الضبط</button><button class="button btn btn-secondary" onclick="closeModal()">إلغاء</button>`
+    );
+}
+
+function confirmResetSettings() {
+    localStorage.clear();
+    location.reload();
 }
 
 function resetStats() {
-    if (confirm('هل أنت متأكد من مسح جميع بيانات الإحصائيات؟ لا يمكن التراجع عن هذا الإجراء.')) {
-        stats = { completedAzkarToday: 0, totalCompletedAzkar: 0, lastSessionDate: new Date().toDateString() };
-        saveSettings();
-        updateStatsDisplay();
-        alert('تم مسح الإحصائيات بنجاح.');
-    }
+    openModal(
+        'مسح الإحصائيات',
+        'هل أنت متأكد من مسح جميع بيانات الإحصائيات؟ لا يمكن التراجع عن هذا الإجراء.',
+        `<button class="button btn btn-danger" onclick="confirmResetStats()">نعم، امسح</button><button class="button btn btn-secondary" onclick="closeModal()">إلغاء</button>`
+    );
+}
+
+function confirmResetStats() {
+    stats = { completedAzkarToday: 0, totalCompletedAzkar: 0, lastSessionDate: new Date().toDateString() };
+    saveSettings();
+    updateStatsDisplay();
+    openModal('تم المسح', 'تم مسح الإحصائيات بنجاح.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
 }
 
 function toggleDarkMode() {
-  document.body.classList.toggle('dark');
-  const text = document.getElementById('darkModeText');
-  if (document.body.classList.contains('dark')) {
-    text.textContent = 'إيقاف';
-  } else {
-    text.textContent = 'تفعيل';
-  }
-  saveSettings();
+    document.body.classList.toggle('dark');
+    const text = document.getElementById('darkModeText');
+    if (document.body.classList.contains('dark')) {
+        text.textContent = 'إيقاف';
+    } else {
+        text.textContent = 'تفعيل';
+    }
+    saveSettings();
 }
 
 function changeFont() {
-  const fontSelect = document.getElementById('fontSelect');
-  if (fontSelect) {
-    document.documentElement.style.setProperty('--font-family', fontSelect.value);
-    saveSettings();
-  }
+    const fontSelect = document.getElementById('fontSelect');
+    if (fontSelect) {
+        document.documentElement.style.setProperty('--font-family', fontSelect.value);
+        saveSettings();
+    }
 }
 
 function changeFontSize(value) {
@@ -556,23 +564,19 @@ function changeFontSize(value) {
 }
 
 function changeColors() {
-  const fontColorPicker = document.getElementById('fontColorPicker');
-  const bgColorPicker = document.getElementById('bgColorPicker');
-
-  if (fontColorPicker) document.documentElement.style.setProperty('--azkar-text-color', fontColorPicker.value);
-  if (bgColorPicker) document.documentElement.style.setProperty('--primary-bg', bgColorPicker.value);
-
-  document.body.classList.remove('theme-green', 'theme-blue', 'theme-brown');
-  document.body.dataset.theme = 'custom';
-  document.querySelectorAll('.theme-buttons .button').forEach(btn => btn.classList.remove('active-theme'));
-
-  saveSettings();
+    const fontColorPicker = document.getElementById('fontColorPicker');
+    const bgColorPicker = document.getElementById('bgColorPicker');
+    if (fontColorPicker) document.documentElement.style.setProperty('--azkar-text-color', fontColorPicker.value);
+    if (bgColorPicker) document.documentElement.style.setProperty('--primary-bg', bgColorPicker.value);
+    document.body.classList.remove('theme-green', 'theme-blue', 'theme-brown');
+    document.body.dataset.theme = 'custom';
+    document.querySelectorAll('.theme-buttons .button').forEach(btn => btn.classList.remove('active-theme'));
+    saveSettings();
 }
 
 function applyTheme(themeName, save = true) {
     document.body.classList.remove('theme-green', 'theme-blue', 'theme-brown');
     document.body.dataset.theme = themeName;
-
     if (themeName === 'green') {
         document.body.classList.add('theme-green');
     } else if (themeName === 'blue') {
@@ -607,7 +611,12 @@ function resetApp() {
     azkarIndex = 0;
     currentCount = 0;
     renderMainPage();
-    openTab('mainTab', document.querySelector('.tab-button:first-child'));
+    // Use Bootstrap's API to show the tab
+    const mainTabButton = document.getElementById('azkar-tab');
+    if (mainTabButton) {
+        const bsTab = new bootstrap.Tab(mainTabButton);
+        bsTab.show();
+    }
     updateProgressBar();
     closeNav();
     exitFocusMode();
@@ -629,7 +638,6 @@ function displayAzkar(index) {
     if (index < currentAzkar.length) {
         azkarDisplay.classList.add('fade-out-element');
         azkarDisplay.classList.remove('fade-in-element');
-
         setTimeout(() => {
             const current = currentAzkar[index];
             azkarDisplay.textContent = current.text;
@@ -669,7 +677,7 @@ function displayAzkar(index) {
     }
     updateNavigationButtons();
     updateProgressBar();
-    updateSideNavActiveItem();
+    populateSideNav();
 }
 
 function updateCounter() {
@@ -678,10 +686,9 @@ function updateCounter() {
         currentCount--;
         document.getElementById('azkarCount').textContent = `العدد المتبقي: ${currentCount}`;
         counterButton.classList.remove('flash');
-        void counterButton.offsetWidth;
+        void counterButton.offsetWidth; // Trigger reflow
         counterButton.classList.add('flash');
         counterButton.textContent = `اضغط للعد (${currentCount})`;
-
         setTimeout(() => {
             counterButton.classList.remove('flash');
         }, 200);
@@ -695,8 +702,8 @@ function nextAzkar() {
         azkarIndex++;
         displayAzkar(azkarIndex);
     } else if (azkarIndex === currentAzkar.length - 1) {
-         azkarIndex++;
-         displayAzkar(azkarIndex);
+        azkarIndex++;
+        displayAzkar(azkarIndex); // Display "Finished" message
     }
 }
 
@@ -754,22 +761,20 @@ function updateProgressBar() {
     }
 
     progressContainer.style.display = 'flex';
-
-    const displayedIndex = Math.min(azkarIndex, currentAzkar.length - 1);
+    const displayedIndex = Math.min(azkarIndex, currentAzkar.length); // Use currentAzkar.length for "finished" state
     const progressPercentage = (displayedIndex / currentAzkar.length) * 100;
-
     progressBarFill.style.width = `${progressPercentage}%`;
-    progressText.textContent = `${displayedIndex + 1} / ${currentAzkar.length}`;
-
+    
     if (azkarIndex >= currentAzkar.length) {
-        progressBarFill.style.width = '100%';
         progressText.textContent = `تم الإنتهاء!`;
+    } else {
+        progressText.textContent = `${displayedIndex + 1} / ${currentAzkar.length}`;
     }
 }
 
 function startAzkarSession(type) {
     currentAzkarType = type;
-    switch(type) {
+    switch (type) {
         case 'morning':
             currentAzkar = morningAzkar;
             break;
@@ -788,9 +793,9 @@ function startAzkarSession(type) {
         case 'custom':
             currentAzkar = customAzkar;
             if (customAzkar.length === 0) {
-              alert('لا توجد أذكار مخصصة لبدء الجلسة. الرجاء إضافة أذكار أولاً في تبويب "الأذكار".');
-              resetApp();
-              return;
+                openModal('لا توجد أذكار', 'لا توجد أذكار مخصصة لبدء الجلسة. الرجاء إضافة أذكار أولاً في تبويب "الأذكار".', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+                resetApp();
+                return;
             }
             break;
         case 'general':
@@ -815,6 +820,7 @@ function renderMainPage() {
         <button class="button" onclick="startAzkarSession('afterPrayer')">أذكار بعد الصلاة <i class="fas fa-pray"></i></button>
         <button class="button" onclick="startAzkarSession('general')">أذكار متنوعة <i class="fas fa-lightbulb"></i></button>
         <button class="button" onclick="startAzkarSession('custom')">قائمة الأذكار المخصصة <i class="fas fa-th-list"></i></button>
+
         <div class="custom-azkar-area">
             <h3>إدارة الأذكار المخصصة <i class="fas fa-plus-circle"></i></h3>
             <input type="text" id="newAzkarText" placeholder="اكتب الذكر هنا" aria-label="أدخل الذكر الجديد">
@@ -839,8 +845,8 @@ function renderAzkarPage() {
     const mainTab = document.getElementById('mainTab');
     mainTab.innerHTML = `
         <div id="progressContainer" class="progress-container">
-          <div id="progressBarFill" class="progress-bar-fill"></div>
-          <span id="progressText" class="progress-text"></span>
+            <div id="progressBarFill" class="progress-bar-fill"></div>
+            <span id="progressText" class="progress-text"></span>
         </div>
         <div class="azkar-container">
             <div id="azkarDisplay" class="azkar"></div>
@@ -863,40 +869,55 @@ function renderAzkarPage() {
 
 // Custom Azkar Management
 function addCustomAzkar() {
-  const newAzkarText = document.getElementById('newAzkarText');
-  const newAzkarRepeat = document.getElementById('newAzkarRepeat');
+    const newAzkarText = document.getElementById('newAzkarText');
+    const newAzkarRepeat = document.getElementById('newAzkarRepeat');
 
-  if (newAzkarText && newAzkarRepeat) {
-    const text = newAzkarText.value.trim();
-    const repeat = parseInt(newAzkarRepeat.value);
+    if (newAzkarText && newAzkarRepeat) {
+        const text = newAzkarText.value.trim();
+        const repeat = parseInt(newAzkarRepeat.value);
 
-    if (text && repeat > 0) {
-      customAzkar.push({ text: text, repeat: repeat, meaning: "", virtue: "", source: "مخصص", hadith_number: "" });
-      newAzkarText.value = '';
-      newAzkarRepeat.value = 1;
-      renderCustomAzkarList();
-      saveSettings();
-    } else {
-      alert('الرجاء إدخال الذكر وتحديد عدد صحيح للتكرار.');
+        if (text && repeat > 0) {
+            customAzkar.push({ text: text, repeat: repeat, meaning: "", virtue: "", source: "مخصص", hadith_number: "" });
+            newAzkarText.value = '';
+            newAzkarRepeat.value = 1;
+            renderCustomAzkarList();
+            saveSettings();
+        } else {
+            openModal('خطأ في الإدخال', 'الرجاء إدخال الذكر وتحديد عدد صحيح للتكرار.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+        }
     }
-  }
 }
 
 function editCustomAzkar(index) {
     const azkar = customAzkar[index];
-    const newText = prompt('تعديل نص الذكر:', azkar.text);
-    if (newText !== null && newText.trim() !== '') {
-        const newRepeat = parseInt(prompt('تعديل عدد التكرار:', azkar.repeat));
-        if (!isNaN(newRepeat) && newRepeat > 0) {
-            azkar.text = newText.trim();
-            azkar.repeat = newRepeat;
+    openModal(
+        'تعديل الذكر المخصص',
+        `<p>تعديل نص الذكر:</p><textarea id="editAzkarText">${azkar.text}</textarea><p>تعديل عدد التكرار:</p><input type="number" id="editAzkarRepeat" value="${azkar.repeat}" min="1">`,
+        `<button class="button btn btn-primary" onclick="confirmEditCustomAzkar(${index})">حفظ التعديلات</button><button class="button btn btn-secondary" onclick="closeModal()">إلغاء</button>`
+    );
+}
+
+function confirmEditCustomAzkar(index) {
+    const newTextEl = document.getElementById('editAzkarText');
+    const newRepeatEl = document.getElementById('editAzkarRepeat');
+
+    if (newTextEl && newRepeatEl) {
+        const newText = newTextEl.value.trim();
+        const newRepeat = parseInt(newRepeatEl.value);
+
+        if (newText !== '' && !isNaN(newRepeat) && newRepeat > 0) {
+            customAzkar[index].text = newText;
+            customAzkar[index].repeat = newRepeat;
             renderCustomAzkarList();
             saveSettings();
+            closeModal();
+            openModal('تم التعديل', 'تم تعديل الذكر بنجاح.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
         } else {
-            alert('عدد التكرار غير صالح.');
+            openModal('خطأ في التعديل', 'الرجاء إدخال نص وعدد تكرار صالحين.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
         }
     }
 }
+
 
 function moveCustomAzkar(index, direction) {
     if (direction === 'up' && index > 0) {
@@ -909,83 +930,107 @@ function moveCustomAzkar(index, direction) {
 }
 
 function deleteCustomAzkar(index) {
-  if (confirm('هل أنت متأكد أنك تريد حذف هذا الذكر؟')) {
+    openModal(
+        'تأكيد الحذف',
+        'هل أنت متأكد أنك تريد حذف هذا الذكر؟',
+        `<button class="button btn btn-danger" onclick="confirmDeleteCustomAzkar(${index})">نعم، احذف</button><button class="button btn btn-secondary" onclick="closeModal()">إلغاء</button>`
+    );
+}
+
+function confirmDeleteCustomAzkar(index) {
     customAzkar.splice(index, 1);
     renderCustomAzkarList();
     saveSettings();
-  }
+    closeModal();
+    openModal('تم الحذف', 'تم حذف الذكر بنجاح.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
 }
 
 function renderCustomAzkarList() {
-  const customAzkarList = document.getElementById('customAzkarList');
-  const searchInput = document.getElementById('searchCustomAzkar');
-  if (!customAzkarList || !searchInput) return;
+    const customAzkarList = document.getElementById('customAzkarList');
+    const searchInput = document.getElementById('searchCustomAzkar');
+    if (!customAzkarList || !searchInput) return;
 
-  const searchTerm = searchInput.value.trim().toLowerCase();
-  const filteredAzkar = customAzkar.filter(azkar =>
-    azkar.text.toLowerCase().includes(searchTerm)
-  );
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const filteredAzkar = customAzkar.filter(azkar =>
+        azkar.text.toLowerCase().includes(searchTerm));
 
-  customAzkarList.innerHTML = '';
-  if (filteredAzkar.length === 0) {
-    customAzkarList.innerHTML = '<li style="text-align: center; color: var(--footer-color);">لا توجد أذكار مخصصة مطابقة.</li>';
-    return;
-  }
+    customAzkarList.innerHTML = '';
 
-  filteredAzkar.forEach((azkar, index) => {
-    const originalIndex = customAzkar.indexOf(azkar);
-    const listItem = document.createElement('li');
-    listItem.innerHTML = `
-      <span>${azkar.text} (${azkar.repeat})</span>
-      <div class="custom-azkar-actions">
-        <button class="move-btn" onclick="moveCustomAzkar(${originalIndex}, 'up')" title="تحريك لأعلى"><i class="fas fa-arrow-up"></i></button>
-        <button class="move-btn" onclick="moveCustomAzkar(${originalIndex}, 'down')" title="تحريك لأسفل"><i class="fas fa-arrow-down"></i></button>
-        <button class="edit-btn" onclick="editCustomAzkar(${originalIndex})" title="تعديل"><i class="fas fa-edit"></i></button>
-        <button onclick="deleteCustomAzkar(${originalIndex})" title="حذف"><i class="fas fa-trash-alt"></i></button>
-      </div>
-    `;
-    customAzkarList.appendChild(listItem);
-  });
+    if (filteredAzkar.length === 0) {
+        customAzkarList.innerHTML = '<li style="text-align: center; color: var(--footer-color);">لا توجد أذكار مخصصة مطابقة.</li>';
+        return;
+    }
+
+    filteredAzkar.forEach((azkar, index) => {
+        const originalIndex = customAzkar.indexOf(azkar);
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <span>${azkar.text} (${azkar.repeat})</span>
+            <div class="custom-azkar-actions">
+                <button class="move-btn" onclick="moveCustomAzkar(${originalIndex}, 'up')" title="تحريك لأعلى"><i class="fas fa-arrow-up"></i></button>
+                <button class="move-btn" onclick="moveCustomAzkar(${originalIndex}, 'down')" title="تحريك لأسفل"><i class="fas fa-arrow-down"></i></button>
+                <button class="edit-btn" onclick="editCustomAzkar(${originalIndex})" title="تعديل"><i class="fas fa-edit"></i></button>
+                <button onclick="deleteCustomAzkar(${originalIndex})" title="حذف"><i class="fas fa-trash-alt"></i></button>
+            </div>
+        `;
+        customAzkarList.appendChild(listItem);
+    });
 }
 
 function importCustomAzkar() {
-    const importText = prompt('الصق بيانات الأذكار المخصصة هنا (بصيغة JSON):');
-    if (importText) {
-        try {
-            const importedData = JSON.parse(importText);
-            if (Array.isArray(importedData) && importedData.every(item => typeof item.text === 'string' && typeof item.repeat === 'number')) {
-                customAzkar = importedData;
-                renderCustomAzkarList();
-                saveSettings();
-                alert('تم استيراد الأذكار بنجاح!');
-            } else {
-                throw new Error('صيغة بيانات غير صحيحة.');
+    openModal(
+        'استيراد الأذكار المخصصة',
+        '<p>الصق بيانات الأذكار المخصصة هنا (بصيغة JSON):</p><textarea id="importTextarea" style="height: 150px;"></textarea>',
+        `<button class="button btn btn-primary" onclick="confirmImportCustomAzkar()">استيراد</button><button class="button btn btn-secondary" onclick="closeModal()">إلغاء</button>`
+    );
+}
+
+function confirmImportCustomAzkar() {
+    const importTextarea = document.getElementById('importTextarea');
+    if (importTextarea) {
+        const importText = importTextarea.value.trim();
+        if (importText) {
+            try {
+                const importedData = JSON.parse(importText);
+                if (Array.isArray(importedData) && importedData.every(item => typeof item.text === 'string' && typeof item.repeat === 'number')) {
+                    customAzkar = importedData;
+                    renderCustomAzkarList();
+                    saveSettings();
+                    closeModal();
+                    openModal('تم الاستيراد', 'تم استيراد الأذكار بنجاح!', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+                } else {
+                    throw new Error('صيغة بيانات غير صحيحة.');
+                }
+            } catch (e) {
+                openModal('خطأ في الاستيراد', 'خطأ في استيراد البيانات. تأكد من أن التنسيق صحيح (JSON).<br>' + e.message, `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+                console.error(e);
             }
-        } catch (e) {
-            alert('خطأ في استيراد البيانات. تأكد من أن التنسيق صحيح (JSON).' + e.message);
-            console.error(e);
+        } else {
+            openModal('خطأ في الاستيراد', 'الرجاء لصق البيانات في مربع النص.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
         }
     }
 }
 
+
 function exportCustomAzkar() {
     if (customAzkar.length === 0) {
-        alert('لا توجد أذكار مخصصة لتصديرها.');
+        openModal('لا توجد أذكار', 'لا توجد أذكار مخصصة لتصديرها.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
         return;
     }
     const exportData = JSON.stringify(customAzkar, null, 2);
-    openModal('تصدير الأذكار المخصصة <i class="fas fa-download"></i>',
-              `<p>انسخ النص التالي وقم بحفظه:</p><textarea id="exportText" readonly>${exportData}</textarea>`,
-              `<button class="button" style="background:var(--button-bg-blue);" onclick="copyExportText()"><i class="fas fa-copy"></i> نسخ</button>`);
+    openModal(
+        'تصدير الأذكار المخصصة <i class="fas fa-download"></i>',
+        `<p>انسخ النص التالي وقم بحفظه:</p><textarea id="exportText" readonly style="height: 200px;">${exportData}</textarea>`,
+        `<button class="button btn btn-primary" onclick="copyExportText()"><i class="fas fa-copy"></i> نسخ</button>`
+    );
 }
 
 function copyExportText() {
     const exportTextarea = document.getElementById('exportText');
     if (exportTextarea) {
         exportTextarea.select();
-        document.execCommand('copy');
-        alert('تم نسخ البيانات بنجاح!');
-        closeModal();
+        document.execCommand('copy'); // Fallback for navigator.clipboard.writeText() due to iframe restrictions
+        openModal('تم النسخ', 'تم نسخ البيانات بنجاح!', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
     }
 }
 
@@ -996,16 +1041,22 @@ function openModal(title, bodyHtml, buttonsHtml = '') {
     const modalBodyText = document.getElementById('modalBodyText');
     const modalButtons = document.getElementById('modalButtons');
 
+    if (!modalOverlay || !modalHeaderText || !modalBodyText || !modalButtons) {
+        console.error("Modal elements not found. Cannot open modal.");
+        return;
+    }
+
     modalHeaderText.innerHTML = title;
     modalBodyText.innerHTML = bodyHtml;
     modalButtons.innerHTML = buttonsHtml;
-
     modalOverlay.classList.add('show');
 }
 
 function closeModal() {
     const modalOverlay = document.getElementById('infoShareModal');
-    modalOverlay.classList.remove('show');
+    if (modalOverlay) {
+        modalOverlay.classList.remove('show');
+    }
 }
 
 function showShareModal() {
@@ -1028,99 +1079,53 @@ function showShareModal() {
             }
             shareContent += `\n`;
         }
-
-        const buttons = `<button class="button" style="background:var(--button-bg-blue);" onclick="copyShareText()"><i class="fas fa-copy"></i> نسخ</button>`;
-        openModal('مشاركة الذكر <i class="fas fa-share-alt"></i>', `<textarea id="shareText" readonly>${shareContent}</textarea>`, buttons);
+        const buttons = `<button class="button btn btn-primary" onclick="copyShareText()"><i class="fas fa-copy"></i> نسخ</button>`;
+        openModal('مشاركة الذكر <i class="fas fa-share-alt"></i>', `<textarea id="shareText" readonly style="height: 150px;">${shareContent}</textarea>`, buttons);
     } else {
-        alert('لا يوجد ذكر حالي للمشاركة.');
+        openModal('لا يوجد ذكر', 'لا يوجد ذكر حالي للمشاركة.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
     }
 }
 
-function copyShareText() {
-    const shareTextarea = document.getElementById('shareText');
-    if (shareTextarea) {
-        shareTextarea.select();
-        document.execCommand('copy');
-        alert('تم نسخ الذكر بنجاح!');
-        closeModal();
-    }
-}
-
-function showAzkarInfo() {
-    if (azkarIndex >= 0 && azkarIndex < currentAzkar.length) {
-        const azkar = currentAzkar[azkarIndex];
-        let infoContent = '';
-        if (azkar.meaning) {
-            infoContent += `<p><strong>المعنى:</strong><br>${azkar.meaning}</p>`;
-        }
-        if (azkar.virtue) {
-            infoContent += `<p><strong>الفضل:</strong><br>${azkar.virtue}</p>`;
-        }
-        if (azkar.source) {
-            infoContent += `<p><strong>المصدر:</strong> ${azkar.source}`;
-            if (azkar.hadith_number) {
-                infoContent += ` (حديث رقم: ${azkar.hadith_number})`;
-            }
-            infoContent += `</p>`;
-        }
-
-        if (infoContent) {
-            openModal('معنى وفضل الذكر <i class="fas fa-book"></i>', infoContent);
-        } else {
-            alert('لا توجد معلومات إضافية لهذا الذكر.');
-        }
-    }
-}
-
-// Tab Functionality
+// Tab Functionality (Modified to work with Bootstrap tabs)
 function openTab(tabId, element) {
-  const tabContents = document.querySelectorAll('.tab-content');
-  tabContents.forEach(tabContent => {
-    if (tabContent.classList.contains('active')) {
-        tabContent.classList.remove('active');
-        tabContent.style.display = 'none';
+    // Bootstrap's data-bs-toggle="tab" handles the active classes and display property.
+    // This function is primarily for additional logic when a tab becomes active.
+
+    // If there's specific initialization needed for a tab, put it here.
+    if (tabId === 'mainTab') {
+        if (currentAzkarType === '') {
+            renderMainPage();
+        } else {
+            renderAzkarPage();
+            displayAzkar(azkarIndex);
+        }
+    } else if (tabId === 'settingsTab') {
+        loadSettings(); // Ensure settings are loaded/reloaded when tab is opened
+        const fontSizeRange = document.getElementById('fontSizeRange');
+        if (fontSizeRange) {
+            document.getElementById('fontSizeValue').textContent = `${fontSizeRange.value}em`;
+        }
+    } else if (tabId === 'statsTab') {
+        updateStatsDisplay();
+    } else if (tabId === 'prayerTab') {
+        // Call refreshMapView() when the prayerTab is opened
+        // Ensure refreshMapView is defined in prayer-times.js and accessible globally
+        if (typeof refreshMapView === 'function') {
+            refreshMapView();
+        }
+    } else if (tabId === 'quranTab') {
+        // Call initQuranPlayer() if it needs re-initialization or update on tab switch
+        if (typeof initQuranPlayer === 'function') {
+            initQuranPlayer();
+        }
     }
-  });
-
-  const tabButtons = document.querySelectorAll('.tab-button');
-  tabButtons.forEach(tabButton => {
-    tabButton.classList.remove('active');
-  });
-
-  const targetTab = document.getElementById(tabId);
-  targetTab.style.display = 'block';
-  setTimeout(() => {
-    targetTab.classList.add('active');
-  }, 10);
-
-  element.classList.add('active');
-
-  if (tabId === 'mainTab') {
-      if (currentAzkarType === '') {
-          renderMainPage();
-      } else {
-          renderAzkarPage();
-          displayAzkar(azkarIndex);
-      }
-  } else if (tabId === 'settingsTab') {
-      loadSettings();
-      const fontSizeRange = document.getElementById('fontSizeRange');
-      if (fontSizeRange) {
-          document.getElementById('fontSizeValue').textContent = `${fontSizeRange.value}em`;
-      }
-  } else if (tabId === 'statsTab') {
-      updateStatsDisplay();
-  } else if (tabId === 'prayerTab') { // <--- ADDED THIS BLOCK
-      // Call refreshMapView() when the prayerTab is opened
-      if (typeof refreshMapView === 'function') {
-          refreshMapView();
-      }
-  }
-  updateProgressBar();
-  closeNav();
-  exitFocusMode();
+    // No need to manually manage active classes or display: block/none here, Bootstrap handles it.
+    updateProgressBar();
+    closeNav(); // Close side nav if open
+    exitFocusMode(); // Exit focus mode if active
 }
-// Side Navigation
+
+// Side Navigation (Still relevant for the side menu)
 function populateSideNav() {
     const sidenavAzkarList = document.getElementById('sidenavAzkarList');
     if (!sidenavAzkarList) return;
@@ -1185,84 +1190,69 @@ function exitFocusMode() {
 }
 
 // PWA Installation
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const installAppBtn = document.getElementById('installAppBtn');
-  if (installAppBtn) {
-    installAppBtn.style.display = 'inline-block';
-    installAppBtn.addEventListener('click', () => {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt');
-        } else {
-          console.log('User dismissed the A2HS prompt');
-        }
-        deferredPrompt = null;
-        installAppBtn.style.display = 'none';
-      });
-    });
-  }
-});
+// Note: This block is already present in your original code and handles the PWA install prompt.
+// It's good to keep it as is.
+// window.addEventListener('beforeinstallprompt', (e) => { ... });
+// window.addEventListener('appinstalled', () => { ... });
+
 
 // Notification Permission
 function checkNotificationPermission() {
-  if (!('Notification' in window)) {
-    console.log('This browser does not support notifications.');
-    notificationPermission = 'denied';
+    if (!('Notification' in window)) {
+        console.log('This browser does not support notifications.');
+        notificationPermission = 'denied';
+        updateNotificationToggleButton();
+        return;
+    }
+    notificationPermission = Notification.permission;
     updateNotificationToggleButton();
-    return;
-  }
-
-  notificationPermission = Notification.permission;
-  updateNotificationToggleButton();
 }
 
 function updateNotificationToggleButton() {
-  const notificationToggle = document.getElementById('notificationToggle');
-  const notificationText = document.getElementById('notificationText');
-  if (!notificationToggle || !notificationText) return;
+    const notificationToggle = document.getElementById('notificationToggle');
+    const notificationText = document.getElementById('notificationText');
+    if (!notificationToggle || !notificationText) return;
 
-  if (notificationPermission === 'granted') {
-    notificationText.textContent = 'مفعل';
-    notificationToggle.style.background = 'var(--button-bg-skip)';
-  } else if (notificationPermission === 'denied') {
-    notificationText.textContent = 'محظور';
-    notificationToggle.style.background = '#9e9e9e';
-    notificationToggle.disabled = true;
-  } else {
-    notificationText.textContent = 'غير مفعل';
-    notificationToggle.style.background = 'var(--button-bg-install)';
-    notificationToggle.disabled = false;
-  }
+    if (notificationPermission === 'granted') {
+        notificationText.textContent = 'مفعل';
+        notificationToggle.style.background = 'var(--button-bg-skip)';
+        notificationToggle.disabled = false; // Should be enabled if granted to allow user to try disabling via browser settings
+    } else if (notificationPermission === 'denied') {
+        notificationText.textContent = 'محظور';
+        notificationToggle.style.background = '#9e9e9e';
+        notificationToggle.disabled = true; // Disable if denied, user must change in browser settings
+    } else { // 'default'
+        notificationText.textContent = 'غير مفعل';
+        notificationToggle.style.background = 'var(--button-bg-install)';
+        notificationToggle.disabled = false;
+    }
 }
 
 function toggleAzkarNotification() {
-  if (!('Notification' in window)) {
-    alert('متصفحك لا يدعم الإشعارات.');
-    return;
-  }
+    if (!('Notification' in window)) {
+        openModal('خطأ', 'متصفحك لا يدعم الإشعارات.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+        return;
+    }
 
-  if (notificationPermission === 'granted') {
-    alert('الإشعارات مفعلة بالفعل. لإيقافها، يرجى تغيير الإعدادات في متصفحك.');
-    notificationPermission = 'default';
-  } else if (notificationPermission === 'default') {
-    Notification.requestPermission().then(permission => {
-      notificationPermission = permission;
-      if (permission === 'granted') {
-        alert('تم تفعيل إذن الإشعارات بنجاح. (ملاحظة: هذا مجرد تفعيل للإذن، وليست إشعارات مجدولة)');
-      } else {
-        alert('تم رفض تفعيل إذن الإشعارات.');
-      }
-      updateNotificationToggleButton();
-      saveSettings();
-    });
-  } else if (notificationPermission === 'denied') {
-    alert('الإشعارات محظورة لمتصفحك. الرجاء تغيير الإعدادات في متصفحك للسماح بالإشعارات لهذا الموقع.');
-  }
-  updateNotificationToggleButton();
-  saveSettings();
+    if (notificationPermission === 'granted') {
+        openModal('الإشعارات مفعلة', 'الإشعارات مفعلة بالفعل. لإيقافها، يرجى تغيير الإعدادات في متصفحك.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+        // No change to notificationPermission here, as user must change in browser settings
+    } else if (notificationPermission === 'default') {
+        Notification.requestPermission().then(permission => {
+            notificationPermission = permission;
+            if (permission === 'granted') {
+                openModal('تم التفعيل', 'تم تفعيل إذن الإشعارات بنجاح. (ملاحظة: هذا مجرد تفعيل للإذن، وليست إشعارات مجدولة)', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+            } else {
+                openModal('تم الرفض', 'تم رفض تفعيل إذن الإشعارات.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+            }
+            updateNotificationToggleButton();
+            saveSettings();
+        });
+    } else if (notificationPermission === 'denied') {
+        openModal('الإشعارات محظورة', 'الإشعارات محظورة لمتصفحك. الرجاء تغيير الإعدادات في متصفحك للسماح بالإشعارات لهذا الموقع.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+    }
+    updateNotificationToggleButton();
+    saveSettings();
 }
 
 // Stats Management
@@ -1276,78 +1266,68 @@ function updateStatsDisplay() {
     if (lastSessionDateEl) lastSessionDateEl.textContent = stats.lastSessionDate || 'لا توجد';
 }
 
-// Initial setup
+// Initial setup - Consolidated DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
-  loadSettings();
-  renderMainPage();
-  checkNotificationPermission();
-  updateStatsDisplay();
+    loadSettings();
+    renderMainPage(); // Render the initial Azkar selection page
+    checkNotificationPermission();
+    updateStatsDisplay();
 
-  // 📦 Enhanced install prompt handling
-  let deferredPrompt = null;
+    // PWA Installation Prompt Logic (original from your code)
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const installBtn = document.getElementById('installAppBtn');
+        if (installBtn) {
+            installBtn.style.display = 'inline-block';
+            installBtn.disabled = false;
+            if (!installBtn.classList.contains('install-ready')) {
+                installBtn.classList.add('install-ready');
+                installBtn.addEventListener('click', async () => {
+                    if (!deferredPrompt) return;
+                    installBtn.disabled = true;
+                    await deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        console.log(' ✅  User accepted the installation');
+                        installBtn.style.display = 'none';
+                        //  📊  Track install response (Google Analytics example)
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'app_installed', {
+                                event_category: 'PWA',
+                                event_label: 'Fazazi Azkar',
+                            });
+                        }
+                    } else {
+                        console.log(' 🚫  User dismissed the installation');
+                        installBtn.disabled = false;
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+    });
 
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-
-    const installBtn = document.getElementById('installAppBtn');
-    if (installBtn) {
-      installBtn.style.display = 'inline-block';
-      installBtn.disabled = false;
-
-      if (!installBtn.classList.contains('install-ready')) {
-        installBtn.classList.add('install-ready');
-        installBtn.addEventListener('click', async () => {
-          if (!deferredPrompt) return;
-
-          installBtn.disabled = true;
-          await deferredPrompt.prompt();
-
-          const { outcome } = await deferredPrompt.userChoice;
-          if (outcome === 'accepted') {
-            console.log('✅ User accepted the installation');
+    window.addEventListener('appinstalled', () => {
+        console.log(' 📱  Fazazi Azkar installed successfully!');
+        const installBtn = document.getElementById('installAppBtn');
+        if (installBtn) {
             installBtn.style.display = 'none';
-
-            // 📊 Track install response (Google Analytics example)
-            if (typeof gtag === 'function') {
-              gtag('event', 'app_installed', {
+        }
+        //  📊  Optional additional analytics tracking
+        if (typeof gtag === 'function') {
+            gtag('event', 'install_success', {
                 event_category: 'PWA',
                 event_label: 'Fazazi Azkar',
-              });
-            }
-          } else {
-            console.log('🚫 User dismissed the installation');
-            installBtn.disabled = false;
-          }
+            });
+        }
+        //  🚀  Optional toast or feedback
+        // showToast(" 🎉  تم تثبيت التطبيق بنجاح!");
+    });
 
-          deferredPrompt = null;
-        });
-      }
-    }
-  });
-
-  window.addEventListener('appinstalled', () => {
-    console.log('📱 Fazazi Azkar installed successfully!');
-    const installBtn = document.getElementById('installAppBtn');
-    if (installBtn) {
-      installBtn.style.display = 'none';
-    }
-
-    // 📊 Optional additional analytics tracking
-    if (typeof gtag === 'function') {
-      gtag('event', 'install_success', {
-        event_category: 'PWA',
-        event_label: 'Fazazi Azkar',
-      });
-    }
-
-    // 🚀 Optional toast or feedback
-    // showToast("🎉 تم تثبيت التطبيق بنجاح!");
-  });
-      // --- Start of Share App functionality (can be added to app.js) ---
-document.addEventListener('DOMContentLoaded', () => {
+    // Share App functionality (moved here from script.js)
     const shareAppBtn = document.getElementById('shareAppBtn');
-
     if (shareAppBtn) {
         shareAppBtn.addEventListener('click', async () => {
             const shareData = {
@@ -1371,20 +1351,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     el.select();
                     document.execCommand('copy');
                     document.body.removeChild(el);
-                    
-                    // Replace alert with a custom message box if you have one, otherwise alert is acceptable for this fallback
-                    // For now, I'll use a simple alert as a fallback, but a custom modal is preferred.
-                    alert('تم نسخ رابط التطبيق إلى الحافظة! يمكنك الآن مشاركته.');
+
+                    openModal('تم النسخ', 'تم نسخ رابط التطبيق إلى الحافظة! يمكنك الآن مشاركته.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
                     console.log('App URL copied to clipboard:', shareData.url);
                 }
             } catch (err) {
                 console.error('Error sharing the app:', err);
-                // Use a custom message box here if available
-                alert('تعذر مشاركة التطبيق. الرجاء المحاولة مرة أخرى.');
+                openModal('خطأ في المشاركة', 'تعذر مشاركة التطبيق. الرجاء المحاولة مرة أخرى.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
             }
         });
     }
 });
-// --- End of Share App functionality ---
-});
-
