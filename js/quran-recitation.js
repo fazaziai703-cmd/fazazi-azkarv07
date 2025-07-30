@@ -27,250 +27,136 @@ async function fetchAllSurahs() {
         } else {
             console.error('Failed to fetch surahs from Al-Quran Cloud API:', data.status, data.data);
             // Fallback to a hardcoded list if API fails
-            allQuranSurahs = [
-                { number: 1, name: 'Al-Fatiha', arabicName: 'الفاتحة', ayahs: 7 },
-                { number: 2, name: 'Al-Baqarah', arabicName: 'البقرة', ayahs: 286 },
-                { number: 3, name: 'Al-Imran', arabicName: 'آل عمران', ayahs: 200 },
-                { number: 4, name: 'An-Nisa', arabicName: 'النساء', ayahs: 176 },
-                { number: 5, name: 'Al-Maidah', arabicName: 'المائدة', ayahs: 120 },
-                { number: 6, name: 'Al-Anam', arabicName: 'الأنعام', ayahs: 165 },
-                { number: 7, name: 'Al-Araf', arabicName: 'الأعراف', ayahs: 206 },
-                { number: 8, name: 'Al-Anfal', arabicName: 'الأنفال', ayahs: 75 },
-                { number: 9, name: 'At-Tawbah', arabicName: 'التوبة', ayahs: 129 },
-                { number: 10, name: 'Yunus', arabicName: 'يونس', ayahs: 109 },
-                { number: 11, name: 'Hud', arabicName: 'هود', ayahs: 123 },
-                { number: 12, name: 'Yusuf', arabicName: 'يوسف', ayahs: 111 },
-                { number: 13, name: 'Ar-Rad', arabicName: 'الرعد', ayahs: 43 },
-                { number: 14, name: 'Ibrahim', arabicName: 'ابراهيم', ayahs: 52 },
-                { number: 15, name: 'Al-Hijr', arabicName: 'الحجر', ayahs: 99 },
-                { number: 16, name: 'An-Nahl', arabicName: 'النحل', ayahs: 128 },
-                { number: 17, name: 'Al-Isra', arabicName: 'الإسراء', ayahs: 111 },
-                { number: 18, name: 'Al-Kahf', arabicName: 'الكهف', ayahs: 110 },
-                { number: 19, name: 'Maryam', arabicName: 'مريم', ayahs: 98 },
-                { number: 20, name: 'Taha', arabicName: 'طه', ayahs: 135 },
-                { number: 21, name: 'Al-Anbiya', arabicName: 'الأنبياء', ayahs: 112 },
-                { number: 22, name: 'Al-Hajj', arabicName: 'الحج', ayahs: 78 },
-                { number: 23, name: 'Al-Muminun', arabicName: 'المؤمنون', ayahs: 118 },
-                { number: 24, name: 'An-Nur', arabicName: 'النور', ayahs: 64 },
-                { number: 25, name: 'Al-Furqan', arabicName: 'الفرقان', ayahs: 77 },
-                { number: 26, name: 'Ash-Shuara', arabicName: 'الشعراء', ayahs: 227 },
-                { number: 27, name: 'An-Naml', arabicName: 'النمل', ayahs: 93 },
-                { number: 28, name: 'Al-Qasas', arabicName: 'القصص', ayahs: 88 },
-                { number: 29, name: 'Al-Ankabut', arabicName: 'العنكبوت', ayahs: 69 },
-                { number: 30, name: 'Ar-Rum', arabicName: 'الروم', ayahs: 60 },
-                { number: 31, name: 'Luqman', arabicName: 'لقمان', ayahs: 34 },
-                { number: 32, name: 'As-Sajdah', arabicName: 'السجدة', ayahs: 30 },
-                { number: 33, name: 'Al-Ahzab', arabicName: 'الأحزاب', ayahs: 73 },
-                { number: 34, name: 'Saba', arabicName: 'سبأ', ayahs: 54 },
-                { number: 35, name: 'Fatir', arabicName: 'فاطر', ayahs: 45 },
-                { number: 36, name: 'Ya-Sin', arabicName: 'يس', ayahs: 83 },
-                { number: 37, name: 'As-Saffat', arabicName: 'الصافات', ayahs: 182 },
-                { number: 38, name: 'Sad', arabicName: 'ص', ayahs: 88 },
-                { number: 39, name: 'Az-Zumar', arabicName: 'الزمر', ayahs: 75 },
-                { number: 40, name: 'Ghafir', arabicName: 'غافر', ayahs: 85 },
-                { number: 41, name: 'Fussilat', arabicName: 'فصلت', ayahs: 54 },
-                { number: 42, name: 'Ash-Shuraa', arabicName: 'الشورى', ayahs: 53 },
-                { number: 43, name: 'Az-Zukhruf', arabicName: 'الزخرف', ayahs: 89 },
-                { number: 44, name: 'Ad-Dukhan', arabicName: 'الدخان', ayahs: 59 },
-                { number: 45, name: 'Al-Jathiyah', arabicName: 'الجاثية', ayahs: 37 },
-                { number: 46, name: 'Al-Ahqaf', arabicName: 'الأحقاف', ayahs: 35 },
-                { number: 47, name: 'Muhammad', arabicName: 'محمد', ayahs: 38 },
-                { number: 48, name: 'Al-Fath', arabicName: 'الفتح', ayahs: 29 },
-                { number: 49, name: 'Al-Hujurat', arabicName: 'الحجرات', ayahs: 18 },
-                { number: 50, name: 'Qaf', arabicName: 'ق', ayahs: 45 },
-                { number: 51, name: 'Adh-Dhariyat', arabicName: 'الذاريات', ayahs: 60 },
-                { number: 52, name: 'At-Tur', arabicName: 'الطور', ayahs: 49 },
-                { number: 53, name: 'An-Najm', arabicName: 'النجم', ayahs: 62 },
-                { number: 54, name: 'Al-Qamar', arabicName: 'القمر', ayahs: 55 },
-                { number: 55, name: 'Ar-Rahman', arabicName: 'الرحمن', ayahs: 78 },
-                { number: 56, name: 'Al-Waqiah', arabicName: 'الواقعة', ayahs: 96 },
-                { number: 57, name: 'Al-Hadid', arabicName: 'الحديد', ayahs: 29 },
-                { number: 58, name: 'Al-Mujadila', arabicName: 'المجادلة', ayahs: 22 },
-                { number: 59, name: 'Al-Hashr', arabicName: 'الحشر', ayahs: 24 },
-                { number: 60, name: 'Al-Mumtahanah', arabicName: 'الممتحنة', ayahs: 13 },
-                { number: 61, name: 'As-Saff', arabicName: 'الصف', ayahs: 14 },
-                { number: 62, name: 'Al-Jumuah', arabicName: 'الجمعة', ayahs: 11 },
-                { number: 63, name: 'Al-Munafiqun', arabicName: 'المنافقون', ayahs: 11 },
-                { number: 64, name: 'At-Taghabun', arabicName: 'التغابن', ayahs: 18 },
-                { number: 65, name: 'At-Talaq', arabicName: 'الطلاق', ayahs: 12 },
-                { number: 66, name: 'At-Tahrim', arabicName: 'التحريم', ayahs: 12 },
-                { number: 67, name: 'Al-Mulk', arabicName: 'الملك', ayahs: 30 },
-                { number: 68, name: 'Al-Qalam', arabicName: 'القلم', ayahs: 52 },
-                { number: 69, name: 'Al-Haqqah', arabicName: 'الحاقة', ayahs: 52 },
-                { number: 70, name: 'Al-Maarij', arabicName: 'المعارج', ayahs: 44 },
-                { number: 71, name: 'Nuh', arabicName: 'نوح', ayahs: 28 },
-                { number: 72, name: 'Al-Jinn', arabicName: 'الجن', ayahs: 28 },
-                { number: 73, name: 'Al-Muzzammil', arabicName: 'المزمل', ayahs: 20 },
-                { number: 74, name: 'Al-Muddaththir', arabicName: 'المدثر', ayahs: 56 },
-                { number: 75, name: 'Al-Qiyamah', arabicName: 'القيامة', ayahs: 40 },
-                { number: 76, name: 'Al-Insan', arabicName: 'الانسان', ayahs: 31 },
-                { number: 77, name: 'Al-Mursalat', arabicName: 'المرسلات', ayahs: 50 },
-                { number: 78, name: 'An-Naba', arabicName: 'النبأ', ayahs: 40 },
-                { number: 79, name: 'An-Naziat', arabicName: 'النازعات', ayahs: 46 },
-                { number: 80, name: 'Abasa', arabicName: 'عبس', ayahs: 42 },
-                { number: 81, name: 'At-Takwir', arabicName: 'التكوير', ayahs: 29 },
-                { number: 82, name: 'Al-Infitar', arabicName: 'الانفطار', ayahs: 19 },
-                { number: 83, name: 'Al-Mutaffifin', arabicName: 'المطففين', ayahs: 36 },
-                { number: 84, name: 'Al-Inshiqaq', arabicName: 'الانشقاق', ayahs: 25 },
-                { number: 85, name: 'Al-Buruj', arabicName: 'البروج', ayahs: 22 },
-                { number: 86, name: 'At-Tariq', arabicName: 'الطارق', ayahs: 17 },
-                { number: 87, name: 'Al-Ala', arabicName: 'الأعلى', ayahs: 19 },
-                { number: 88, name: 'Al-Ghashiyah', arabicName: 'الغاشية', ayahs: 26 },
-                { number: 89, name: 'Al-Fajr', arabicName: 'الفجر', ayahs: 30 },
-                { number: 90, name: 'Al-Balad', arabicName: 'البلد', ayahs: 20 },
-                { number: 91, name: 'Ash-Shams', arabicName: 'الشمس', ayahs: 15 },
-                { number: 92, name: 'Al-Layl', arabicName: 'الليل', ayahs: 21 },
-                { number: 93, name: 'Ad-Duhaa', arabicName: 'الضحى', ayahs: 11 },
-                { number: 94, name: 'Ash-Sharh', arabicName: 'الشرح', ayahs: 8 },
-                { number: 95, name: 'At-Tin', arabicName: 'التين', ayahs: 8 },
-                { number: 96, name: 'Al-Alaq', arabicName: 'العلق', ayahs: 19 },
-                { number: 97, name: 'Al-Qadr', arabicName: 'القدر', ayahs: 5 },
-                { number: 98, name: 'Al-Bayyinah', arabicName: 'البينة', ayahs: 8 },
-                { number: 99, name: 'Az-Zalzalah', arabicName: 'الزلزلة', ayahs: 8 },
-                { number: 100, name: 'Al-Adiyat', arabicName: 'العاديات', ayahs: 11 },
-                { number: 101, name: 'Al-Qariah', arabicName: 'القارعة', ayahs: 11 },
-                { number: 102, name: 'At-Takathur', arabicName: 'التكاثر', ayahs: 8 },
-                { number: 103, name: 'Al-Asr', arabicName: 'العصر', ayahs: 3 },
-                { number: 104, name: 'Al-Humazah', arabicName: 'الهمزة', ayahs: 9 },
-                { number: 105, name: 'Al-Fil', arabicName: 'الفيل', ayahs: 5 },
-                { number: 106, name: 'Quraysh', arabicName: 'قريش', ayahs: 4 },
-                { number: 107, name: 'Al-Maun', arabicName: 'الماعون', ayahs: 7 },
-                { number: 108, name: 'Al-Kawthar', arabicName: 'الكوثر', ayahs: 3 },
-                { number: 109, name: 'Al-Kafirun', arabicName: 'الكافرون', ayahs: 6 },
-                { number: 110, name: 'An-Nasr', arabicName: 'النصر', ayahs: 3 },
-                { number: 111, name: 'Al-Masad', arabicName: 'المسد', ayahs: 5 },
-                { number: 112, name: 'Al-Ikhlas', arabicName: 'الإخلاص', ayahs: 4 },
-                { number: 113, name: 'Al-Falaq', arabicName: 'الفلق', ayahs: 5 },
-                { number: 114, name: 'An-Nas', arabicName: 'الناس', ayahs: 6 }
-            ];
-            populateSurahSelect();
-            document.getElementById('surahSelect').value = currentSurahNumber;
-            // updateAudioSource will be called after reciters are fetched and set up
+            setHardcodedSurahs();
         }
     } catch (error) {
         console.error('Error fetching surahs:', error);
         // Fallback to a hardcoded list if fetch fails
-        allQuranSurahs = [
-            { number: 1, name: 'Al-Fatiha', arabicName: 'الفاتحة', ayahs: 7 },
-            { number: 2, name: 'Al-Baqarah', arabicName: 'البقرة', ayahs: 286 },
-            { number: 3, name: 'Al-Imran', arabicName: 'آل عمران', ayahs: 200 },
-            { number: 4, name: 'An-Nisa', arabicName: 'النساء', ayahs: 176 },
-            { number: 5, name: 'Al-Maidah', arabicName: 'المائدة', ayahs: 120 },
-            { number: 6, name: 'Al-Anam', arabicName: 'الأنعام', ayahs: 165 },
-            { number: 7, name: 'Al-Araf', arabicName: 'الأعراف', ayahs: 206 },
-            { number: 8, name: 'Al-Anfal', arabicName: 'الأنفال', ayahs: 75 },
-            { number: 9, name: 'At-Tawbah', arabicName: 'التوبة', ayahs: 129 },
-            { number: 10, name: 'Yunus', arabicName: 'يونس', ayahs: 109 },
-            { number: 11, name: 'Hud', arabicName: 'هود', ayahs: 123 },
-            { number: 12, name: 'Yusuf', arabicName: 'يوسف', ayahs: 111 },
-            { number: 13, name: 'Ar-Rad', arabicName: 'الرعد', ayahs: 43 },
-            { number: 14, name: 'Ibrahim', arabicName: 'ابراهيم', ayahs: 52 },
-            { number: 15, name: 'Al-Hijr', arabicName: 'الحجر', ayahs: 99 },
-            { number: 16, name: 'An-Nahl', arabicName: 'النحل', ayahs: 128 },
-            { number: 17, name: 'Al-Isra', arabicName: 'الإسراء', ayahs: 111 },
-            { number: 18, name: 'Al-Kahf', arabicName: 'الكهف', ayahs: 110 },
-            { number: 19, name: 'Maryam', arabicName: 'مريم', ayahs: 98 },
-            { number: 20, name: 'Taha', arabicName: 'طه', ayahs: 135 },
-            { number: 21, name: 'Al-Anbiya', arabicName: 'الأنبياء', ayahs: 112 },
-            { number: 22, name: 'Al-Hajj', arabicName: 'الحج', ayahs: 78 },
-            { number: 23, name: 'Al-Muminun', arabicName: 'المؤمنون', ayahs: 118 },
-            { number: 24, name: 'An-Nur', arabicName: 'النور', ayahs: 64 },
-            { number: 25, name: 'Al-Furqan', arabicName: 'الفرقان', ayahs: 77 },
-            { number: 26, name: 'Ash-Shuara', arabicName: 'الشعراء', ayahs: 227 },
-            { number: 27, name: 'An-Naml', arabicName: 'النمل', ayahs: 93 },
-            { number: 28, name: 'Al-Qasas', arabicName: 'القصص', ayahs: 88 },
-            { number: 29, name: 'Al-Ankabut', arabicName: 'العنكبوت', ayahs: 69 },
-            { number: 30, name: 'Ar-Rum', arabicName: 'الروم', ayahs: 60 },
-            { number: 31, name: 'Luqman', arabicName: 'لقمان', ayahs: 34 },
-            { number: 32, name: 'As-Sajdah', arabicName: 'السجدة', ayahs: 30 },
-            { number: 33, name: 'Al-Ahzab', arabicName: 'الأحزاب', ayahs: 73 },
-            { number: 34, name: 'Saba', arabicName: 'سبأ', ayahs: 54 },
-            { number: 35, name: 'Fatir', arabicName: 'فاطر', ayahs: 45 },
-            { number: 36, name: 'Ya-Sin', arabicName: 'يس', ayahs: 83 },
-            { number: 37, name: 'As-Saffat', arabicName: 'الصافات', ayahs: 182 },
-            { number: 38, name: 'Sad', arabicName: 'ص', ayahs: 88 },
-            { number: 39, name: 'Az-Zumar', arabicName: 'الزمر', ayahs: 75 },
-            { number: 40, name: 'Ghafir', arabicName: 'غافر', ayahs: 85 },
-            { number: 41, name: 'Fussilat', arabicName: 'فصلت', ayahs: 54 },
-            { number: 42, name: 'Ash-Shuraa', arabicName: 'الشورى', ayahs: 53 },
-            { number: 43, name: 'Az-Zukhruf', arabicName: 'الزخرف', ayahs: 89 },
-            { number: 44, name: 'Ad-Dukhan', arabicName: 'الدخان', ayahs: 59 },
-            { number: 45, name: 'Al-Jathiyah', arabicName: 'الجاثية', ayahs: 37 },
-            { number: 46, name: 'Al-Ahqaf', arabicName: 'الأحقاف', ayahs: 35 },
-            { number: 47, name: 'Muhammad', arabicName: 'محمد', ayahs: 38 },
-            { number: 48, name: 'Al-Fath', arabicName: 'الفتح', ayahs: 29 },
-            { number: 49, name: 'Al-Hujurat', arabicName: 'الحجرات', ayahs: 18 },
-            { number: 50, name: 'Qaf', arabicName: 'ق', ayahs: 45 },
-            { number: 51, name: 'Adh-Dhariyat', arabicName: 'الذاريات', ayahs: 60 },
-            { number: 52, name: 'At-Tur', arabicName: 'الطور', ayahs: 49 },
-            { number: 53, name: 'An-Najm', arabicName: 'النجم', ayahs: 62 },
-            { number: 54, name: 'Al-Qamar', arabicName: 'القمر', ayahs: 55 },
-            { number: 55, name: 'Ar-Rahman', arabicName: 'الرحمن', ayahs: 78 },
-            { number: 56, name: 'Al-Waqiah', arabicName: 'الواقعة', ayahs: 96 },
-            { number: 57, name: 'Al-Hadid', arabicName: 'الحديد', ayahs: 29 },
-            { number: 58, name: 'Al-Mujadila', arabicName: 'المجادلة', ayahs: 22 },
-            { number: 59, name: 'Al-Hashr', arabicName: 'الحشر', ayahs: 24 },
-            { number: 60, name: 'Al-Mumtahanah', arabicName: 'الممتحنة', ayahs: 13 },
-            { number: 61, name: 'As-Saff', arabicName: 'الصف', ayahs: 14 },
-            { number: 62, name: 'Al-Jumuah', arabicName: 'الجمعة', ayahs: 11 },
-            { number: 63, name: 'Al-Munafiqun', arabicName: 'المنافقون', ayahs: 11 },
-            { number: 64, name: 'At-Taghabun', arabicName: 'التغابن', ayahs: 18 },
-            { number: 65, name: 'At-Talaq', arabicName: 'الطلاق', ayahs: 12 },
-            { number: 66, name: 'At-Tahrim', arabicName: 'التحريم', ayahs: 12 },
-            { number: 67, name: 'Al-Mulk', arabicName: 'الملك', ayahs: 30 },
-            { number: 68, name: 'Al-Qalam', arabicName: 'القلم', ayahs: 52 },
-            { number: 69, name: 'Al-Haqqah', arabicName: 'الحاقة', ayahs: 52 },
-            { number: 70, name: 'Al-Maarij', arabicName: 'المعارج', ayahs: 44 },
-            { number: 71, name: 'Nuh', arabicName: 'نوح', ayahs: 28 },
-            { number: 72, name: 'Al-Jinn', arabicName: 'الجن', ayahs: 28 },
-            { number: 73, name: 'Al-Muzzammil', arabicName: 'المزمل', ayahs: 20 },
-            { number: 74, name: 'Al-Muddaththir', arabicName: 'المدثر', ayahs: 56 },
-            { number: 75, name: 'Al-Qiyamah', arabicName: 'القيامة', ayahs: 40 },
-            { number: 76, name: 'Al-Insan', arabicName: 'الانسان', ayahs: 31 },
-            { number: 77, name: 'Al-Mursalat', arabicName: 'المرسلات', ayahs: 50 },
-            { number: 78, name: 'An-Naba', arabicName: 'النبأ', ayahs: 40 },
-            { number: 79, name: 'An-Naziat', arabicName: 'النازعات', ayahs: 46 },
-            { number: 80, name: 'Abasa', arabicName: 'عبس', ayahs: 42 },
-            { number: 81, name: 'At-Takwir', arabicName: 'التكوير', ayahs: 29 },
-            { number: 82, name: 'Al-Infitar', arabicName: 'الانفطار', ayahs: 19 },
-            { number: 83, name: 'Al-Mutaffifin', arabicName: 'المطففين', ayahs: 36 },
-            { number: 84, name: 'Al-Inshiqaq', arabicName: 'الانشقاق', ayahs: 25 },
-            { number: 85, name: 'Al-Buruj', arabicName: 'البروج', ayahs: 22 },
-            { number: 86, name: 'At-Tariq', arabicName: 'الطارق', ayahs: 17 },
-            { number: 87, name: 'Al-Ala', arabicName: 'الأعلى', ayahs: 19 },
-            { number: 88, name: 'Al-Ghashiyah', arabicName: 'الغاشية', ayahs: 26 },
-            { number: 89, name: 'Al-Fajr', arabicName: 'الفجر', ayahs: 30 },
-            { number: 90, name: 'Al-Balad', arabicName: 'البلد', ayahs: 20 },
-            { number: 91, name: 'Ash-Shams', arabicName: 'الشمس', ayahs: 15 },
-            { number: 92, name: 'Al-Layl', arabicName: 'الليل', ayahs: 21 },
-            { number: 93, name: 'Ad-Duhaa', arabicName: 'الضحى', ayahs: 11 },
-            { number: 94, name: 'Ash-Sharh', arabicName: 'الشرح', ayahs: 8 },
-            { number: 95, name: 'At-Tin', arabicName: 'التين', ayahs: 8 },
-            { number: 96, name: 'Al-Alaq', arabicName: 'العلق', ayahs: 19 },
-            { number: 97, name: 'Al-Qadr', arabicName: 'القدر', ayahs: 5 },
-            { number: 98, name: 'Al-Bayyinah', arabicName: 'البينة', ayahs: 8 },
-            { number: 99, name: 'Az-Zalzalah', arabicName: 'الزلزلة', ayahs: 8 },
-            { number: 100, name: 'Al-Adiyat', arabicName: 'العاديات', ayahs: 11 },
-            { number: 101, name: 'Al-Qariah', arabicName: 'القارعة', ayahs: 11 },
-            { number: 102, name: 'At-Takathur', arabicName: 'التكاثر', ayahs: 8 },
-            { number: 103, name: 'Al-Asr', arabicName: 'العصر', ayahs: 3 },
-            { number: 104, name: 'Al-Humazah', arabicName: 'الهمزة', ayahs: 9 },
-            { number: 105, name: 'Al-Fil', arabicName: 'الفيل', ayahs: 5 },
-            { number: 106, name: 'Quraysh', arabicName: 'قريش', ayahs: 4 },
-            { number: 107, name: 'Al-Maun', arabicName: 'الماعون', ayahs: 7 },
-            { number: 108, name: 'Al-Kawthar', arabicName: 'الكوثر', ayahs: 3 },
-            { number: 109, name: 'Al-Kafirun', arabicName: 'الكافرون', ayahs: 6 },
-            { number: 110, name: 'An-Nasr', arabicName: 'النصر', ayahs: 3 },
-            { number: 111, name: 'Al-Masad', arabicName: 'المسد', ayahs: 5 },
-            { number: 112, name: 'Al-Ikhlas', arabicName: 'الإخلاص', ayahs: 4 },
-            { number: 113, name: 'Al-Falaq', arabicName: 'الفلق', ayahs: 5 },
-            { number: 114, name: 'An-Nas', arabicName: 'الناس', ayahs: 6 }
-        ];
-        populateSurahSelect();
-        document.getElementById('surahSelect').value = currentSurahNumber;
-        // updateAudioSource will be called after reciters are fetched and set up
+        setHardcodedSurahs();
     }
 }
+
+function setHardcodedSurahs() {
+    allQuranSurahs = [
+        { number: 1, name: 'Al-Fatiha', arabicName: 'الفاتحة', ayahs: 7 },
+        { number: 2, name: 'Al-Baqarah', arabicName: 'البقرة', ayahs: 286 },
+        { number: 3, name: 'Al-Imran', arabicName: 'آل عمران', ayahs: 200 },
+        { number: 4, name: 'An-Nisa', arabicName: 'النساء', ayahs: 176 },
+        { number: 5, name: 'Al-Maidah', arabicName: 'المائدة', ayahs: 120 },
+        { number: 6, name: 'Al-Anam', arabicName: 'الأنعام', ayahs: 165 },
+        { number: 7, name: 'Al-Araf', arabicName: 'الأعراف', ayahs: 206 },
+        { number: 8, name: 'Al-Anfal', arabicName: 'الأنفال', ayahs: 75 },
+        { number: 9, name: 'At-Tawbah', arabicName: 'التوبة', ayahs: 129 },
+        { number: 10, name: 'Yunus', arabicName: 'يونس', ayahs: 109 },
+        { number: 11, name: 'Hud', arabicName: 'هود', ayahs: 123 },
+        { number: 12, name: 'Yusuf', arabicName: 'يوسف', ayahs: 111 },
+        { number: 13, name: 'Ar-Rad', arabicName: 'الرعد', ayahs: 43 },
+        { number: 14, name: 'Ibrahim', arabicName: 'ابراهيم', ayahs: 52 },
+        { number: 15, name: 'Al-Hijr', arabicName: 'الحجر', ayahs: 99 },
+        { number: 16, name: 'An-Nahl', arabicName: 'النحل', ayahs: 128 },
+        { number: 17, name: 'Al-Isra', arabicName: 'الإسراء', ayahs: 111 },
+        { number: 18, name: 'Al-Kahf', arabicName: 'الكهف', ayahs: 110 },
+        { number: 19, name: 'Maryam', arabicName: 'مريم', ayahs: 98 },
+        { number: 20, name: 'Taha', arabicName: 'طه', ayahs: 135 },
+        { number: 21, name: 'Al-Anbiya', arabicName: 'الأنبياء', ayahs: 112 },
+        { number: 22, name: 'Al-Hajj', arabicName: 'الحج', ayahs: 78 },
+        { number: 23, name: 'Al-Muminun', arabicName: 'المؤمنون', ayahs: 118 },
+        { number: 24, name: 'An-Nur', arabicName: 'النور', ayahs: 64 },
+        { number: 25, name: 'Al-Furqan', arabicName: 'الفرقان', ayahs: 77 },
+        { number: 26, name: 'Ash-Shuara', arabicName: 'الشعراء', ayahs: 227 },
+        { number: 27, name: 'An-Naml', arabicName: 'النمل', ayahs: 93 },
+        { number: 28, name: 'Al-Qasas', arabicName: 'القصص', ayahs: 88 },
+        { number: 29, name: 'Al-Ankabut', arabicName: 'العنكبوت', ayahs: 69 },
+        { number: 30, name: 'Ar-Rum', arabicName: 'الروم', ayahs: 60 },
+        { number: 31, name: 'Luqman', arabicName: 'لقمان', ayahs: 34 },
+        { number: 32, name: 'As-Sajdah', arabicName: 'السجدة', ayahs: 30 },
+        { number: 33, name: 'Al-Ahzab', arabicName: 'الأحزاب', ayahs: 73 },
+        { number: 34, name: 'Saba', arabicName: 'سبأ', ayahs: 54 },
+        { number: 35, name: 'Fatir', arabicName: 'فاطر', ayahs: 45 },
+        { number: 36, name: 'Ya-Sin', arabicName: 'يس', ayahs: 83 },
+        { number: 37, name: 'As-Saffat', arabicName: 'الصافات', ayahs: 182 },
+        { number: 38, name: 'Sad', arabicName: 'ص', ayahs: 88 },
+        { number: 39, name: 'Az-Zumar', arabicName: 'الزمر', ayahs: 75 },
+        { number: 40, name: 'Ghafir', arabicName: 'غافر', ayahs: 85 },
+        { number: 41, name: 'Fussilat', arabicName: 'فصلت', ayahs: 54 },
+        { number: 42, name: 'Ash-Shuraa', arabicName: 'الشورى', ayahs: 53 },
+        { number: 43, name: 'Az-Zukhruf', arabicName: 'الزخرف', ayahs: 89 },
+        { number: 44, name: 'Ad-Dukhan', arabicName: 'الدخان', ayahs: 59 },
+        { number: 45, name: 'Al-Jathiyah', arabicName: 'الجاثية', ayahs: 37 },
+        { number: 46, name: 'Al-Ahqaf', arabicName: 'الأحقاف', ayahs: 35 },
+        { number: 47, name: 'Muhammad', arabicName: 'محمد', ayahs: 38 },
+        { number: 48, name: 'Al-Fath', arabicName: 'الفتح', ayahs: 29 },
+        { number: 49, name: 'Al-Hujurat', arabicName: 'الحجرات', ayahs: 18 },
+        { number: 50, name: 'Qaf', arabicName: 'ق', ayahs: 45 },
+        { number: 51, name: 'Adh-Dhariyat', arabicName: 'الذاريات', ayahs: 60 },
+        { number: 52, name: 'At-Tur', arabicName: 'الطور', ayahs: 49 },
+        { number: 53, name: 'An-Najm', arabicName: 'النجم', ayahs: 62 },
+        { number: 54, name: 'Al-Qamar', arabicName: 'القمر', ayahs: 55 },
+        { number: 55, name: 'Ar-Rahman', arabicName: 'الرحمن', ayahs: 78 },
+        { number: 56, name: 'Al-Waqiah', arabicName: 'الواقعة', ayahs: 96 },
+        { number: 57, name: 'Al-Hadid', arabicName: 'الحديد', ayahs: 29 },
+        { number: 58, name: 'Al-Mujadila', arabicName: 'المجادلة', ayahs: 22 },
+        { number: 59, name: 'Al-Hashr', arabicName: 'الحشر', ayahs: 24 },
+        { number: 60, name: 'Al-Mumtahanah', arabicName: 'الممتحنة', ayahs: 13 },
+        { number: 61, name: 'As-Saff', arabicName: 'الصف', ayahs: 14 },
+        { number: 62, name: 'Al-Jumuah', arabicName: 'الجمعة', ayahs: 11 },
+        { number: 63, name: 'Al-Munafiqun', arabicName: 'المنافقون', ayahs: 11 },
+        { number: 64, name: 'At-Taghabun', arabicName: 'التغابن', ayahs: 18 },
+        { number: 65, name: 'At-Talaq', arabicName: 'الطلاق', ayahs: 12 },
+        { number: 66, name: 'At-Tahrim', arabicName: 'التحريم', ayahs: 12 },
+        { number: 67, name: 'Al-Mulk', arabicName: 'الملك', ayahs: 30 },
+        { number: 68, name: 'Al-Qalam', arabicName: 'القلم', ayahs: 52 },
+        { number: 69, name: 'Al-Haqqah', arabicName: 'الحاقة', ayahs: 52 },
+        { number: 70, name: 'Al-Maarij', arabicName: 'المعارج', ayahs: 44 },
+        { number: 71, name: 'Nuh', arabicName: 'نوح', ayahs: 28 },
+        { number: 72, name: 'Al-Jinn', arabicName: 'الجن', ayahs: 28 },
+        { number: 73, name: 'Al-Muzzammil', arabicName: 'المزمل', ayahs: 20 },
+        { number: 74, name: 'Al-Muddaththir', arabicName: 'المدثر', ayahs: 56 },
+        { number: 75, name: 'Al-Qiyamah', arabicName: 'القيامة', ayahs: 40 },
+        { number: 76, name: 'Al-Insan', arabicName: 'الانسان', ayahs: 31 },
+        { number: 77, name: 'Al-Mursalat', arabicName: 'المرسلات', ayahs: 50 },
+        { number: 78, name: 'An-Naba', arabicName: 'النبأ', ayahs: 40 },
+        { number: 79, name: 'An-Naziat', arabicName: 'النازعات', ayahs: 46 },
+        { number: 80, name: 'Abasa', arabicName: 'عبس', ayahs: 42 },
+        { number: 81, name: 'At-Takwir', arabicName: 'التكوير', ayahs: 29 },
+        { number: 82, name: 'Al-Infitar', arabicName: 'الانفطار', ayahs: 19 },
+        { number: 83, name: 'Al-Mutaffifin', arabicName: 'المطففين', ayahs: 36 },
+        { number: 84, name: 'Al-Inshiqaq', arabicName: 'الانشقاق', ayahs: 25 },
+        { number: 85, name: 'Al-Buruj', arabicName: 'البروج', ayahs: 22 },
+        { number: 86, name: 'At-Tariq', arabicName: 'الطارق', ayahs: 17 },
+        { number: 87, name: 'Al-Ala', arabicName: 'الأعلى', ayahs: 19 },
+        { number: 88, name: 'Al-Ghashiyah', arabicName: 'الغاشية', ayahs: 26 },
+        { number: 89, name: 'Al-Fajr', arabicName: 'الفجر', ayahs: 30 },
+        { number: 90, name: 'Al-Balad', arabicName: 'البلد', ayahs: 20 },
+        { number: 91, name: 'Ash-Shams', arabicName: 'الشمس', ayahs: 15 },
+        { number: 92, name: 'Al-Layl', arabicName: 'الليل', ayahs: 21 },
+        { number: 93, name: 'Ad-Duhaa', arabicName: 'الضحى', ayahs: 11 },
+        { number: 94, name: 'Ash-Sharh', arabicName: 'الشرح', ayahs: 8 },
+        { number: 95, name: 'At-Tin', arabicName: 'التين', ayahs: 8 },
+        { number: 96, name: 'Al-Alaq', arabicName: 'العلق', ayahs: 19 },
+        { number: 97, name: 'Al-Qadr', arabicName: 'القدر', ayahs: 5 },
+        { number: 98, name: 'Al-Bayyinah', arabicName: 'البينة', ayahs: 8 },
+        { number: 99, name: 'Az-Zalzalah', arabicName: 'الزلزلة', ayahs: 8 },
+        { number: 100, name: 'Al-Adiyat', arabicName: 'العاديات', ayahs: 11 },
+        { number: 101, name: 'Al-Qariah', arabicName: 'القارعة', ayahs: 11 },
+        { number: 102, name: 'At-Takathur', arabicName: 'التكاثر', ayahs: 8 },
+        { number: 103, name: 'Al-Asr', arabicName: 'العصر', ayahs: 3 },
+        { number: 104, name: 'Al-Humazah', arabicName: 'الهمزة', ayahs: 9 },
+        { number: 105, name: 'Al-Fil', arabicName: 'الفيل', ayahs: 5 },
+        { number: 106, name: 'Quraysh', arabicName: 'قريش', ayahs: 4 },
+        { number: 107, name: 'Al-Maun', arabicName: 'الماعون', ayahs: 7 },
+        { number: 108, name: 'Al-Kawthar', arabicName: 'الكوثر', ayahs: 3 },
+        { number: 109, name: 'Al-Kafirun', arabicName: 'الكافرون', ayahs: 6 },
+        { number: 110, name: 'An-Nasr', arabicName: 'النصر', ayahs: 3 },
+        { number: 111, name: 'Al-Masad', arabicName: 'المسد', ayahs: 5 },
+        { number: 112, name: 'Al-Ikhlas', arabicName: 'الإخلاص', ayahs: 4 },
+        { number: 113, name: 'Al-Falaq', arabicName: 'الفلق', ayahs: 5 },
+        { number: 114, name: 'An-Nas', arabicName: 'الناس', ayahs: 6 }
+    ];
+    populateSurahSelect();
+    document.getElementById('surahSelect').value = currentSurahNumber;
+}
+
 
 function populateSurahSelect() {
     const surahSelect = document.getElementById('surahSelect');
@@ -285,68 +171,62 @@ function populateSurahSelect() {
     }
 }
 
-// Function to fetch reciters from mp3quran.net API
+// Function to fetch reciters from Al Quran Cloud API
 async function fetchReciters() {
-    console.log('Fetching reciters...'); // ADDED LOG
+    console.log('Fetching reciters from Al Quran Cloud...');
     try {
-        const response = await fetch('https://mp3quran.net/api/v3/reciters?language=ar'); // Request Arabic names
-        if (!response.ok) { // Check for HTTP errors
+        // Fetch audio editions of type 'quran' which usually means full surah recitations
+        const response = await fetch('https://api.alquran.cloud/v1/edition?format=audio&type=quran');
+        if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Reciters API response data:', data); // ADDED LOG
+        console.log('Al Quran Cloud API response data (editions):', data);
 
-        if (data.reciters && data.reciters.length > 0) {
+        if (data.data && data.data.length > 0) {
             const reciterSelect = document.getElementById('reciterSelect');
             reciterSelect.innerHTML = ''; // Clear existing options
 
-            // UPDATED FILTERING LOGIC
-            const filteredReciters = data.reciters.filter(reciter =>
-                reciter.moshaf.some(m =>
-                    m.name.toLowerCase().includes('hafs') && m.name.toLowerCase().includes('assem')
-                )
-            );
-            console.log('Filtered Reciters (Hafs A\'n Assem):', filteredReciters); // ADDED LOG
+            // Filter for relevant reciters (audio type 'quran')
+            const availableReciters = data.data.filter(edition => edition.format === 'audio' && edition.type === 'quran');
+
+            console.log('Filtered Reciters (Audio, type Quran):', availableReciters);
 
             // Populate quranRecitersMap and reciterSelect
-            filteredReciters.forEach(reciter => {
-                const hafsMoshaf = reciter.moshaf.find(m =>
-                    m.name.toLowerCase().includes('hafs') && m.name.toLowerCase().includes('assem')
-                );
-                if (hafsMoshaf) {
-                    quranRecitersMap[reciter.id] = { // Use reciter.id as the key
-                        name: reciter.name,
-                        baseUrl: hafsMoshaf.server // This is the server URL!
-                    };
+            availableReciters.forEach(reciter => {
+                // Use the identifier as the unique ID for the reciter
+                quranRecitersMap[reciter.identifier] = {
+                    name: reciter.englishName, // Use English name for display
+                    baseUrl: `https://cdn.islamic.network/quran/audio/128/${reciter.identifier}/` // Construct base URL for CDN
+                };
 
-                    const option = document.createElement('option');
-                    option.value = reciter.id;
-                    option.textContent = reciter.name;
-                    reciterSelect.appendChild(option);
-                }
+                const option = document.createElement('option');
+                option.value = reciter.identifier; // Use identifier as value
+                option.textContent = reciter.englishName; // Display English name
+                reciterSelect.appendChild(option);
             });
-            console.log('quranRecitersMap after population:', quranRecitersMap); // ADDED LOG
+            console.log('quranRecitersMap after population:', quranRecitersMap);
 
             // Set initial reciter based on localStorage or default to the first available
             let selectedReciterFound = false;
             if (currentReciterId && quranRecitersMap[currentReciterId]) {
                 reciterSelect.value = currentReciterId;
                 selectedReciterFound = true;
-                console.log('Reciter from localStorage found:', currentReciterId); // ADDED LOG
-            } else if (filteredReciters.length > 0) {
-                currentReciterId = filteredReciters[0].id;
+                console.log('Reciter from localStorage found:', currentReciterId);
+            } else if (availableReciters.length > 0) {
+                currentReciterId = availableReciters[0].identifier;
                 reciterSelect.value = currentReciterId;
                 localStorage.setItem('quranReciterId', currentReciterId);
                 selectedReciterFound = true;
-                console.log('Defaulting to first reciter:', currentReciterId); // ADDED LOG
+                console.log('Defaulting to first reciter:', currentReciterId);
             } else {
-                console.warn('No suitable reciters found in API response.'); // ADDED LOG
+                console.warn('No suitable reciters found in Al Quran Cloud API response.');
             }
 
             if (selectedReciterFound) {
                 currentReciterServer = quranRecitersMap[currentReciterId]?.baseUrl || '';
-                console.log('Current Reciter ID:', currentReciterId); // ADDED LOG
-                console.log('Current Reciter Server URL:', currentReciterServer); // ADDED LOG
+                console.log('Current Reciter ID:', currentReciterId);
+                console.log('Current Reciter Server URL (CDN base):', currentReciterServer);
                 updateAudioSource(); // Load the audio after reciters are set
             } else {
                 console.error('Could not set a valid reciter for audio playback.');
@@ -354,13 +234,11 @@ async function fetchReciters() {
             }
 
         } else {
-            console.error('No reciters found in mp3quran.net API response or data format unexpected.'); // MODIFIED LOG
-            // Handle cases where no reciters are returned, e.g., display error message
+            console.error('No reciters found in Al Quran Cloud API response or data format unexpected.');
             document.getElementById('reciterSelect').innerHTML = '<option value="">تعذر تحميل القراء</option>';
         }
     } catch (error) {
-        console.error('Error fetching reciters:', error);
-        // Fallback or error message for reciters if API fails
+        console.error('Error fetching reciters from Al Quran Cloud:', error);
         document.getElementById('reciterSelect').innerHTML = '<option value="">تعذر تحميل القراء</option>';
     }
 }
@@ -379,19 +257,19 @@ async function initQuranPlayer() {
         currentReciterId = this.value;
         localStorage.setItem('quranReciterId', currentReciterId); // Save selection
         currentReciterServer = quranRecitersMap[currentReciterId]?.baseUrl || '';
-        console.log('Reciter changed. New Reciter ID:', currentReciterId, 'New Server URL:', currentReciterServer); // ADDED LOG
+        console.log('Reciter changed. New Reciter ID:', currentReciterId, 'New Server URL:', currentReciterServer);
         updateAudioSource();
     });
 
     document.getElementById('surahSelect').addEventListener('change', function() {
         currentSurahNumber = parseInt(this.value);
         localStorage.setItem('quranSurah', currentSurahNumber); // Save selection
-        console.log('Surah changed. New Surah Number:', currentSurahNumber); // ADDED LOG
+        console.log('Surah changed. New Surah Number:', currentSurahNumber);
         updateAudioSource();
     });
 
     document.getElementById('playPauseBtn').addEventListener('click', function() {
-        if (!audioPlayer.src || audioPlayer.src.endsWith('.mp3')) { // Check if source is set
+        if (audioPlayer.src && !audioPlayer.src.endsWith('/')) { // Check if source is set and not just a base URL
              // Prevent play if no valid source is loaded
             if (audioPlayer.paused) {
                 audioPlayer.play();
@@ -402,6 +280,14 @@ async function initQuranPlayer() {
             }
         } else {
             console.warn('No audio source loaded or invalid source. Cannot play.');
+            // Attempt to load and play if it's the very first interaction and source wasn't set on load
+            if (!audioPlayer.src) {
+                updateAudioSource();
+                if (audioPlayer.src) { // Check if updateAudioSource actually set a source
+                    audioPlayer.play();
+                    this.innerHTML = '<i class="fas fa-pause"></i> إيقاف مؤقت';
+                }
+            }
         }
     });
 
@@ -441,11 +327,12 @@ async function initQuranPlayer() {
 
 function updateAudioSource() {
     if (!currentReciterServer) {
-        console.error('Reciter server URL not available. Cannot set audio source.'); // MODIFIED LOG
+        console.error('Reciter server URL not available. Cannot set audio source.');
+        audioPlayer.src = ''; // Clear current source
         return;
     }
 
-    // ⭐ CORRECTED URL for full surah audio files, using the fetched server URL
+    // ⭐ Construct URL using the CDN pattern
     const surahPadded = currentSurahNumber.toString().padStart(3, '0');
     const audioUrl = `${currentReciterServer}${surahPadded}.mp3`;
 
