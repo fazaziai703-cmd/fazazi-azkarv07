@@ -1278,4 +1278,67 @@ document.addEventListener('DOMContentLoaded', () => {
   renderMainPage();
   checkNotificationPermission();
   updateStatsDisplay();
+
+  // 📦 Enhanced install prompt handling
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+
+    const installBtn = document.getElementById('installAppBtn');
+    if (installBtn) {
+      installBtn.style.display = 'inline-block';
+      installBtn.disabled = false;
+
+      if (!installBtn.classList.contains('install-ready')) {
+        installBtn.classList.add('install-ready');
+        installBtn.addEventListener('click', async () => {
+          if (!deferredPrompt) return;
+
+          installBtn.disabled = true;
+          await deferredPrompt.prompt();
+
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            console.log('✅ User accepted the installation');
+            installBtn.style.display = 'none';
+
+            // 📊 Track install response (Google Analytics example)
+            if (typeof gtag === 'function') {
+              gtag('event', 'app_installed', {
+                event_category: 'PWA',
+                event_label: 'Fazazi Azkar',
+              });
+            }
+          } else {
+            console.log('🚫 User dismissed the installation');
+            installBtn.disabled = false;
+          }
+
+          deferredPrompt = null;
+        });
+      }
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    console.log('📱 Fazazi Azkar installed successfully!');
+    const installBtn = document.getElementById('installAppBtn');
+    if (installBtn) {
+      installBtn.style.display = 'none';
+    }
+
+    // 📊 Optional additional analytics tracking
+    if (typeof gtag === 'function') {
+      gtag('event', 'install_success', {
+        event_category: 'PWA',
+        event_label: 'Fazazi Azkar',
+      });
+    }
+
+    // 🚀 Optional toast or feedback
+    // showToast("🎉 تم تثبيت التطبيق بنجاح!");
+  });
 });
+
