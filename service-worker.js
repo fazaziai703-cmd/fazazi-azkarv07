@@ -1,4 +1,4 @@
-    const CACHE_NAME = 'fazazi-azkar-v1.0.1'; // Increment version on new deployments
+    const CACHE_NAME = 'fazazi-azkar-v1.0.2'; // Increment version on new deployments
     const APP_SHELL_URLS = [
         './', // The root of your app
         './index.html',
@@ -19,7 +19,7 @@
         './assets/icons/icon-512x512.png',
         './assets/icons/maskable-icon.png',
         './assets/images/fazazimedia-logo.png', // Your logo
-        './assets/images/compass.png', // If you have a compass image
+        './assets/images/compass.png', // If you have a compass image, ensure this path is correct
         // External libraries you rely on heavily and want cached
         'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
@@ -28,8 +28,6 @@
         'https://unpkg.com/leaflet/dist/leaflet.js',
         // Google Fonts (The CSS link is sufficient, direct font files can be problematic for addAll)
         'https://fonts.googleapis.com/css2?family=Amiri&family=Noto+Naskh+Arabic&family=Lateefah&family=Scheherazade+New&display=swap'
-        // Removed: 'https://fonts.gstatic.com/s/amiri/v26/J7afnp5VBLh3_jY-wJ7d_g.woff2', 
-        // ... add other font formats if needed
     ];
 
     // Install event: caches the app shell
