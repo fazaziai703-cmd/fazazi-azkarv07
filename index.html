@@ -292,33 +292,28 @@
             });
         }
 
-        // Initialize Bootstrap tabs (if not handled by app.js or other scripts)
-        // This ensures Bootstrap's tab functionality is active
-        var triggerTabList = [].slice.call(document.querySelectorAll('#mainTabs button'))
-        triggerTabList.forEach(function (triggerEl) {
-            var tabTrigger = new bootstrap.Tab(triggerEl)
-
-            triggerEl.addEventListener('click', function () {
-                tabTrigger.show()
-                // If you have an existing `openTab` function in app.js that handles content loading,
-                // you might want to call it here. Otherwise, Bootstrap handles the display.
-                // For example:
-                const tabId = triggerEl.getAttribute('data-bs-target').substring(1);
-                if (typeof openTab === 'function') { // Assuming openTab is a global function in app.js
-                    openTab(tabId, triggerEl);
-                }
-            })
-        })
-
-        // Optional: Activate the first tab on initial load if not already active
+        // Bootstrap tab activation and custom content rendering
         document.addEventListener('DOMContentLoaded', () => {
-            const firstTabButton = document.querySelector('#mainTabs button.active');
-            if (firstTabButton) {
-                new bootstrap.Tab(firstTabButton).show();
-                // If you have an `openTab` function that loads content, call it here too
-                const tabId = firstTabButton.getAttribute('data-bs-target').substring(1);
-                if (typeof openTab === 'function') { // Assuming openTab is a global function in app.js
-                    openTab(tabId, firstTabButton);
+            var mainTabsEl = document.getElementById('mainTabs');
+            if (mainTabsEl) {
+                // Listen for Bootstrap's 'shown.bs.tab' event
+                mainTabsEl.addEventListener('shown.bs.tab', function (event) {
+                    // event.target is the newly activated tab's button element
+                    const targetTabId = event.target.getAttribute('data-bs-target').substring(1); // Get the ID of the content pane (e.g., 'mainTab', 'prayerTab')
+
+                    // Call your custom openTab function to render the content for the activated tab
+                    // Ensure openTab is globally accessible (which it is in your app.js)
+                    if (typeof openTab === 'function') {
+                        openTab(targetTabId, event.target);
+                    }
+                });
+
+                // Manually trigger the 'shown.bs.tab' event for the initially active tab on page load.
+                // This ensures the content for the default tab ('mainTab' in your case) is rendered.
+                const initialActiveTabButton = mainTabsEl.querySelector('.nav-link.active');
+                if (initialActiveTabButton) {
+                    // Bootstrap's 'Tab' instance can be used to show it, which will then trigger 'shown.bs.tab'
+                    new bootstrap.Tab(initialActiveTabButton).show();
                 }
             }
         });
