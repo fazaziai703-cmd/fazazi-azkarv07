@@ -1344,5 +1344,47 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🚀 Optional toast or feedback
     // showToast("🎉 تم تثبيت التطبيق بنجاح!");
   });
+      // --- Start of Share App functionality (can be added to app.js) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const shareAppBtn = document.getElementById('shareAppBtn');
+
+    if (shareAppBtn) {
+        shareAppBtn.addEventListener('click', async () => {
+            const shareData = {
+                title: 'Fazazi Azkar & Quran App',
+                text: 'تطبيق إسلامي شامل يضم الأذكار والقرآن الكريم ومواقيت الصلاة وإتجاه القبلة والتقويم الهجري. حملوه الآن!',
+                url: window.location.origin, // Shares the current app URL
+            };
+
+            try {
+                if (navigator.share) {
+                    // Use Web Share API if available
+                    await navigator.share(shareData);
+                    console.log('App shared successfully!');
+                } else {
+                    // Fallback for browsers that do not support Web Share API
+                    // Copy URL to clipboard
+                    // Using document.execCommand('copy') as navigator.clipboard.writeText() might not work in some iframe environments
+                    const el = document.createElement('textarea');
+                    el.value = shareData.url;
+                    document.body.appendChild(el);
+                    el.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(el);
+                    
+                    // Replace alert with a custom message box if you have one, otherwise alert is acceptable for this fallback
+                    // For now, I'll use a simple alert as a fallback, but a custom modal is preferred.
+                    alert('تم نسخ رابط التطبيق إلى الحافظة! يمكنك الآن مشاركته.');
+                    console.log('App URL copied to clipboard:', shareData.url);
+                }
+            } catch (err) {
+                console.error('Error sharing the app:', err);
+                // Use a custom message box here if available
+                alert('تعذر مشاركة التطبيق. الرجاء المحاولة مرة أخرى.');
+            }
+        });
+    }
+});
+// --- End of Share App functionality ---
 });
 
