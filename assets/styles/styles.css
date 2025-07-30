@@ -1,88 +1,88 @@
 /* Royal Blue Theme (Default) */
 :root {
-  --primary-bg: #0a2463;
-  --secondary-bg: #1e3d8b;
-  --text-color: #ffffff;
-  --footer-color: #a7c4ff;
-  --border-color: #3a5fcd;
-  --button-bg-main: #3e78b2;
-  --button-bg-hover-main: #2a5a8a;
-  --button-bg-blue: #4da1ff;
-  --button-bg-blue-hover: #3a8be6;
-  --button-bg-share: #00bcd4;
-  --button-bg-prev: #ffc107;
-  --button-bg-skip: #ff6b6b;
-  --button-bg-reset: #607d8b;
-  --button-bg-install: #8bc34a;
-  --custom-azkar-bg: #1a3a8f;
-  --custom-azkar-border: #3a5fcd;
-  --custom-azkar-list-item-border: #2a4a9d;
-  --tab-active-bg: #3e78b2;
-  --tab-inactive-bg: #1a3a8f;
-  --tab-text-color: #ffffff;
-  --azkar-text-color: #ffffff;
-  --progress-bg: #1a3a8f;
-  --progress-fill: #4da1ff;
-  --font-family: 'Amiri', serif;
-  --info-button-bg: #6a4c93;
-  --info-button-hover: #5a3c83;
-  --modal-bg: #1e3d8b;
-  --modal-text: #ffffff;
-  --modal-border: #3a5fcd;
-  --sidebar-bg: #1a3a8f;
-  --sidebar-border: #3a5fcd;
-  --sidebar-text: #ffffff;
-  --sidebar-active-item: #3e78b2;
-  --prayer-time-bg: #1e3d8b;
-  --prayer-time-active: #4da1ff;
-  --quran-player-bg: #1e3d8b;
-  --current-time-color: #ffc107;
-  --next-prayer-color: #4da1ff;
+    --primary-bg: #0a2463;
+    --secondary-bg: #1e3d8b;
+    --text-color: #ffffff;
+    --footer-color: #a7c4ff;
+    --border-color: #3a5fcd;
+    --button-bg-main: #3e78b2;
+    --button-bg-hover-main: #2a5a8a;
+    --button-bg-blue: #4da1ff;
+    --button-bg-blue-hover: #3a8be6;
+    --button-bg-share: #00bcd4;
+    --button-bg-prev: #ffc107;
+    --button-bg-skip: #ff6b6b;
+    --button-bg-reset: #607d8b;
+    --button-bg-install: #8bc34a;
+    --custom-azkar-bg: #1a3a8f;
+    --custom-azkar-border: #3a5fcd;
+    --custom-azkar-list-item-border: #2a4a9d;
+    --tab-active-bg: #3e78b2;
+    --tab-inactive-bg: #1a3a8f;
+    --tab-text-color: #ffffff;
+    --azkar-text-color: #ffffff;
+    --progress-bg: #1a3a8f;
+    --progress-fill: #4da1ff;
+    --font-family: 'Amiri', serif;
+    --info-button-bg: #6a4c93;
+    --info-button-hover: #5a3c83;
+    --modal-bg: #1e3d8b;
+    --modal-text: #ffffff;
+    --modal-border: #3a5fcd;
+    --sidebar-bg: #1a3a8f;
+    --sidebar-border: #3a5fcd;
+    --sidebar-text: #ffffff;
+    --sidebar-active-item: #3e78b2;
+    --prayer-time-bg: #1e3d8b;
+    --prayer-time-active: #4da1ff;
+    --quran-player-bg: #1e3d8b;
+    --current-time-color: #ffc107;
+    --next-prayer-color: #4da1ff;
 
-  /* Font Size Variables */
-  --base-font-size: 1.1em;
-  --azkar-font-size: 1.3em;
+    /* Font Size Variables */
+    --base-font-size: 1.1em;
+    --azkar-font-size: 1.3em;
 }
 
 /* Dark Mode Theme */
 body.dark {
-  --primary-bg: #0a0e1a;
-  --secondary-bg: #121a2e;
-  --text-color: #e0e0e0;
-  --footer-color: #a7c4ff;
-  --border-color: #2a3a5a;
-  --button-bg-main: #3e78b2;
-  --button-bg-hover-main: #2a5a8a;
-  --button-bg-blue: #4da1ff;
-  --button-bg-blue-hover: #3a8be6;
-  --button-bg-share: #00897b;
-  --button-bg-prev: #ffc107;
-  --button-bg-skip: #ef5350;
-  --button-bg-reset: #78909c;
-  --button-bg-install: #aed581;
-  --custom-azkar-bg: #121a2e;
-  --custom-azkar-border: #2a3a5a;
-  --custom-azkar-list-item-border: #2a3a5a;
-  --tab-active-bg: #3e78b2;
-  --tab-inactive-bg: #1a2238;
-  --tab-text-color: #ffffff;
-  --azkar-text-color: #e0e0e0;
-  --progress-bg: #121a2e;
-  --progress-fill: #4da1ff;
-  --info-button-bg: #7b5d9e;
-  --info-button-hover: #6a4c93;
-  --modal-bg: #121a2e;
-  --modal-text: #e0e0e0;
-  --modal-border: #2a3a5a;
-  --sidebar-bg: #121a2e;
-  --sidebar-border: #2a3a5a;
-  --sidebar-text: #e0e0e0;
-  --sidebar-active-item: #1e2a4a;
-  --prayer-time-bg: #121a2e;
-  --prayer-time-active: #4da1ff;
-  --quran-player-bg: #121a2e;
-  --current-time-color: #ffc107;
-  --next-prayer-color: #4da1ff;
+    --primary-bg: #0a0e1a;
+    --secondary-bg: #121a2e;
+    --text-color: #e0e0e0;
+    --footer-color: #a7c4ff;
+    --border-color: #2a3a5a;
+    --button-bg-main: #3e78b2;
+    --button-bg-hover-main: #2a5a8a;
+    --button-bg-blue: #4da1ff;
+    --button-bg-blue-hover: #3a8be6;
+    --button-bg-share: #00897b;
+    --button-bg-prev: #ffc107;
+    --button-bg-skip: #ef5350;
+    --button-bg-reset: #78909c;
+    --button-bg-install: #aed581;
+    --custom-azkar-bg: #121a2e;
+    --custom-azkar-border: #2a3a5a;
+    --custom-azkar-list-item-border: #2a3a5a;
+    --tab-active-bg: #3e78b2;
+    --tab-inactive-bg: #1a2238;
+    --tab-text-color: #ffffff;
+    --azkar-text-color: #e0e0e0;
+    --progress-bg: #121a2e;
+    --progress-fill: #4da1ff;
+    --info-button-bg: #7b5d9e;
+    --info-button-hover: #6a4c93;
+    --modal-bg: #121a2e;
+    --modal-text: #e0e0e0;
+    --modal-border: #2a3a5a;
+    --sidebar-bg: #121a2e;
+    --sidebar-border: #2a3a5a;
+    --sidebar-text: #e0e0e0;
+    --sidebar-active-item: #1e2a4a;
+    --prayer-time-bg: #121a2e;
+    --prayer-time-active: #4da1ff;
+    --quran-player-bg: #121a2e;
+    --current-time-color: #ffc107;
+    --next-prayer-color: #4da1ff;
 }
 
 /* Green Theme */
@@ -214,18 +214,26 @@ body {
     background: var(--primary-bg);
     color: var(--text-color);
     text-align: center;
-    margin:0;
+    margin: 0;
     transition: background 0.3s, color 0.3s, font-family 0.3s;
     font-size: var(--base-font-size);
+    direction: rtl; /* Ensure RTL for the whole body */
 }
 
-.container {
-    margin: 40px auto;
-    max-width: 480px;
-    background: var(--secondary-bg);
-    border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-    padding: 30px;
+.app-title {
+    color: var(--text-color); /* Use text color from theme */
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-family: 'Scheherazade New', serif; /* A more decorative font for title */
+}
+
+.container.main-content-padding {
+    max-width: 960px; /* Limit content width for better readability on large screens */
+    margin: 20px auto;
+    padding: 15px;
+    background-color: var(--secondary-bg); /* Use secondary background for container */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     transition: background 0.3s, color 0.3s;
 }
 
@@ -241,9 +249,9 @@ body {
     transition: background 0.2s, transform 0.1s;
 }
 
-.button:active { 
-    background: var(--button-bg-hover-main); 
-    transform: translateY(1px); 
+.button:active {
+    background: var(--button-bg-hover-main);
+    transform: translateY(1px);
 }
 
 .azkar {
@@ -257,9 +265,11 @@ body {
 .azkar-container {
     position: relative;
     margin-bottom: 20px;
+    /* max-height and overflow-y will be handled by tab-pane for consistency */
 }
 
-.info-button, .focus-button {
+.info-button,
+.focus-button {
     background: var(--info-button-bg);
     color: #fff;
     border: none;
@@ -274,7 +284,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: background 0.2s, transform 0.1s;
     z-index: 5;
 }
@@ -285,14 +295,15 @@ body {
     background: var(--button-bg-blue);
 }
 
-.info-button:active, .focus-button:active {
+.info-button:active,
+.focus-button:active {
     background: var(--info-button-hover);
     transform: scale(0.95);
 }
 
-.count { 
-    font-size: 1.1em; 
-    margin-bottom: 20px; 
+.count {
+    font-size: 1.1em;
+    margin-bottom: 20px;
 }
 
 .counter-btn {
@@ -307,15 +318,22 @@ body {
     transition: background 0.2s, transform 0.1s;
 }
 
-.counter-btn:active, .counter-btn.flash {
+.counter-btn:active,
+.counter-btn.flash {
     background: var(--button-bg-blue-hover);
     transform: scale(1.07);
 }
 
 /* Animations */
 @keyframes fade-in {
-    from { opacity: 0; transform: translateY(20px);}
-    to { opacity: 1; transform: translateY(0);}
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .fade-in-element {
@@ -323,8 +341,14 @@ body {
 }
 
 @keyframes fade-out {
-    from { opacity: 1; transform: translateY(0);}
-    to { opacity: 0; transform: translateY(-20px);}
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
 }
 
 .fade-out-element {
@@ -348,11 +372,11 @@ body {
     margin: 20px 0;
 }
 
-.custom-azkar-area input[type="text"], 
-.custom-azkar-area input[type="number"], 
+.custom-azkar-area input[type="text"],
+.custom-azkar-area input[type="number"],
 .custom-azkar-area select,
-.settings-section input[type="color"], 
-.settings-section select, 
+.settings-section input[type="color"],
+.settings-section select,
 .settings-section input[type="range"] {
     padding: 8px;
     margin-left: 5px;
@@ -360,21 +384,22 @@ body {
     border-radius: 5px;
     font-family: inherit;
     font-size: 1em;
-    background: var(--secondary-bg);
+    background: var(--primary-bg); /* Use primary-bg for inputs */
     color: var(--text-color);
     width: calc(100% - 10px);
     margin-bottom: 10px;
     box-sizing: border-box;
+    direction: rtl; /* Ensure RTL for input text */
 }
 
-.custom-azkar-area .input-group, 
+.custom-azkar-area .input-group,
 .custom-azkar-area .button-group {
     display: flex;
     gap: 5px;
     margin-bottom: 10px;
 }
 
-.custom-azkar-area .input-group input, 
+.custom-azkar-area .input-group input,
 .custom-azkar-area .input-group button,
 .custom-azkar-area .button-group button {
     flex-grow: 1;
@@ -421,12 +446,12 @@ body {
     margin-right: 5px;
 }
 
-.custom-azkar-list li .custom-azkar-actions button.edit-btn { 
-    background: var(--button-bg-blue); 
+.custom-azkar-list li .custom-azkar-actions button.edit-btn {
+    background: var(--button-bg-blue);
 }
 
-.custom-azkar-list li .custom-azkar-actions button.move-btn { 
-    background: var(--button-bg-prev); 
+.custom-azkar-list li .custom-azkar-actions button.move-btn {
+    background: var(--button-bg-prev);
 }
 
 /* Modal Styles */
@@ -436,7 +461,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -455,7 +480,7 @@ body {
     background: var(--modal-bg);
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
     max-width: 90%;
     width: 450px;
     text-align: right;
@@ -515,44 +540,74 @@ body {
     color: var(--button-bg-skip);
 }
 
-/* Tab Styles */
-.tabs {
+/* Tab Styles (Bootstrap-based for responsiveness) */
+.custom-nav-tabs {
     display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping initially */
+    overflow-x: auto; /* Enable horizontal scrolling if content overflows */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    border-bottom: 1px solid var(--border-color); /* Use theme border color */
+    white-space: nowrap; /* Keep items in one line for scrolling */
+    margin-bottom: 15px;
+    padding-bottom: 5px; /* Add some padding for the scrollbar */
+    background: var(--secondary-bg); /* Match container background */
+    border-radius: 10px 10px 0 0; /* Rounded top corners */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow */
+}
+
+.custom-nav-tabs .nav-item {
+    flex-shrink: 0; /* Prevent items from shrinking */
+    flex-grow: 1; /* Allow items to grow to fill space if available */
+    text-align: center; /* Center the text within each tab */
+    min-width: 120px; /* Minimum width for each tab to prevent extreme shrinking */
+}
+
+.custom-nav-tabs .nav-link {
+    color: var(--tab-text-color); /* Text color from theme */
+    border: none; /* Remove default button borders */
+    border-radius: 0.25rem 0.25rem 0 0; /* Bootstrap default border-radius */
+    padding: 0.75rem 0.5rem; /* Adjust padding to fit more tabs */
+    display: block; /* Make the whole area clickable */
+    white-space: normal; /* Allow text to wrap within the button */
+    height: 100%; /* Make buttons fill the height of the nav-item */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
-    background: var(--secondary-bg);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* Smooth transitions for hover/active states */
+    background: var(--tab-inactive-bg); /* Inactive tab background */
 }
 
-.tab-button {
-    flex-grow: 1;
-    padding: 15px 20px;
-    border: none;
-    background: var(--tab-inactive-bg);
-    color: var(--text-color);
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-}
-
-.tab-button.active {
-    background: var(--tab-active-bg);
+.custom-nav-tabs .nav-link:hover {
+    background-color: var(--tab-active-bg); /* Use active theme color on hover */
     color: var(--tab-text-color);
+    border-color: transparent;
 }
 
-.tab-content {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+.custom-nav-tabs .nav-link.active {
+    color: var(--tab-text-color); /* Active tab text color */
+    background-color: var(--tab-active-bg); /* Active tab background */
+    border-color: var(--tab-active-bg) var(--tab-active-bg) var(--secondary-bg); /* Active tab border, match container bottom */
+    font-weight: bold;
+    border-bottom: 3px solid var(--tab-active-bg); /* Stronger active indicator */
 }
 
-.tab-content.active {
-    display: block;
-    opacity: 1;
+/* Icon styling in tabs */
+.custom-nav-tabs .nav-link i {
+    font-size: 1.2rem;
+    margin-bottom: 5px; /* Space between icon and text */
 }
+
+/* Adjust padding for tab content to match general layout */
+.tab-content > .tab-pane {
+    padding: 1rem;
+    background-color: var(--secondary-bg); /* Match container background */
+    border: 1px solid var(--border-color);
+    border-top: none; /* Remove top border as it's handled by tabs */
+    border-radius: 0 0 0.25rem 0.25rem;
+    color: var(--text-color); /* Ensure text color applies to tab content */
+}
+
 
 /* Settings Section */
 .settings-section {
@@ -638,7 +693,7 @@ body {
     color: #fff;
     font-weight: bold;
     z-index: 1;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Side Navigation */
@@ -655,7 +710,7 @@ body {
     font-size: 1.5em;
     cursor: pointer;
     z-index: 1001;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -682,7 +737,7 @@ body {
     transition: 0.5s;
     padding-top: 60px;
     border-left: 1px solid var(--sidebar-border);
-    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
     text-align: right;
 }
 
@@ -772,7 +827,8 @@ body.focus-mode .azkar-navigation {
     display: none !important;
 }
 
-body.focus-mode .info-button, body.focus-mode .focus-button {
+body.focus-mode .info-button,
+body.focus-mode .focus-button {
     position: fixed;
     top: 20px;
     z-index: 1002;
@@ -814,6 +870,7 @@ body.focus-mode .main-content-padding {
     color: var(--text-color);
     font-family: inherit;
     font-size: 1em;
+    direction: rtl; /* Ensure RTL for select text */
 }
 
 .prayer-times-display {
@@ -829,6 +886,7 @@ body.focus-mode .main-content-padding {
     padding: 15px;
     text-align: center;
     transition: all 0.3s ease;
+    color: var(--text-color); /* Ensure text color is applied */
 }
 
 .prayer-time-card.active {
@@ -857,6 +915,8 @@ body.focus-mode .main-content-padding {
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px dashed var(--border-color);
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    gap: 10px; /* Space between items when wrapped */
 }
 
 .hijri-date {
@@ -875,6 +935,28 @@ body.focus-mode .main-content-padding {
     font-weight: bold;
 }
 
+/* Specific styles for prayer times map and countdown */
+.prayer-time-card.glow {
+    box-shadow: 0 0 15px rgba(255, 208, 0, 0.6);
+    transition: box-shadow 0.5s ease-in-out;
+}
+
+#locationMap {
+    height: 300px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+#countdown {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: var(--current-time-color); /* Use theme color */
+    font-weight: bold;
+    text-align: center;
+    flex-basis: 100%; /* Ensure it takes full width when wrapped */
+}
+
+
 /* Quran Recitation Styles */
 .quran-recitation-container {
     background: var(--secondary-bg);
@@ -883,7 +965,8 @@ body.focus-mode .main-content-padding {
     margin-top: 15px;
 }
 
-.reciter-selector, .surah-selector {
+.reciter-selector,
+.surah-selector {
     margin-bottom: 15px;
 }
 
@@ -896,6 +979,7 @@ body.focus-mode .main-content-padding {
     color: var(--text-color);
     font-family: inherit;
     font-size: 1em;
+    direction: rtl; /* Ensure RTL for select text */
 }
 
 .player-controls {
@@ -923,86 +1007,136 @@ audio {
     color: var(--footer-color);
 }
 
+/* Contact Us Styles (NEW) */
+.contact-container {
+    background: var(--secondary-bg); /* Use secondary background for consistency */
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 15px;
+    color: var(--text-color); /* Ensure text color is applied */
+}
+
+.contact-container h3 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.contact-container p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.contact-container a {
+    color: var(--button-bg-blue); /* Use a theme-consistent blue for links */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.contact-container a:hover {
+    color: var(--button-bg-blue-hover);
+    text-decoration: underline;
+}
+
+.contact-container img {
+    border-radius: 8px; /* Slightly rounded corners for the logo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 200px; /* Limit image size */
+    height: auto;
+    margin: 20px auto; /* Center the image */
+    display: block; /* Make it a block element to center with margin: auto */
+}
+
+.contact-container .btn-success {
+    background-color: var(--button-bg-install); /* Use green from theme for share button */
+    border-color: var(--button-bg-install);
+    color: #fff;
+}
+
+.contact-container .btn-success:hover {
+    background-color: #7cb342; /* Slightly darker green on hover */
+    border-color: #7cb342;
+}
+
+
 /* Responsive Styles */
-@media (max-width: 600px) {
-    .container { 
-        padding: 10px; 
-        margin: 10px; 
+@media (max-width: 768px) {
+    .custom-nav-tabs .nav-link {
+        padding: 0.5rem 0.3rem; /* Further reduce padding on smaller screens */
+        font-size: 0.85rem; /* Smaller font size */
     }
-    
-    .azkar { 
+
+    .custom-nav-tabs .nav-link i {
+        font-size: 1rem;
+    }
+
+    .custom-nav-tabs {
+        justify-content: flex-start; /* Align items to the start for scrolling */
+    }
+}
+
+@media (max-width: 600px) {
+    .container.main-content-padding {
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .azkar {
         font-size: var(--azkar-font-size);
     }
-    
-    .counter-btn { 
-        padding: 13px 20px; 
+
+    .counter-btn {
+        padding: 13px 20px;
         font-size: 1.1em;
     }
-    
-    .footer { 
-        font-size: 0.9em; 
+
+    .footer {
+        font-size: 0.9em;
     }
-    
-    .custom-azkar-area input[type="text"], 
-    .custom-azkar-area input[type="number"], 
+
+    .custom-azkar-area input[type="text"],
+    .custom-azkar-area input[type="number"],
     .custom-azkar-area select {
         width: calc(100% - 10px);
         margin: 5px 0;
     }
-    
+
     .custom-azkar-area button {
         width: 100%;
         margin: 5px 0;
     }
-    
+
+    /* Removed fixed bottom bar, relying on Bootstrap's tab behavior */
     .top-fixed-buttons {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: var(--secondary-bg);
-        padding: 10px 0;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        display: flex;
-        justify-content: space-around;
-        z-index: 100;
-        flex-wrap: wrap;
+        display: none; /* Hide if not used with new tab structure */
     }
-    
-    .top-fixed-buttons .button {
-        position: static !important;
-        width: 45%;
-        margin: 5px;
-        padding: 10px 15px;
-        font-size: 1em;
-    }
-    
+
     .main-content-padding {
-        padding-bottom: 80px;
+        padding-bottom: 15px; /* Adjust padding if no fixed footer */
     }
-    
-    .settings-option label, 
+
+    .settings-option label,
     .settings-option div {
         flex-basis: 100%;
         text-align: right;
         margin-bottom: 5px;
     }
-    
+
     .settings-option div {
         justify-content: flex-start;
     }
-    
+
     .info-button {
-        top: -15px;
+        top: 5px; /* Adjust position for smaller screens */
         right: 5px;
     }
-    
+
     .focus-button {
-        top: -15px;
+        top: 5px; /* Adjust position for smaller screens */
         left: 5px;
         right: auto;
     }
-    
+
     .sidenav-toggle-btn {
         top: 10px;
         right: 10px;
@@ -1010,27 +1144,63 @@ audio {
         height: 45px;
         font-size: 1.3em;
     }
-    
+
     body.focus-mode .azkar {
         font-size: 1.5em;
     }
-    
+
     .prayer-times-display {
         grid-template-columns: 1fr;
     }
-    
+
     .prayer-meta {
         flex-direction: column;
         gap: 10px;
+        align-items: flex-end; /* Align items to the right in column layout */
     }
-  /* 📅 Hijri Date Styling */
-#currentDate {
-  font-family: 'Amiri', serif;
-  font-size: 1.2rem;
-  color: #e0c991;
-  background: linear-gradient(90deg, #061e37, #22364c);
-  padding: 6px 12px;
-  border-radius: 8px;
-  display: inline-block;
+
+    /* 📅 Hijri Date Styling */
+    #currentDate {
+        font-family: 'Amiri', serif;
+        font-size: 1.2rem;
+        color: #e0c991;
+        background: linear-gradient(90deg, #061e37, #22364c);
+        padding: 6px 12px;
+        border-radius: 8px;
+        display: inline-block;
+    }
 }
+
+@media (max-width: 576px) {
+    .custom-nav-tabs .nav-item {
+        min-width: 90px; /* Even smaller min-width for very small screens */
+    }
+    .custom-nav-tabs .nav-link {
+        padding: 0.3rem 0.1rem; /* Even more reduced padding */
+        font-size: 0.75rem;
+    }
+    .custom-nav-tabs .nav-link i {
+        font-size: 0.8rem;
+    }
+}
+
+
+/* Scrollbar customization for webkit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px; /* For horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+    background: var(--secondary-bg); /* Match theme background */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color); /* Use theme border color */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--button-bg-hover-main); /* Darker on hover */
 }
