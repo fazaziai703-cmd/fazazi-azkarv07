@@ -287,17 +287,23 @@ function populateSurahSelect() {
 
 // Function to fetch reciters from mp3quran.net API
 async function fetchReciters() {
+    console.log('Fetching reciters...'); // ADDED LOG
     try {
         const response = await fetch('https://mp3quran.net/api/v3/reciters?language=ar'); // Request Arabic names
+        if (!response.ok) { // Check for HTTP errors
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
+        console.log('Reciters API response data:', data); // ADDED LOG
+
         if (data.reciters && data.reciters.length > 0) {
             const reciterSelect = document.getElementById('reciterSelect');
             reciterSelect.innerHTML = ''; // Clear existing options
 
-            // Filter for reciters with a 'Hafs A\'n Assem - Murattal' moshaf
             const filteredReciters = data.reciters.filter(reciter =>
                 reciter.moshaf.some(m => m.name.includes('Hafs A\'n Assem'))
             );
+            console.log('Filtered Reciters (Hafs A\'n Assem):', filteredReciters); // ADDED LOG
 
             // Populate quranRecitersMap and reciterSelect
             filteredReciters.forEach(reciter => {
@@ -314,21 +320,36 @@ async function fetchReciters() {
                     reciterSelect.appendChild(option);
                 }
             });
+            console.log('quranRecitersMap after population:', quranRecitersMap); // ADDED LOG
 
             // Set initial reciter based on localStorage or default to the first available
+            let selectedReciterFound = false;
             if (currentReciterId && quranRecitersMap[currentReciterId]) {
                 reciterSelect.value = currentReciterId;
+                selectedReciterFound = true;
+                console.log('Reciter from localStorage found:', currentReciterId); // ADDED LOG
             } else if (filteredReciters.length > 0) {
                 currentReciterId = filteredReciters[0].id;
                 reciterSelect.value = currentReciterId;
                 localStorage.setItem('quranReciterId', currentReciterId);
+                selectedReciterFound = true;
+                console.log('Defaulting to first reciter:', currentReciterId); // ADDED LOG
+            } else {
+                console.warn('No suitable reciters found in API response.'); // ADDED LOG
             }
 
-            // Set the currentReciterServer after the dropdown is set
-            currentReciterServer = quranRecitersMap[currentReciterId]?.baseUrl || '';
-            updateAudioSource(); // Load the audio after reciters are set
+            if (selectedReciterFound) {
+                currentReciterServer = quranRecitersMap[currentReciterId]?.baseUrl || '';
+                console.log('Current Reciter ID:', currentReciterId); // ADDED LOG
+                console.log('Current Reciter Server URL:', currentReciterServer); // ADDED LOG
+                updateAudioSource(); // Load the audio after reciters are set
+            } else {
+                console.error('Could not set a valid reciter for audio playback.');
+                document.getElementById('reciterSelect').innerHTML = '<option value="">تعذر تحميل القراء</option>';
+            }
+
         } else {
-            console.error('No reciters found from mp3quran.net API.');
+            console.error('No reciters found in mp3quran.net API response or data format unexpected.'); // MODIFIED LOG
             // Handle cases where no reciters are returned, e.g., display error message
             document.getElementById('reciterSelect').innerHTML = '<option value="">تعذر تحميل القراء</option>';
         }
@@ -353,12 +374,14 @@ async function initQuranPlayer() {
         currentReciterId = this.value;
         localStorage.setItem('quranReciterId', currentReciterId); // Save selection
         currentReciterServer = quranRecitersMap[currentReciterId]?.baseUrl || '';
+        console.log('Reciter changed. New Reciter ID:', currentReciterId, 'New Server URL:', currentReciterServer); // ADDED LOG
         updateAudioSource();
     });
 
     document.getElementById('surahSelect').addEventListener('change', function() {
         currentSurahNumber = parseInt(this.value);
         localStorage.setItem('quranSurah', currentSurahNumber); // Save selection
+        console.log('Surah changed. New Surah Number:', currentSurahNumber); // ADDED LOG
         updateAudioSource();
     });
 
@@ -413,7 +436,7 @@ async function initQuranPlayer() {
 
 function updateAudioSource() {
     if (!currentReciterServer) {
-        console.error('Reciter server URL not available.');
+        console.error('Reciter server URL not available. Cannot set audio source.'); // MODIFIED LOG
         return;
     }
 
