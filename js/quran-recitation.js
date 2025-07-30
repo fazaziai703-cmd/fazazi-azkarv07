@@ -175,8 +175,8 @@ function populateSurahSelect() {
 async function fetchReciters() {
     console.log('Fetching reciters from Al Quran Cloud...');
     try {
-        // Fetch audio editions of type 'quran' which usually means full surah recitations
-        const response = await fetch('https://api.alquran.cloud/v1/edition?format=audio&type=quran');
+        // Corrected API endpoint for audio editions
+        const response = await fetch('https://api.alquran.cloud/v1/edition?format=audio');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -187,10 +187,12 @@ async function fetchReciters() {
             const reciterSelect = document.getElementById('reciterSelect');
             reciterSelect.innerHTML = ''; // Clear existing options
 
-            // Filter for relevant reciters (audio type 'quran')
-            const availableReciters = data.data.filter(edition => edition.format === 'audio' && edition.type === 'quran');
+            // Filter for relevant reciters (audio type 'quran' if needed, but 'format=audio' should be enough for most recitations)
+            // For now, let's include all audio editions and allow the user to select.
+            const availableReciters = data.data.filter(edition => edition.format === 'audio');
 
-            console.log('Filtered Reciters (Audio, type Quran):', availableReciters);
+
+            console.log('Filtered Reciters (Audio):', availableReciters);
 
             // Populate quranRecitersMap and reciterSelect
             availableReciters.forEach(reciter => {
