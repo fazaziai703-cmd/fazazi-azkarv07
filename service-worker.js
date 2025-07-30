@@ -1,5 +1,6 @@
-const CACHE_NAME = 'fazazi-azkar-v1';
-const urlsToCache = [
+const CACHE_VERSION = 'v2';
+const CACHE_NAME = `fazazi-azkar-${CACHE_VERSION}`;
+const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
@@ -16,41 +17,58 @@ const urlsToCache = [
   '/assets/icons/icon-384x384.png',
   '/assets/icons/icon-512x512.png',
   'https://fonts.googleapis.com/css2?family=Amiri&family=Noto+Naskh+Arabic&family=Lateefah&family=Scheherazade+New&display=swap',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
 ];
 
+// Install phase: Cache core assets
 self.addEventListener('install', event => {
+  self.skipWaiting(); // Activate immediately
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
 });
 
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
-      })
-  );
-});
-
+// Activate phase: Clean old caches
 self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
+    caches.keys().then(keys =>
+      Promise.all(
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
+      )
+    )
+  );
+});
+
+// Fetch phase: Serve cached or fallback to network
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+
+      return fetch(event.request)
+        .then(response => {
+          // Only cache valid responses
+          if (!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
           }
+
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then(cache =>
+            cache.put(event.request, responseToCache)
+          );
+
+          return response;
         })
-      );
+        .catch(() => {
+          // Optional: fallback logic for offline pages
+          if (event.request.destination === 'document') {
+            return caches.match('/index.html');
+          }
+        });
     })
   );
 });
