@@ -21,6 +21,18 @@
 </head>
 
 <body>
+    <!-- Side Navigation (Re-added) -->
+    <div id="mySidenav" class="sidenav">
+        <button class="closebtn" onclick="closeNav()">&times;</button>
+        <h3><i class="fas fa-list"></i> قائمة الأذكار</h3>
+        <div id="sidenavAzkarList"></div>
+    </div>
+
+    <!-- Side Navigation Toggle Button (Re-added) -->
+    <button class="sidenav-toggle-btn" onclick="toggleNav()">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <div class="container main-content-padding">
         <h1 class="text-center my-4 app-title">أذكار الفزازي | Fazazi Azkar</h1>
 
@@ -266,6 +278,22 @@
     <div class="footer">
         بِفَضلِ اللهِ وَعَوْنِه، تَمَّ تَصميمُ هَذَا العَمَلِ الْمُبَارَكِ لِيَكُونَ مَعِينَاً لَكُمْ فِي ذِكرِ اللهِ، جَعَلَهُ اللهُ خَالِصاً لِوَجْهِهِ الكَرِيمِ.
         نَسْأَلُكُمْ دَعْوَةً بِالرَّحمَةِ وَالمَغْفِرَةِ لِكُلِّ مَن سَاهَمَ فِيهِ، وَأَن يُرْزَقَنَا اللهُ الفِردَوْسَ الأَعلَى مِن غَيْرِ حِسَابٍ وَلَا سَابِقَةِ عَذَابٍ.إهداء الى ابني عمران (عبقرينو)، مع دعواتي له بدوام التفوق والتوفيق. والدكم المحب/ أبو عمران الفزازي
+    </div>
+
+    <div class="top-fixed-buttons">
+        <button class="button" style="background:#607d8b;" onclick="resetApp()"><i class="fas fa-home"></i> العودة للقائمة الرئيسية</button>
+        <button id="installAppBtn" class="button" style="background:#8bc34a; display:none;"><i class="fas fa-plus"></i> تثبيت التطبيق</button>
+    </div>
+
+    <div id="infoShareModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle">
+                <button class="close-button" onclick="closeModal()"><i class="fas fa-times-circle"></i></button>
+                <span id="modalHeaderText"></span>
+            </h3>
+            <p id="modalBodyText"></p>
+            <div id="modalButtons"></div>
+        </div>
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
