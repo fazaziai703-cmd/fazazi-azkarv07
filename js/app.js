@@ -1110,12 +1110,16 @@ function openTab(tabId, element) {
       }
   } else if (tabId === 'statsTab') {
       updateStatsDisplay();
+  } else if (tabId === 'prayerTab') { // <--- ADDED THIS BLOCK
+      // Call refreshMapView() when the prayerTab is opened
+      if (typeof refreshMapView === 'function') {
+          refreshMapView();
+      }
   }
   updateProgressBar();
   closeNav();
   exitFocusMode();
 }
-
 // Side Navigation
 function populateSideNav() {
     const sidenavAzkarList = document.getElementById('sidenavAzkarList');
