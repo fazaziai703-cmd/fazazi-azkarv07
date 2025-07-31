@@ -1,241 +1,222 @@
-// Global variables for Quran recitation
-let quranRecitersMap = {}; // Map to store reciter data
-let currentReciterId = '';
-let currentReciterServer = '';
-let currentSurahNumber = 1; // Default to Surah Al-Fatiha
-let currentAyahNumber = 1; // Default to Ayah 1
-let audioPlayer;
-let surahList = []; // To store fetched surah data
+// This file contains the logic for the Quran Recitation section.
 
-// Function to fetch reciters from Al Quran Cloud API
+// =======================================================================
+// Global Variables and Constants
+// =======================================================================
+const QURAN_API_URL = 'https://api.alquran.cloud/v1';
+const STORAGE_KEY_QURAN = 'fazazi_quran_settings';
+
+let allReciters = [];
+let allSurahs = [];
+let currentReciterEdition = '';
+let currentAudio;
+
+// =======================================================================
+// DOM Element Selectors
+// =======================================================================
+const reciterSelectEl = document.getElementById('reciterSelect');
+const surahSelectEl = document.getElementById('surahSelect');
+const quranPlayerEl = document.getElementById('quranPlayer');
+const ayahInfoEl = document.getElementById('ayahInfo');
+
+// =======================================================================
+// Event Listeners (Added to the DOMContentLoaded event)
+// =======================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if elements exist before adding listeners to avoid errors
+    if (reciterSelectEl && surahSelectEl) {
+        initQuranPlayer();
+        
+        // Listen for reciter selection change
+        reciterSelectEl.addEventListener('change', () => {
+            currentReciterEdition = reciterSelectEl.value;
+            saveQuranSettings();
+            
+            // Check if a surah is already selected and play it
+            if (surahSelectEl.value) {
+                playSelectedSurah();
+            }
+        });
+
+        // Listen for surah selection change
+        surahSelectEl.addEventListener('change', () => {
+            saveQuranSettings();
+            playSelectedSurah();
+        });
+    }
+});
+
+// =======================================================================
+// Core Functions
+// =======================================================================
+
+/**
+ * Initializes the Quran Recitation player by fetching reciters and surahs.
+ */
+async function initQuranPlayer() {
+    await fetchReciters();
+    await fetchSurahs();
+    loadQuranSettings();
+}
+
+/**
+ * Fetches the list of reciters from the Al Quran Cloud API.
+ */
 async function fetchReciters() {
-    console.log('Fetching reciters from Al Quran Cloud...');
     try {
-        const response = await fetch('https://api.alquran.cloud/v1/edition?format=audio&language=ar');
+        const response = await fetch(`${QURAN_API_URL}/edition?format=audio&type=versebyverse`);
         const data = await response.json();
-        console.log('Al Quran Cloud API response data (editions):', data);
-
-        if (data.code === 200 && data.status === 'OK') {
-            // Filter for audio reciters and populate the map
-            quranRecitersMap = data.data.filter(edition => edition.format === 'audio' && edition.language === 'ar')
-                .reduce((map, edition) => {
-                    map[edition.identifier] = edition;
-                    return map;
-                }, {});
-            console.log('Filtered Reciters (Audio):', Object.values(quranRecitersMap));
-            console.log('quranRecitersMap after population:', quranRecitersMap);
-            populateReciterSelect();
-        } else {
-            console.error('Failed to fetch reciters:', data);
+        if (data.status === 'OK') {
+            allReciters = data.data;
+            populateReciterSelect(allReciters);
         }
     } catch (error) {
         console.error('Error fetching reciters:', error);
+        openModal('خطأ في الشبكة', 'تعذر جلب قائمة القراء.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
     }
 }
 
-// Function to populate the reciter select dropdown
-function populateReciterSelect() {
-    const reciterSelect = document.getElementById('reciterSelect');
-    if (!reciterSelect) {
-        console.error("Reciter select element not found.");
+/**
+ * Populates the reciter dropdown menu.
+ * @param {Array} reciters - The list of reciter objects.
+ */
+function populateReciterSelect(reciters) {
+    if (!reciterSelectEl) {
+        console.error('Reciter select element not found.');
         return;
     }
-    reciterSelect.innerHTML = ''; // Clear existing options
-
-    // Add a default option or first fetched reciter
-    let defaultReciterOption = document.createElement('option');
-    defaultReciterOption.value = '';
-    defaultReciterOption.textContent = 'اختر القارئ...';
-    reciterSelect.appendChild(defaultReciterOption);
-
-    // Sort reciters alphabetically by English name for easier navigation
-    const sortedReciters = Object.values(quranRecitersMap).sort((a, b) => {
-        const nameA = a.englishName.toLowerCase();
-        const nameB = b.englishName.toLowerCase();
-        if (nameA < nameB) return -1;
-        if (nameA > nameB) return 1;
-        return 0;
-    });
-
-    sortedReciters.forEach(reciter => {
+    reciterSelectEl.innerHTML = '';
+    reciters.forEach(reciter => {
         const option = document.createElement('option');
         option.value = reciter.identifier;
-        option.textContent = reciter.englishName + ' (' + reciter.name + ')';
-        reciterSelect.appendChild(option);
+        option.textContent = reciter.englishName; // You might prefer to use ar-name here
+        reciterSelectEl.appendChild(option);
     });
-
-    // Load saved reciter or set a default
-    const savedReciter = localStorage.getItem('quranReciterId');
-    if (savedReciter && quranRecitersMap[savedReciter]) {
-        reciterSelect.value = savedReciter;
-        console.log('Reciter from localStorage found:', savedReciter);
-    } else {
-        // Fallback to a common reciter if saved one is not found or no saved reciter
-        reciterSelect.value = 'ar.abdulbasitmurattal'; // Example default
-        localStorage.setItem('quranReciterId', reciterSelect.value);
-    }
-    currentReciterId = reciterSelect.value;
-    currentReciterServer = quranRecitersMap[currentReciterId]?.server || '';
-    console.log('Current Reciter ID:', currentReciterId);
-    console.log('Current Reciter Server URL (CDN base):', currentReciterServer);
-    fetchSurahs(); // Fetch surahs once reciter is set
 }
 
-// Function to fetch surahs (Quran chapters)
+/**
+ * Fetches the list of surahs from the Al Quran Cloud API.
+ */
 async function fetchSurahs() {
-    console.log('Fetching surahs...');
     try {
-        const response = await fetch('https://api.alquran.cloud/v1/surah');
+        const response = await fetch(`${QURAN_API_URL}/surah`);
         const data = await response.json();
-        if (data.code === 200 && data.status === 'OK') {
-            surahList = data.data;
-            populateSurahSelect();
-        } else {
-            console.error('Failed to fetch surahs:', data);
+        if (data.status === 'OK') {
+            allSurahs = data.data;
+            populateSurahSelect(allSurahs);
         }
     } catch (error) {
         console.error('Error fetching surahs:', error);
+        openModal('خطأ في الشبكة', 'تعذر جلب قائمة السور.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
     }
 }
 
-// Function to populate the surah select dropdown
-function populateSurahSelect() {
-    const surahSelect = document.getElementById('surahSelect');
-    if (!surahSelect) {
-        console.error("Surah select element not found.");
+/**
+ * Populates the surah dropdown menu.
+ * @param {Array} surahs - The list of surah objects.
+ */
+function populateSurahSelect(surahs) {
+    if (!surahSelectEl) {
+        console.error('Surah select element not found.');
         return;
     }
-    surahSelect.innerHTML = ''; // Clear existing options
+    surahSelectEl.innerHTML = '';
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'اختر سورة';
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    surahSelectEl.appendChild(defaultOption);
 
-    surahList.forEach(surah => {
+    surahs.forEach(surah => {
         const option = document.createElement('option');
         option.value = surah.number;
-        option.textContent = `${surah.number}. ${surah.name} (${surah.englishName})`;
-        surahSelect.appendChild(option);
+        option.textContent = `${surah.number}. ${surah.englishName} (${surah.name})`;
+        surahSelectEl.appendChild(option);
     });
-
-    // Load saved surah or set default
-    const savedSurah = localStorage.getItem('quranSurahNumber');
-    if (savedSurah && surahList.some(s => s.number == savedSurah)) {
-        surahSelect.value = savedSurah;
-    } else {
-        surahSelect.value = 1; // Default to Al-Fatiha
-        localStorage.setItem('quranSurahNumber', 1);
-    }
-    currentSurahNumber = parseInt(surahSelect.value);
-    updateSurahAyahInfo();
 }
 
-// Function to initialize the Quran player
-function initQuranPlayer() {
-    audioPlayer = document.getElementById('quranPlayer');
-    if (!audioPlayer) {
-        console.error("Audio player element not found.");
+/**
+ * Plays the selected surah.
+ */
+async function playSelectedSurah() {
+    const surahNumber = surahSelectEl.value;
+    const reciterEdition = reciterSelectEl.value;
+
+    if (!surahNumber || !reciterEdition) return;
+
+    if (!quranPlayerEl) {
+        console.error('Audio player element not found.');
         return;
     }
 
-    // Add event listener for when audio fails to load
-    audioPlayer.onerror = function() {
-        console.error('Error loading audio:', audioPlayer.error);
-        openModal('خطأ في التشغيل', 'تعذر تحميل ملف الصوت. قد يكون الملف غير موجود أو هناك مشكلة في الاتصال بالشبكة.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
-    };
+    try {
+        const url = `${QURAN_API_URL}/surah/${surahNumber}/${reciterEdition}`;
+        const response = await fetch(url);
+        const data = await response.json();
 
-    // Event listeners for player controls
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const stopBtn = document.getElementById('stopBtn');
+        if (data.status === 'OK' && data.data.ayahs && data.data.ayahs.length > 0) {
+            currentAudio = data.data.ayahs.map(ayah => ayah.audio);
+            const firstAudio = currentAudio[0];
+            
+            quranPlayerEl.src = firstAudio;
+            quranPlayerEl.play();
+            updateAyahInfo(data.data.ayahs[0]);
 
-    if (playPauseBtn) {
-        playPauseBtn.onclick = togglePlayPause;
-    }
-    if (stopBtn) {
-        stopBtn.onclick = stopPlayback;
-    }
-
-    // Event listeners for select changes
-    const reciterSelect = document.getElementById('reciterSelect');
-    const surahSelect = document.getElementById('surahSelect');
-
-    if (reciterSelect) {
-        reciterSelect.onchange = () => {
-            currentReciterId = reciterSelect.value;
-            currentReciterServer = quranRecitersMap[currentReciterId]?.server || '';
-            localStorage.setItem('quranReciterId', currentReciterId);
-            loadAudio();
-        };
-    }
-    if (surahSelect) {
-        surahSelect.onchange = () => {
-            currentSurahNumber = parseInt(surahSelect.value);
-            localStorage.setItem('quranSurahNumber', currentSurahNumber);
-            updateSurahAyahInfo();
-            loadAudio();
-        };
-    }
-
-    // Load initial audio
-    loadAudio();
-}
-
-// Function to load audio based on current selections
-function loadAudio() {
-    if (!currentReciterServer || !currentSurahNumber) {
-        console.warn('Reciter server or surah number not set. Cannot load audio.');
-        return;
-    }
-    // Format surah number to 3 digits (e.g., 001, 010, 114)
-    const formattedSurahNumber = String(currentSurahNumber).padStart(3, '0');
-    const audioUrl = `${currentReciterServer}${formattedSurahNumber}.mp3`;
-    console.log('Attempting to load audio from:', audioUrl);
-    audioPlayer.src = audioUrl;
-    audioPlayer.load(); // Load the audio
-    updatePlayPauseButton(false); // Set button to Play state
-}
-
-// Function to toggle play/pause
-function togglePlayPause() {
-    if (audioPlayer.paused) {
-        audioPlayer.play();
-        updatePlayPauseButton(true);
-    } else {
-        audioPlayer.pause();
-        updatePlayPauseButton(false);
-    }
-}
-
-// Function to stop playback
-function stopPlayback() {
-    audioPlayer.pause();
-    audioPlayer.currentTime = 0;
-    updatePlayPauseButton(false);
-}
-
-// Function to update play/pause button icon
-function updatePlayPauseButton(isPlaying) {
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    if (playPauseBtn) {
-        if (isPlaying) {
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i> إيقاف مؤقت';
+            let currentAyahIndex = 0;
+            quranPlayerEl.onended = () => {
+                currentAyahIndex++;
+                if (currentAyahIndex < currentAudio.length) {
+                    quranPlayerEl.src = currentAudio[currentAyahIndex];
+                    quranPlayerEl.play();
+                    updateAyahInfo(data.data.ayahs[currentAyahIndex]);
+                } else {
+                    ayahInfoEl.textContent = 'انتهت السورة';
+                }
+            };
         } else {
-            playPauseBtn.innerHTML = '<i class="fas fa-play"></i> تشغيل';
+            openModal('خطأ', 'تعذر تشغيل هذه السورة بالقارئ المحدد.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+        }
+    } catch (error) {
+        console.error('Error playing surah:', error);
+        openModal('خطأ في التشغيل', 'تعذر تشغيل الصوت. الرجاء التحقق من اتصالك بالإنترنت.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+    }
+}
+
+/**
+ * Updates the ayah information displayed on the UI.
+ * @param {object} ayah - The ayah object from the API response.
+ */
+function updateAyahInfo(ayah) {
+    if (ayahInfoEl) {
+        ayahInfoEl.textContent = `سورة ${ayah.surah.name}، الآية ${ayah.numberInSurah}`;
+    }
+}
+
+/**
+ * Saves the user's Quran settings to local storage.
+ */
+function saveQuranSettings() {
+    const settings = {
+        reciterEdition: reciterSelectEl.value,
+        surahNumber: surahSelectEl.value
+    };
+    localStorage.setItem(STORAGE_KEY_QURAN, JSON.stringify(settings));
+}
+
+/**
+ * Loads the saved Quran settings from local storage.
+ */
+function loadQuranSettings() {
+    const savedSettings = localStorage.getItem(STORAGE_KEY_QURAN);
+    if (savedSettings) {
+        const settings = JSON.parse(savedSettings);
+        if (settings.reciterEdition) {
+            reciterSelectEl.value = settings.reciterEdition;
+            currentReciterEdition = settings.reciterEdition;
+        }
+        if (settings.surahNumber) {
+            surahSelectEl.value = settings.surahNumber;
         }
     }
 }
-
-// Function to update current surah and ayah info
-function updateSurahAyahInfo() {
-    const currentSurahEl = document.getElementById('currentSurah');
-    const currentAyahEl = document.getElementById('currentAyah');
-    const surah = surahList.find(s => s.number === currentSurahNumber);
-
-    if (currentSurahEl) currentSurahEl.textContent = `السورة: ${surah ? surah.name : '--'}`;
-    // Ayah info is not directly available from this API for individual ayah tracking
-    // For simplicity, we'll just show "الآية: --" or a placeholder
-    if (currentAyahEl) currentAyahEl.textContent = `الآية: --`;
-}
-
-// Initial calls when the DOM is ready for quran-recitation.js specific elements
-document.addEventListener('DOMContentLoaded', () => {
-    fetchReciters(); // Fetch reciters first
-    fetchSurahs();   // Fetch surahs
-    initQuranPlayer(); // Initialize player and set up listeners
-});
