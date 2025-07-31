@@ -1,4 +1,4 @@
-    const CACHE_NAME = 'fazazi-azkar-v1.0.2'; // Increment version on new deployments
+    const CACHE_NAME = 'fazazi-azkar-v1.0.3'; // Increment version on new deployments
     const APP_SHELL_URLS = [
         './', // The root of your app
         './index.html',
@@ -7,7 +7,7 @@
         './js/prayer-times.js',
         './js/quran-recitation.js',
         './manifest.json',
-        './favicon.ico',
+        // Removed './favicon.ico', as it can cause addAll failures if not perfectly handled
         // Add all your core assets (icons, images, fonts) here
         './assets/icons/icon-72x72.png',
         './assets/icons/icon-96x96.png',
@@ -19,7 +19,7 @@
         './assets/icons/icon-512x512.png',
         './assets/icons/maskable-icon.png',
         './assets/images/fazazimedia-logo.png', // Your logo
-        './assets/images/compass.png', // If you have a compass image, ensure this path is correct
+        // Removed './assets/images/compass.png' - add back only if you confirm it exists and path is correct
         // External libraries you rely on heavily and want cached
         'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
