@@ -1,281 +1,290 @@
-let currentCity = localStorage.getItem('selectedCity') || 'auto';
-let method = localStorage.getItem('method') || '2';
-let prayerTimes = {};
-let nextPrayer = '';
-let countdownInterval;
-let prayerTimesInterval;
-let locationMapInstance; // New global variable to store the map
+// This file contains the logic for the Prayer Times section of the app.
 
-function getFormattedDate() {
-  const now = new Date();
-  // Using toLocaleDateString for better localization and consistency,
-  // but keeping original format if strictly needed for API.
-  // For aladhan.com API, format is DD-MM-YYYY.
-  return `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
+// =======================================================================
+// Global Variables and Constants
+// =======================================================================
+const PRAYER_API_URL = 'https://api.aladhan.com/v1/timings';
+const GEOLOCATION_API_URL = 'https://api.opencagedata.com/geocode/v1/json';
+const OPEN_CAGE_API_KEY = 'YOUR_API_KEY_HERE'; // Note: Replace with a valid API key if needed.
+const STORAGE_KEY_PRAYER_LOCATION = 'fazazi_prayer_location';
+
+let map;
+let marker;
+let currentPrayerTimes = {};
+let currentCoordinates = {};
+let countdownInterval;
+
+// =======================================================================
+// DOM Element Selectors
+// =======================================================================
+const prayerTabEl = document.getElementById('prayerTab');
+const cityInputEl = document.getElementById('cityInput');
+const searchCityBtn = document.getElementById('searchCityBtn');
+const useCurrentLocationBtn = document.getElementById('useCurrentLocationBtn');
+const prayerTimesDisplayEl = document.getElementById('prayerTimesDisplay');
+const hijriDateEl = document.getElementById('hijriDate');
+const currentTimeEl = document.getElementById('currentTime');
+const nextPrayerEl = document.getElementById('nextPrayer');
+const countdownTextEl = document.getElementById('countdownText');
+
+// =======================================================================
+// Event Listeners (Added to the DOMContentLoaded event)
+// =======================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if the prayer tab and its elements exist before adding listeners.
+    if (prayerTabEl) {
+        // Search city button listener
+        searchCityBtn.addEventListener('click', () => {
+            const city = cityInputEl.value.trim();
+            if (city) {
+                // geocodeCity function will be defined later
+                geocodeCity(city).then(coords => {
+                    if (coords) {
+                        fetchPrayerTimes(coords.latitude, coords.longitude);
+                        saveLocation({ city: city, latitude: coords.latitude, longitude: coords.longitude });
+                    } else {
+                        openModal('خطأ في الموقع', 'لم يتم العثور على المدينة. الرجاء المحاولة مرة أخرى.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+                    }
+                });
+            } else {
+                openModal('خطأ', 'الرجاء إدخال اسم المدينة.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+            }
+        });
+
+        // Use current location button listener
+        useCurrentLocationBtn.addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const coords = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    };
+                    reverseGeocode(coords.latitude, coords.longitude).then(city => {
+                        if (city) {
+                            cityInputEl.value = city;
+                            fetchPrayerTimes(coords.latitude, coords.longitude);
+                            saveLocation({ city: city, latitude: coords.latitude, longitude: coords.longitude });
+                        }
+                    });
+                }, () => {
+                    openModal('خطأ في الموقع', 'تعذر الحصول على موقعك. الرجاء التحقق من الإعدادات.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+                });
+            } else {
+                openModal('خطأ', 'متصفحك لا يدعم تحديد الموقع الجغرافي.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+            }
+        });
+    }
+
+    // Load saved location on startup
+    loadSavedLocation();
+});
+
+// =======================================================================
+// Core Functions
+// =======================================================================
+
+/**
+ * Initializes the map and places a marker.
+ * @param {number} lat - Latitude.
+ * @param {number} lng - Longitude.
+ */
+function initMap(lat, lng) {
+    if (!map) {
+        map = L.map('locationMap').setView([lat, lng], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        marker = L.marker([lat, lng]).addTo(map);
+    } else {
+        map.setView([lat, lng], 13);
+        marker.setLatLng([lat, lng]);
+    }
 }
 
-async function fetchPrayerTimes(city, lat = null, lng = null) {
-  let apiUrl;
+/**
+ * Fetches prayer times from the Aladhan API.
+ * @param {number} latitude - Latitude.
+ * @param {number} longitude - Longitude.
+ */
+async function fetchPrayerTimes(latitude, longitude) {
+    // Add a loading indicator
+    prayerTimesDisplayEl.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>';
 
-  if (city === 'auto' && lat && lng) {
-    apiUrl = `https://api.aladhan.com/v1/timings/${getFormattedDate()}?latitude=${lat}&longitude=${lng}&method=${method}`;
-  } else {
-    // Ensure 'city' is URL-encoded, especially for cities with spaces or special characters
-    apiUrl = `https://api.aladhan.com/v1/timingsByCity/${getFormattedDate()}?city=${encodeURIComponent(city)}&country=SA&method=${method}`;
-  }
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
 
-  try {
-    const response = await fetch(apiUrl);
-    const data = await response.json();
+    const url = `${PRAYER_API_URL}/${date.getTime()/1000}?latitude=${latitude}&longitude=${longitude}`;
 
-    if (data.code === 200) {
-      prayerTimes = {
-        Fajr: data.data.timings.Fajr,
-        Sunrise: data.data.timings.Sunrise,
-        Dhuhr: data.data.timings.Dhuhr,
-        Asr: data.data.timings.Asr,
-        Maghrib: data.data.timings.Maghrib,
-        Isha: data.data.timings.Isha
-      };
-      localStorage.setItem('lastPrayerTimes', JSON.stringify(prayerTimes));
-      updatePrayerTimesDisplay();
-      calculateNextPrayer();
-      updateHijriDate(data.data.date.hijri);
-    } else {
-        // Log API error for debugging
-        console.error('Aladhan API Error:', data.status, data.code, data.data);
-        // Fallback to cached data even if API returns error code
-        const cached = localStorage.getItem('lastPrayerTimes');
-        if (cached) {
-            prayerTimes = JSON.parse(cached);
-            updatePrayerTimesDisplay();
-            calculateNextPrayer();
-            // Note: Hijri date from cache might be old
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.status === 'OK') {
+            currentPrayerTimes = data.data.timings;
+            renderPrayerTimes(currentPrayerTimes, data.data.date.hijri);
+            startCountdown();
+            initMap(latitude, longitude);
+        } else {
+            openModal('خطأ في البيانات', 'لم يتم العثور على أوقات الصلاة لهذه المدينة.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+        }
+    } catch (error) {
+        console.error('Error fetching prayer times:', error);
+        openModal('خطأ في الشبكة', 'تعذر جلب أوقات الصلاة. الرجاء التحقق من اتصالك بالإنترنت.', `<button class="button btn btn-primary" onclick="closeModal()">حسناً</button>`);
+    }
+}
+
+/**
+ * Geocodes a city name to get its coordinates using OpenCage.
+ * @param {string} city - The city name.
+ * @returns {Promise<object|null>} - A promise that resolves to coordinates or null.
+ */
+async function geocodeCity(city) {
+    const url = `${GEOLOCATION_API_URL}?key=${OPEN_CAGE_API_KEY}&q=${encodeURIComponent(city)}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.results.length > 0) {
+            const result = data.results[0].geometry;
+            return { latitude: result.lat, longitude: result.lng };
+        }
+    } catch (error) {
+        console.error('Error geocoding city:', error);
+    }
+    return null;
+}
+
+/**
+ * Reverse geocodes coordinates to get a city name.
+ * @param {number} lat - Latitude.
+ * @param {number} lng - Longitude.
+ * @returns {Promise<string|null>} - A promise that resolves to the city name or null.
+ */
+async function reverseGeocode(lat, lng) {
+    const url = `${GEOLOCATION_API_URL}?key=${OPEN_CAGE_API_KEY}&q=${lat}+${lng}&pretty=1`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.results.length > 0) {
+            return data.results[0].components.city || data.results[0].components.town || data.results[0].components.village;
+        }
+    } catch (error) {
+        console.error('Error reverse geocoding:', error);
+    }
+    return null;
+}
+
+/**
+ * Renders the prayer times on the UI.
+ * @param {object} timings - The prayer timings object.
+ * @param {object} hijriDate - The Hijri date object.
+ */
+function renderPrayerTimes(timings, hijriDate) {
+    const prayerNames = {
+        Fajr: 'الفجر',
+        Dhuhr: 'الظهر',
+        Asr: 'العصر',
+        Maghrib: 'المغرب',
+        Isha: 'العشاء'
+    };
+    
+    prayerTimesDisplayEl.innerHTML = ''; // Clear previous data
+
+    for (const [name, time] of Object.entries(timings)) {
+        if (prayerNames[name]) {
+            const card = document.createElement('div');
+            card.className = 'prayer-time-card';
+            card.innerHTML = `
+                <div class="prayer-name">${prayerNames[name]}</div>
+                <div class="prayer-time">${time}</div>
+            `;
+            prayerTimesDisplayEl.appendChild(card);
         }
     }
-  } catch (error) {
-    console.error('Error fetching prayer times:', error);
-    const cached = localStorage.getItem('lastPrayerTimes');
-    if (cached) {
-      prayerTimes = JSON.parse(cached);
-      updatePrayerTimesDisplay();
-      calculateNextPrayer();
-    } else {
-        // If no cached data and fetch fails, display default
-        console.warn('No cached prayer times available.');
-        // Set default values if all else fails to prevent split() error
-        prayerTimes = { Fajr: '--:--', Sunrise: '--:--', Dhuhr: '--:--', Asr: '--:--', Maghrib: '--:--', Isha: '--:--' };
-        updatePrayerTimesDisplay();
-        document.getElementById('nextPrayer').textContent = 'تعذر تحميل أوقات الصلاة';
-        clearInterval(countdownInterval);
-        document.getElementById('countdown').textContent = '';
-    }
-  }
+    
+    const hijriString = `${hijriDate.day.ar} ${hijriDate.month.ar} ${hijriDate.year}`;
+    hijriDateEl.textContent = `التاريخ الهجري: ${hijriString}`;
 }
 
-function updateHijriDate(hijri) {
-  document.getElementById('currentDate').textContent = `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ`;
+/**
+ * Starts the countdown to the next prayer.
+ */
+function startCountdown() {
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+        const now = new Date();
+        const prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+        
+        // Find the next prayer
+        let nextPrayer = null;
+        let nextPrayerTime = null;
+
+        for (const name of prayerNames) {
+            const timeString = currentPrayerTimes[name];
+            const [hours, minutes] = timeString.split(':').map(Number);
+            const prayerTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+            
+            if (prayerTime > now) {
+                nextPrayer = name;
+                nextPrayerTime = prayerTime;
+                break;
+            }
+        }
+        
+        // If no prayer is found for today, find the first prayer of tomorrow
+        if (!nextPrayer) {
+            const fajrTimeTomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, ...currentPrayerTimes.Fajr.split(':').map(Number));
+            nextPrayer = 'Fajr';
+            nextPrayerTime = fajrTimeTomorrow;
+        }
+        
+        // Update display
+        const prayerNamesAr = {
+            Fajr: 'الفجر',
+            Dhuhr: 'الظهر',
+            Asr: 'العصر',
+            Maghrib: 'المغرب',
+            Isha: 'العشاء'
+        };
+        
+        if (nextPrayer && nextPrayerTime) {
+            nextPrayerEl.textContent = `الصلاة القادمة: ${prayerNamesAr[nextPrayer]}`;
+            
+            const timeLeft = nextPrayerTime.getTime() - now.getTime();
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            countdownTextEl.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Highlight the next prayer card
+            document.querySelectorAll('.prayer-time-card').forEach(card => card.classList.remove('active-prayer'));
+            const activeCard = Array.from(document.querySelectorAll('.prayer-time-card')).find(card => card.querySelector('.prayer-name').textContent === prayerNamesAr[nextPrayer]);
+            if (activeCard) {
+                activeCard.classList.add('active-prayer');
+            }
+        }
+
+        currentTimeEl.textContent = `الوقت الحالي: ${now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
+    }, 1000);
 }
 
-function updatePrayerTimesDisplay() {
-  ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'].forEach(name => {
-    const el = document.getElementById(`${name.toLowerCase()}Time`);
-    if (el) el.textContent = prayerTimes[name] || '--:--';
-  });
+/**
+ * Saves the user's location to local storage.
+ * @param {object} location - The location object.
+ */
+function saveLocation(location) {
+    localStorage.setItem(STORAGE_KEY_PRAYER_LOCATION, JSON.stringify(location));
 }
 
-function convertToMinutes(timeStr) {
-  // Add a check to ensure timeStr is a string before splitting
-  if (typeof timeStr !== 'string' || !timeStr.includes(':')) {
-    console.error('Invalid time string for convertToMinutes:', timeStr);
-    return 0; // Or throw an error, or handle more robustly
-  }
-  const [h, m] = timeStr.split(':').map(Number);
-  return h * 60 + m;
-}
-
-function calculateNextPrayer() {
-  const now = new Date();
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-  const prayerOrder = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
-  let next = 'Fajr', minDiff = Infinity;
-  let foundNext = false; // Flag to check if a future prayer is found
-
-  for (const name of prayerOrder) {
-    // Ensure prayerTimes[name] is a valid string before converting
-    if (prayerTimes[name] && prayerTimes[name] !== '--:--') {
-      const time = convertToMinutes(prayerTimes[name]);
-      if (time > currentMinutes && (time - currentMinutes) < minDiff) {
-        next = name;
-        minDiff = time - currentMinutes;
-        foundNext = true;
-      }
-    }
-  }
-
-  // If no future prayer for today, set next prayer to Fajr of next day
-  if (!foundNext) {
-      next = 'Fajr';
-      // No need to calculate minDiff, just set the display for next day's Fajr
-  }
-
-
-  nextPrayer = next;
-  updateNextPrayerDisplay();
-  // Ensure we pass a valid time string to startCountdownToNextPrayer
-  if (prayerTimes[nextPrayer] && prayerTimes[nextPrayer] !== '--:--') {
-      startCountdownToNextPrayer(prayerTimes[nextPrayer]);
-  } else {
-      clearInterval(countdownInterval);
-      document.getElementById('countdown').textContent = '---'; // No countdown if no valid next prayer
-  }
-}
-
-
-function updateNextPrayerDisplay() {
-  document.querySelectorAll('.prayer-time-card').forEach(card => {
-    card.classList.remove('active', 'glow');
-  });
-
-  // Only apply active/glow if prayerTimes[nextPrayer] is valid
-  if (prayerTimes[nextPrayer] && prayerTimes[nextPrayer] !== '--:--') {
-    const el = document.getElementById(`${nextPrayer.toLowerCase()}Time`);
-    if (el?.parentElement) {
-      el.parentElement.classList.add('active', 'glow');
-    }
-  }
-
-
-  const arabicNames = {
-    Fajr: 'الفجر', Sunrise: 'الشروq', Dhuhr: 'الظهر',
-    Asr: 'العصر', Maghrib: 'المغرب', Isha: 'العشاء'
-  };
-
-  const nextEl = document.getElementById('nextPrayer');
-  if (nextEl) {
-    nextEl.textContent = `الصلاة القادمة: ${arabicNames[nextPrayer] || nextPrayer}`;
-  }
-}
-
-function startCountdownToNextPrayer(timeStr) {
-  clearInterval(countdownInterval);
-
-  if (!timeStr || timeStr === '--:--') {
-    document.getElementById('countdown').textContent = '---';
-    return;
-  }
-
-  const [h, m] = timeStr.split(':').map(Number);
-  const now = new Date();
-  let target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
-
-  // If the target time is in the past, calculate for the next day
-  if (target.getTime() < now.getTime()) {
-      target.setDate(target.getDate() + 1); // Set to next day
-  }
-
-  const countdownEl = document.getElementById('countdown');
-
-  function updateCountdown() {
-    const diff = target - new Date();
-    if (diff <= 0) {
-      countdownEl.textContent = 'انتهى الوقت!';
-      clearInterval(countdownInterval);
-      // Re-calculate next prayer immediately if current one ended
-      calculateNextPrayer();
-      return;
-    }
-
-    const hrs = String(Math.floor(diff / 3600000)).padStart(2, '0');
-    const mins = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
-    const secs = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
-    countdownEl.textContent = `العد التنازلي: ${hrs}:${mins}:${secs}`;
-  }
-
-  updateCountdown();
-  countdownInterval = setInterval(updateCountdown, 1000);
-}
-
-function updateCurrentTime() {
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  document.getElementById('currentTime').textContent = timeStr;
-}
-
-function startPrayerTimesUpdater() {
-  updateCurrentTime();
-  setInterval(updateCurrentTime, 1000);
-  calculateNextPrayer(); // Initial calculation
-  prayerTimesInterval = setInterval(calculateNextPrayer, 60000); // Recalculate every minute
-}
-
-// 🌍 Handle Leaflet map clicks and expose map instance
-function setupMapClick() {
-  if (typeof L !== 'undefined' && document.getElementById('locationMap')) {
-    // Only initialize map if it hasn't been initialized yet
-    if (!locationMapInstance) {
-        locationMapInstance = L.map('locationMap').setView([24.7136, 46.6753], 6); // Default to Riyadh
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(locationMapInstance);
-
-        // Add a marker that user can drag to select location
-        const marker = L.marker([24.7136, 46.6753], {draggable: true}).addTo(locationMapInstance);
-        marker.on('dragend', function(e) {
-            const { lat, lng } = e.target.getLatLng();
-            fetchPrayerTimes('auto', lat, lng);
-            // Optionally update citySelect to 'auto'
-            document.getElementById('citySelect').value = 'auto';
-            localStorage.setItem('selectedCity', 'auto');
-        });
-
-        locationMapInstance.on('click', (e) => {
-          fetchPrayerTimes('auto', e.latlng.lat, e.latlng.lng);
-          marker.setLatLng(e.latlng); // Move marker to clicked location
-          // Optionally update citySelect to 'auto'
-          document.getElementById('citySelect').value = 'auto';
-          localStorage.setItem('selectedCity', 'auto');
-        });
-    }
-  }
-}
-
-// ⭐ New function to refresh the map view
-function refreshMapView() {
-    if (locationMapInstance) {
-        locationMapInstance.invalidateSize();
-        // Optionally center the map if you want it to jump back to a default view
-        // locationMapInstance.setView([24.7136, 46.6753], 6);
+/**
+ * Loads the saved location from local storage.
+ */
+function loadSavedLocation() {
+    const savedLocation = localStorage.getItem(STORAGE_KEY_PRAYER_LOCATION);
+    if (savedLocation) {
+        const location = JSON.parse(savedLocation);
+        cityInputEl.value = location.city;
+        fetchPrayerTimes(location.latitude, location.longitude);
     }
 }
-
-
-// 📌 Event Listeners
-document.getElementById('citySelect').addEventListener('change', function () {
-  currentCity = this.value;
-  localStorage.setItem('selectedCity', currentCity);
-  if (currentCity !== 'auto') { // If a specific city is selected, disable map interactions (optional)
-      // You might want to remove map marker or disable map click/drag here
-  }
-  fetchPrayerTimes(currentCity);
-});
-
-document.getElementById('methodSelect').addEventListener('change', function () {
-  method = this.value;
-  localStorage.setItem('method', method);
-  fetchPrayerTimes(currentCity); // Re-fetch with current city and new method
-});
-
-document.getElementById('refreshPrayerTimes').addEventListener('click', function () {
-  fetchPrayerTimes(currentCity);
-});
-
-// 🚀 Init
-document.addEventListener('DOMContentLoaded', function () {
-  if (document.getElementById('prayerTab')) {
-    fetchPrayerTimes(currentCity);
-    startPrayerTimesUpdater();
-    setupMapClick();
-  }
-});
