@@ -1,356 +1,143 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0a2463">
-    <meta name="description" content="تطبيق أذكار متكامل مع أوقات الصلاة وتلاوة القرآن">
-    <title>Fazazi Azkar</title>
-
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
-
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Noto+Naskh+Arabic&family=Lateefah&family=Scheherazade+New&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="assets/styles/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a2463">
+  <meta name="description" content="تطبيق أذكار متكامل مع أوقات الصلاة وتلاوة القرآن">
+  <title>Fazazi Azkar</title>
+  
+  <link rel="manifest" href="manifest.json">
+  
+  <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Noto+Naskh+Arabic&family=Lateefah&family=Scheherazade+New&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  
+  <link rel="stylesheet" href="assets/styles/styles.css">
 </head>
 <body>
-    <!-- Side Navigation -->
-    <div id="mySidenav" class="sidenav">
-        <button class="closebtn" onclick="closeNav()">&times;</button>
-        <h3><i class="fas fa-list"></i> قائمة الأذكار</h3>
-        <div id="sidenavAzkarList"></div>
-    </div>
-
-    <!-- Side Navigation Toggle Button -->
-    <button class="sidenav-toggle-btn" onclick="toggleNav()">
-        <i class="fas fa-bars"></i>
+  
+  <!-- The side navigation menu -->
+  <div id="mySidenav" class="sidenav">
+    <!-- Close button for the sidenav, with an aria-label for accessibility -->
+    <button class="closebtn" onclick="closeNav()" aria-label="إغلاق قائمة الأذكار">&times;</button>
+    <h3><i class="fas fa-list"></i> قائمة الأذكار</h3>
+    <div id="sidenavAzkarList"></div>
+  </div>
+  
+  <!-- Main content area -->
+  <button class="sidenav-toggle" onclick="openNav()" aria-label="فتح قائمة الأذكار" aria-expanded="false" aria-controls="mySidenav">
+    <i class="fas fa-bars"></i>
+  </button>
+  
+  <div class="top-fixed-buttons">
+    <!-- Main menu button, with an aria-label for accessibility -->
+    <button class="button" style="background:#607d8b;" onclick="resetApp()" aria-label="العودة للقائمة الرئيسية">
+      <i class="fas fa-home"></i> العودة للقائمة الرئيسية
     </button>
+    <!-- Install app button, with an aria-label for accessibility -->
+    <button id="installAppBtn" class="button" style="background:#8bc34a; display:none;" aria-label="تثبيت التطبيق">
+      <i class="fas fa-plus"></i> تثبيت التطبيق
+    </button>
+  </div>
+  
+  <div class="container main-content-padding" id="mainContent">
+    <h1 class="app-title">تطبيق أذكار وأوقات صلاة وقرآن</h1>
     
-    <!-- Top Fixed Buttons -->
-    <div class="top-fixed-buttons">
-        <button class="button" style="background:#607d8b;" onclick="resetApp()"><i class="fas fa-home"></i> العودة للقائمة الرئيسية</button>
-        <button id="installAppBtn" class="button" style="background:#8bc34a; display:none;"><i class="fas fa-plus"></i> تثبيت التطبيق</button>
-        <!-- The new Focus View button has been added here -->
-        <button id="enterFocusBtn" class="button" style="background:#0a2463;"><i class="fas fa-expand"></i> وضع التركيز</button>
+    <!-- Tab navigation using custom classes -->
+    <ul class="nav custom-nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="azkar-tab" data-tab="azkar" role="tab" aria-controls="azkar-content" aria-selected="true" href="#">
+          <i class="fas fa-book"></i> الأذكار
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="prayer-tab" data-tab="prayer" role="tab" aria-controls="prayer-content" aria-selected="false" href="#">
+          <i class="fas fa-mosque"></i> أوقات الصلاة
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="quran-tab" data-tab="quran" role="tab" aria-controls="quran-content" aria-selected="false" href="#">
+          <i class="fas fa-quran"></i> القرآن
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="contact-tab" data-tab="contact" role="tab" aria-controls="contact-content" aria-selected="false" href="#">
+          <i class="fas fa-envelope"></i> تواصل
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="settings-tab" data-tab="settings" role="tab" aria-controls="settings-content" aria-selected="false" href="#">
+          <i class="fas fa-cog"></i> الإعدادات
+        </a>
+      </li>
+    </ul>
+
+    <!-- Tab content area -->
+    <div class="tab-content" id="myTabContent">
+      <!-- Azkar content will be dynamically loaded here -->
+      <div class="tab-pane active" id="azkar-content" role="tabpanel" aria-labelledby="azkar-tab"></div>
+      
+      <!-- Prayer times content will be dynamically loaded here -->
+      <div class="tab-pane" id="prayer-content" role="tabpanel" aria-labelledby="prayer-tab"></div>
+      
+      <!-- Quran content will be dynamically loaded here -->
+      <div class="tab-pane" id="quran-content" role="tabpanel" aria-labelledby="quran-tab"></div>
+
+      <!-- Contact us content will be dynamically loaded here -->
+      <div class="tab-pane" id="contact-content" role="tabpanel" aria-labelledby="contact-tab"></div>
+      
+      <!-- Settings content will be dynamically loaded here -->
+      <div class="tab-pane" id="settings-content" role="tabpanel" aria-labelledby="settings-tab"></div>
     </div>
-
-    <div class="container main-content-padding">
-        <h1 class="text-center my-4 app-title">أذكار الفزازي | Fazazi Azkar</h1>
-
-        <!-- Tab Navigation (Bootstrap Nav Tabs) -->
-        <ul class="nav nav-tabs custom-nav-tabs" id="mainTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="azkar-tab" data-bs-toggle="tab" data-bs-target="#mainTab" type="button" role="tab" aria-controls="mainTab" aria-selected="true">
-                    <i class="fas fa-list"></i> الأذكار
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="prayer-tab" data-bs-toggle="tab" data-bs-target="#prayerTab" type="button" role="tab" aria-controls="prayerTab" aria-selected="false">
-                    <i class="fas fa-clock"></i> أوقات الصلاة
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="quran-tab" data-bs-toggle="tab" data-bs-target="#quranTab" type="button" role="tab" aria-controls="quranTab" aria-selected="false">
-                    <i class="fas fa-quran"></i> القرآن الكريم
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settingsTab" type="button" role="tab" aria-controls="settingsTab" aria-selected="false">
-                    <i class="fas fa-cog"></i> الإعدادات
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#statsTab" type="button" role="tab" aria-controls="statsTab" aria-selected="false">
-                    <i class="fas fa-chart-bar"></i> إحصائياتي
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contactTab" type="button" role="tab" aria-controls="contactTab" aria-selected="false">
-                    <i class="fas fa-address-book"></i> تواصل معنا
-                </button>
-            </li>
-        </ul>
-
-        <!-- Tab Content Areas (Bootstrap Tab Panes) -->
-        <div class="tab-content" id="myTabContent">
-            <!-- Main Azkar Tab Content -->
-            <div class="tab-pane fade show active" id="mainTab" role="tabpanel" aria-labelledby="azkar-tab">
-                <!-- Content for Azkar main page will be rendered here by app.js -->
-            </div>
-
-            <!-- Prayer Times Tab Content -->
-            <div class="tab-pane fade" id="prayerTab" role="tabpanel" aria-labelledby="prayer-tab">
-                <div class="settings-section">
-                    <h2>أوقات الصلاة</h2>
-                    <div class="prayer-times-container">
-                        <div class="location-selector">
-                            <select id="citySelect" class="prayer-select form-select">
-                                <option value="auto">تحديد الموقع تلقائياً</option>
-                                <option value="Riyadh">الرياض</option>
-                                <option value="Jeddah">جدة</option>
-                                <option value="Mecca">مكة المكرمة</option>
-                                <option value="Medina">المدينة المنورة</option>
-                                <option value="Dammam">الدمام</option>
-                                <option value="Cairo">القاهرة</option>
-                                <option value="Dubai">دبي</option>
-                                <option value="Amman">عمان</option>
-                            </select>
-                            <select id="methodSelect" class="prayer-select form-select">
-                                <option value="2">ISNA (إسنا)</option>
-                                <option value="1">جامعة أم القرى</option>
-                                <option value="3">جامعة القاهرة</option>
-                                <option value="4">رابطة العالم الإسلامي</option>
-                            </select>
-                            <button id="refreshPrayerTimes" class="button btn btn-primary">
-                                <i class="fas fa-sync-alt"></i> تحديث
-                            </button>
-                        </div>
-                        <div class="prayer-times-display">
-                            <div class="prayer-time-card">
-                                <div class="prayer-name">الفجر</div>
-                                <div class="prayer-time" id="fajrTime">--:--</div>
-                                <div class="prayer-next" id="fajrNext"></div>
-                            </div>
-                            <div class="prayer-time-card">
-                                <div class="prayer-name">الشروق</div>
-                                <div class="prayer-time" id="sunriseTime">--:--</div>
-                                <div class="prayer-next" id="sunriseNext"></div>
-                            </div>
-                            <div class="prayer-time-card">
-                                <div class="prayer-name">الظهر</div>
-                                <div class="prayer-time" id="dhuhrTime">--:--</div>
-                                <div class="prayer-next" id="dhuhrNext"></div>
-                            </div>
-                            <div class="prayer-time-card">
-                                <div class="prayer-name">العصر</div>
-                                <div class="prayer-time" id="asrTime">--:--</div>
-                                <div class="prayer-next" id="asrNext"></div>
-                            </div>
-                            <div class="prayer-time-card">
-                                <div class="prayer-name">المغرب</div>
-                                <div class="prayer-time" id="maghribTime">--:--</div>
-                                <div class="prayer-next" id="maghribNext"></div>
-                            </div>
-                            <div class="prayer-time-card">
-                                <div class="prayer-name">العشاء</div>
-                                <div class="prayer-time" id="ishaTime">--:--</div>
-                                <div class="prayer-next" id="ishaNext"></div>
-                            </div>
-                        </div>
-                        <div class="prayer-meta">
-                            <div id="currentDate" class="hijri-date">-- -- ----</div>
-                            <div id="currentTime" class="current-time">--:--:--</div>
-                            <div id="nextPrayer" class="next-prayer">جاري تحديد الصلاة القادمة...</div>
-                            <div id="countdown" class="countdown-text">00:00:00</div>
-                        </div>
-                    </div>
-                    <div class="map-section">
-                        <h3>تحديد الموقع عبر الخريطة</h3>
-                        <div id="locationMap"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quran Recitation Tab Content -->
-            <div class="tab-pane fade" id="quranTab" role="tabpanel" aria-labelledby="quran-tab">
-                <div class="settings-section">
-                    <h2>تلاوة القرآن الكريم</h2>
-                    <div class="quran-recitation-container">
-                        <div class="reciter-selector">
-                            <label for="reciterSelect" class="form-label">اختر القارئ:</label>
-                            <select id="reciterSelect" class="quran-select form-select"></select>
-                        </div>
-                        <div class="surah-selector">
-                            <label for="surahSelect" class="form-label">اختر السورة:</label>
-                            <select id="surahSelect" class="quran-select form-select"></select>
-                        </div>
-                        <div class="player-controls">
-                            <audio id="quranPlayer" controls class="w-100"></audio>
-                            <div class="player-buttons">
-                                <button id="playPauseBtn" class="button btn btn-primary"><i class="fas fa-play"></i> تشغيل</button>
-                                <button id="stopBtn" class="button btn btn-secondary"><i class="fas fa-stop"></i> إيقاف</button>
-                            </div>
-                        </div>
-                        <div class="ayah-info">
-                            <div id="currentSurah">السورة: --</div>
-                            <div id="currentAyah">الآية: --</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Settings Tab Content -->
-            <div class="tab-pane fade" id="settingsTab" role="tabpanel" aria-labelledby="settings-tab">
-                <div class="settings-section">
-                    <h2>إعدادات التطبيق</h2>
-                    <div class="settings-option">
-                        <label for="darkModeToggle">الوضع الليلي:</label>
-                        <div>
-                            <button id="darkModeToggle" class="button btn btn-info" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> <span id="darkModeText"></span></button>
-                        </div>
-                    </div>
-                    <div class="settings-option">
-                        <label for="notificationToggle">تفعيل إذن الإشعارات:</label>
-                        <div>
-                            <button id="notificationToggle" class="button btn btn-info" onclick="toggleAzkarNotification()"><i class="fas fa-bell"></i> <span id="notificationText"></span></button>
-                        </div>
-                    </div>
-                    <div class="settings-option">
-                        <label for="fontSelect">نوع الخط:</label>
-                        <div>
-                            <select id="fontSelect" onchange="changeFont()" class="form-select">
-                                <option value="'Amiri', serif">خط الأميري (افتراضي)</option>
-                                <option value="'Noto Naskh Arabic', serif">Noto Naskh Arabic</option>
-                                <option value="'Lateefah', serif">Lateefah</option>
-                                <option value="'Scheherazade New', serif">Scheherazade New</option>
-                                <option value="sans-serif">خط النظام (Sans-serif)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="settings-option">
-                        <label for="fontSizeRange">حجم الخط:</label>
-                        <div>
-                            <input type="range" id="fontSizeRange" min="0.8" max="1.5" step="0.1" value="1.1" oninput="changeFontSize(this.value)">
-                            <span id="fontSizeValue">1.1em</span>
-                        </div>
-                    </div>
-                    <div class="settings-option">
-                        <label for="fontColorPicker">لون الخط:</label>
-                        <div>
-                            <input type="color" id="fontColorPicker" onchange="changeColors()">
-                        </div>
-                    </div>
-                    <div class="settings-option">
-                        <label for="bgColorPicker">لون الخلفية الرئيسية:</label>
-                        <div>
-                            <input type="color" id="bgColorPicker" onchange="changeColors()">
-                        </div>
-                    </div>
-                    <div class="settings-option">
-                        <label>الثيمات الجاهزة:</label>
-                        <div class="theme-buttons">
-                            <button class="button btn btn-secondary active-theme" style="background:#0a2463;" onclick="applyTheme('royal-blue')">أزرق ملكي</button>
-                            <button class="button btn btn-secondary" style="background:#4CAF50;" onclick="applyTheme('green')">أخضر</button>
-                            <button class="button btn btn-secondary" style="background:#2196F3;" onclick="applyTheme('blue')">أزرق</button>
-                            <button class="button btn btn-secondary" style="background:#795548;" onclick="applyTheme('brown')">بني</button>
-                        </div>
-                    </div>
-                    <div class="settings-option">
-                        <label for="resetSettingsBtn">إعادة ضبط الإعدادات:</label>
-                        <div>
-                            <button id="resetSettingsBtn" class="button btn btn-warning" onclick="resetSettings()"><i class="fas fa-undo"></i> إعادة ضبط</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Statistics Tab Content -->
-            <div class="tab-pane fade" id="statsTab" role="tabpanel" aria-labelledby="stats-tab">
-                <div class="settings-section">
-                    <h2>إحصائيات الأذكار</h2>
-                    <p>هنا يمكنك رؤية ملخص لنشاطك في تكرار الأذكار.</p>
-                    <div id="dailyStats" style="border: 1px dashed var(--border-color); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;">
-                        <p>عدد الأذكار المكتملة اليوم: <strong id="completedAzkarToday">0</strong></p>
-                        <p>إجمالي الأذكار المكتملة: <strong id="totalCompletedAzkar">0</strong></p>
-                        <p>آخر جلسة مكتملة: <strong id="lastSessionDate">لا توجد</strong></p>
-                    </div>
-                    <button class="button btn btn-danger mt-4" onclick="resetStats()"><i class="fas fa-eraser"></i> مسح الإحصائيات</button>
-                </div>
-            </div>
-
-            <!-- Contact Us Tab Content -->
-            <div class="tab-pane fade" id="contactTab" role="tabpanel" aria-labelledby="contact-tab">
-                <div class="container contact-container mt-4 text-center">
-                    <h3 class="mb-4">تواصل معنا</h3>
-                    <p class="lead">تم تصميم هذا التطبيق وتطويره بواسطة:</p>
-                    <p class="h4">م/ صلاح الدين الفزازي</p>
-                    <img src="assets/images/fazazimedia-logo.png" alt="Fazazi Media Logo" class="img-fluid my-4" style="max-width: 200px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                    <p><i class="fab fa-whatsapp"></i> واتساب: <a href="https://wa.me/97471851027" target="_blank" class="text-success">+974 71851027</a></p>
-                    <p><i class="fas fa-envelope"></i> بريد إلكتروني: <a href="mailto:salaheldin.abdelrahman703@gmail.com" class="text-primary">salaheldin.abdelrahman703@gmail.com</a></p>
-                    <button id="shareAppBtn" class="btn btn-success mt-4">
-                        <i class="fas fa-share-alt"></i> شارك التطبيق
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        بِفَضلِ اللهِ وَعَوْنِه، تَمَّ تَصميمُ هَذَا العَمَلِ الْمُبَارَكِ لِيَكُونَ مَعِينَاً لَكُمْ فِي ذِكرِ اللهِ، جَعَلَهُ اللهُ خَالِصاً لِوَجْهِهِ الكَرِيمِ.
-        نَسْأَلُكُمْ دَعْوَةً بِالرَّحمَةِ وَالمَغْفِرَةِ لِكُلِّ مَن سَاهَمَ فِيهِ، وَأَن يُرْزَقَنَا اللهُ الفِردَوْسَ الأَعلَى مِن غَيْرِ حِسَابٍ وَلَا سَابِقَةِ عَذَابٍ.إهداء الى ابني عمران (عبقرينو)، مع دعواتي له بدوام التفوق والتوفيق. والدكم المحب/ أبو عمران الفزازي
-    </div>
-
-    <!-- Info/Share Modal -->
-    <div id="infoShareModal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 id="modalTitle">
-                <button class="close-button" onclick="closeModal()"><i class="fas fa-times-circle"></i></button>
-                <span id="modalHeaderText"></span>
-            </h3>
-            <p id="modalBodyText"></p>
-            <div id="modalButtons"></div>
-        </div>
-    </div>
-
-    <!-- The new focus view container. This will overlay all other content. -->
-    <div id="focus-view-container">
-        <!-- The exit button with the 'x' icon -->
-        <button id="exitFocusBtn">
-            <i class="fas fa-times"></i>
+  </div>
+  
+  <!-- Info/Share Modal -->
+  <div id="infoShareModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3 id="modalTitle">
+        <!-- Close button for the modal, with an aria-label for accessibility -->
+        <button class="close-button" onclick="closeModal()" aria-label="إغلاق النافذة المنبثقة">
+          <i class="fas fa-times-circle"></i>
         </button>
-        <!-- This is where the Azkar text will be displayed in focus mode -->
-        <div class="focus-content">
-            <!-- The content will be populated dynamically by app.js -->
-        </div>
+        <span id="modalHeaderText"></span>
+      </h3>
+      <p id="modalBodyText"></p>
+      <div id="modalButtons"></div>
     </div>
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Leaflet JS for Prayer Times Map -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-    <!-- Your existing JS files -->
-    <script src="js/app.js"></script>
-    <script src="js/prayer-times.js"></script>
-    <script src="js/quran-recitation.js"></script>
-
-    <script>
-        // Service Worker registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registered: ', registration);
-                    })
-                    .catch(registrationError => {
-                        console.log('ServiceWorker registration failed: ', registrationError);
-                    });
-            });
-        }
-
-        // Bootstrap tab activation and custom content rendering
-        document.addEventListener('DOMContentLoaded', () => {
-            var mainTabsEl = document.getElementById('mainTabs');
-            if (mainTabsEl) {
-                // Listen for Bootstrap's 'shown.bs.tab' event
-                mainTabsEl.addEventListener('shown.bs.tab', function (event) {
-                    const targetTabId = event.target.getAttribute('data-bs-target').substring(1);
-                    if (typeof openTab === 'function') {
-                        openTab(targetTabId, event.target);
-                    }
-                });
-                const initialActiveTabButton = mainTabsEl.querySelector('.nav-link.active');
-                if (initialActiveTabButton) {
-                    new bootstrap.Tab(initialActiveTabButton).show();
-                }
-            }
+  </div>
+  
+  <!-- Footer -->
+  <div class="footer">
+    <p>
+      تطبيق أذكار، صلاة وقرآن - <span id="currentYear"></span> &copy; جميع الحقوق محفوظة
+    </p>
+    <p>
+      إهداء إلى ابني عمران (عبقرينو)، مع دعواتي له بدوام التفوق والتوفيق. والدكم المحب/ أبو عمران الفزازي
+    </p>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+  <script src="js/prayer-times.js"></script>
+  <script src="js/quran-recitation.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        // CORRECTED: service-worker.js is in the same directory as index.html
+        navigator.serviceWorker.register('service-worker.js').then(reg => {
+          console.log('Service Worker registered! 😎', reg);
+        }).catch(err => {
+          console.log('Service Worker registration failed: 😭', err);
         });
-    </script>
+      });
+    }
+
+    // Set the current year in the footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
